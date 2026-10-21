@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ExchangeRates } from '../types';
 import { INITIAL_RATES } from '../data/initialData';
+import { getColombiaDate } from '../utils/formatters';
 import { Settings, Save, RotateCcw, X, ShieldAlert, Check } from 'lucide-react';
 
 interface RatesAdminModalProps {
@@ -37,11 +38,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
       whatsappNumber: whatsapp.trim() || rates.whatsappNumber,
       whatsappUsername: whatsappUsername.trim() || '@divisasorion',
       slogan: slogan.trim() || rates.slogan,
-      lastUpdated: new Date().toLocaleDateString('es-VE', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      }),
+      lastUpdated: getColombiaDate(),
     };
 
     onSave(updated);

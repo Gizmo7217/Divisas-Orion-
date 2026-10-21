@@ -29,7 +29,7 @@ export interface StreamingProduct {
   tagline: string;
   priceCOP: number;
   priceVES: number;
-  category: 'Películas & Series' | 'Música' | 'Anime' | 'Video & Entretenimiento';
+  category: 'Películas & Series' | 'Música' | 'Anime' | 'Diseño & Productividad' | 'Video & Entretenimiento';
   profiles: string;
   quality: string;
   warranty: string;

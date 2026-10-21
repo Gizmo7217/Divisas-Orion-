@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { STREAMING_PRODUCTS } from '../data/initialData';
 import { ExchangeRates, StreamingProduct } from '../types';
-import { formatCOP, formatVES, createStreamingWhatsAppMessage } from '../utils/formatters';
-import { Tv, Sparkles, Check, MessageCircle, ShieldCheck, Flame } from 'lucide-react';
+import { formatCOP, formatNumberWithDots, createStreamingWhatsAppMessage } from '../utils/formatters';
+import { Tv, Sparkles, Check, MessageCircle, ShieldCheck, Flame, ArrowDown } from 'lucide-react';
 
 interface StreamingSectionProps {
   rates: ExchangeRates;
@@ -10,9 +10,15 @@ interface StreamingSectionProps {
 
 export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
-  const [currencyPref, setCurrencyPref] = useState<'COP' | 'VES'>('COP');
 
-  const categories = ['Todos', 'Películas & Series', 'Música', 'Anime', 'Video & Entretenimiento'];
+  const categories = [
+    'Todos',
+    'Películas & Series',
+    'Música',
+    'Anime',
+    'Diseño & Productividad',
+    'Video & Entretenimiento',
+  ];
 
   const filteredProducts =
     selectedCategory === 'Todos'
@@ -20,69 +26,41 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
       : STREAMING_PRODUCTS.filter((p) => p.category === selectedCategory);
 
   const handleOrder = (product: StreamingProduct) => {
-    // If currency is VES, calculate live with rate or product price
     const vesPrice = product.priceCOP / rates.copToVesRate;
     const url = createStreamingWhatsAppMessage({
       phone: rates.whatsappNumber,
       productName: product.name,
       priceCOP: product.priceCOP,
       priceVES: vesPrice,
-      currencyPreference: currencyPref,
     });
     window.open(url, '_blank');
   };
 
   return (
-    <section id="streaming" className="py-14 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+    <section id="streaming" className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Header */}
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-100 text-red-900 text-xs font-bold uppercase tracking-wider mb-2">
           <Sparkles className="w-3.5 h-3.5 text-red-700" />
-          <span>Servicio Adicional Exclusivo</span>
+          <span>Servicio Oficial de Streaming</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-black text-neutral-900 tracking-tight">
-          Pantallas y Cuentas Streaming
+          Pantallas y Perfiles Streaming
         </h2>
         <p className="mt-2 text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto">
-          Disfruta de tus plataformas favoritas con entrega inmediata, perfiles con PIN privado y garantía completa de 30 días.
+          Precios oficiales en Pesos Colombianos y abajo en Bolívares en números enteros calculados con la tasa del día (<span className="font-bold text-red-800">÷ {rates.copToVesRate.toString().replace('.', ',')}</span>). Entrega inmediata y garantía completa de 30 días.
         </p>
 
-        {/* Currency Switcher */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-          <div className="inline-flex p-1 rounded-xl bg-neutral-200 border border-neutral-300">
-            <button
-              onClick={() => setCurrencyPref('COP')}
-              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                currencyPref === 'COP'
-                  ? 'bg-[#7B0606] text-white shadow'
-                  : 'text-neutral-700 hover:text-neutral-900'
-              }`}
-            >
-              🇨🇴 Precios en Pesos (COP)
-            </button>
-            <button
-              onClick={() => setCurrencyPref('VES')}
-              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                currencyPref === 'VES'
-                  ? 'bg-[#7B0606] text-white shadow'
-                  : 'text-neutral-700 hover:text-neutral-900'
-              }`}
-            >
-              🇻🇪 Precios en Bolívares (VES)
-            </button>
-          </div>
-        </div>
-
         {/* Category Pills */}
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                 selectedCategory === cat
-                  ? 'bg-neutral-900 text-white shadow-sm'
-                  : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                  ? 'bg-[#7B0606] text-white shadow-md'
+                  : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300'
               }`}
             >
               {cat}
@@ -91,14 +69,11 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
         </div>
       </div>
 
-      {/* Grid of 7 streaming services */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {/* Grid of the 8 streaming services */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => {
-          const vesPrice = product.priceCOP / rates.copToVesRate;
-          const displayPrice =
-            currencyPref === 'COP'
-              ? formatCOP(product.priceCOP)
-              : formatVES(vesPrice, true);
+          // Calculate integer Bolivares applying the current rate
+          const vesIntegerPrice = Math.round(product.priceCOP / rates.copToVesRate);
 
           return (
             <div
@@ -120,6 +95,13 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
                     </span>
                   </div>
                 )}
+                {!product.popular && product.badge && (
+                  <div className="flex justify-end mb-2">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-neutral-800 text-neutral-300 border border-neutral-700 px-2 py-0.5 rounded-full">
+                      {product.badge}
+                    </span>
+                  </div>
+                )}
 
                 {/* Service Name & Tagline */}
                 <div className="mb-3">
@@ -131,27 +113,32 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
                   </p>
                 </div>
 
-                {/* Price Display */}
-                <div className="bg-neutral-950 p-3.5 rounded-2xl border border-neutral-800 mb-4 text-center">
-                  <span className="text-[10px] text-neutral-400 uppercase font-bold block">
-                    Precio mensual / 30 días
+                {/* Dedicated Price Container: COP on top, Integer Bolivares below */}
+                <div className="bg-neutral-950 p-4 rounded-2xl border border-neutral-800 mb-4 text-center">
+                  <span className="text-[10px] text-neutral-400 uppercase font-extrabold tracking-wider block">
+                    🇨🇴 Precio en Pesos
                   </span>
                   <div
-                    className="text-2xl font-black text-amber-300 mt-0.5"
+                    className="text-2xl sm:text-3xl font-black text-amber-300 mt-0.5 tracking-tight"
                     style={{ fontFamily: "'Outfit', sans-serif" }}
                   >
-                    {displayPrice}
+                    {formatCOP(product.priceCOP)}
                   </div>
-                  {currencyPref === 'VES' && (
-                    <span className="text-[10px] text-neutral-400 block mt-0.5">
-                      Equivalente: {formatCOP(product.priceCOP)}
+
+                  {/* Below: Price in Bolívares in WHOLE NUMBERS (enteros) */}
+                  <div className="mt-2.5 pt-2 border-t border-neutral-800 flex flex-col items-center justify-center">
+                    <span className="text-[10px] text-red-300 uppercase font-black tracking-wider flex items-center gap-1">
+                      <span>🇻🇪 En Bolívares (Tasa {rates.copToVesRate.toString().replace('.', ',')}):</span>
                     </span>
-                  )}
-                  {currencyPref === 'COP' && (
-                    <span className="text-[10px] text-neutral-400 block mt-0.5">
-                      En Bolívares: {formatVES(vesPrice, true)}
+                    <div
+                      className="text-xl sm:text-2xl font-black text-white mt-0.5 tracking-tight font-mono"
+                    >
+                      {formatNumberWithDots(vesIntegerPrice, 0)} Bs
+                    </div>
+                    <span className="text-[10px] text-neutral-400">
+                      Resultado en número entero
                     </span>
-                  )}
+                  </div>
                 </div>
 
                 {/* Specifications list */}
@@ -189,7 +176,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
                 className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group-hover:shadow-green-500/20"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Pedir Pantalla por WhatsApp ({rates.whatsappUsername || '@divisasorion'})</span>
+                <span>Pedir por WhatsApp ({rates.whatsappUsername || '@divisasorion'})</span>
               </button>
             </div>
           );
@@ -204,10 +191,10 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
           </div>
           <div>
             <h4 className="text-lg font-black text-white">
-              ¿Quieres un paquete especial o cuentas completas?
+              ¿Deseas combos especiales o más pantallas?
             </h4>
             <p className="text-xs sm:text-sm text-neutral-400 mt-0.5">
-              También manejamos combos de 2 o más plataformas con descuento especial y soporte 24/7.
+              Activaciones directas con pago en Pesos o Bolívares y soporte garantizado.
             </p>
           </div>
         </div>
@@ -215,7 +202,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
         <button
           onClick={() => {
             const url = `https://wa.me/${rates.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-              'Hola Divisas Orion, quiero consultar por combos o cuentas completas de streaming.'
+              `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), quiero consultar por combos o cuentas completas de streaming.`
             )}`;
             window.open(url, '_blank');
           }}

@@ -13,10 +13,12 @@ import { Footer } from './components/Footer';
 import { FlyerModal } from './components/FlyerModal';
 import { RatesAdminModal } from './components/RatesAdminModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { getColombiaDate } from './utils/formatters';
 
 export default function App() {
   // Load saved rates or fallback to defaults
   const [rates, setRates] = useState<ExchangeRates>(() => {
+    const todayColombia = getColombiaDate();
     try {
       const saved = localStorage.getItem('divisas_orion_rates');
       if (saved) {
@@ -30,7 +32,11 @@ export default function App() {
         if (parsed.copToVesRate === 3.55) {
           parsed.copToVesRate = 3.60;
         }
-        const merged = { ...INITIAL_RATES, ...parsed };
+        const merged = {
+          ...INITIAL_RATES,
+          ...parsed,
+          lastUpdated: todayColombia, // Always active date for today in Colombia
+        };
         try {
           localStorage.setItem('divisas_orion_rates', JSON.stringify(merged));
         } catch (_) {}
@@ -39,7 +45,7 @@ export default function App() {
     } catch (e) {
       console.error('Error reading saved rates:', e);
     }
-    return INITIAL_RATES;
+    return { ...INITIAL_RATES, lastUpdated: todayColombia };
   });
 
   const [activeDirection, setActiveDirection] = useState<CurrencyDirection>('COP_TO_VES');
@@ -50,9 +56,13 @@ export default function App() {
 
   // Save rates to localStorage
   const handleSaveRates = (newRates: ExchangeRates) => {
-    setRates(newRates);
+    const withTodayDate = {
+      ...newRates,
+      lastUpdated: getColombiaDate(),
+    };
+    setRates(withTodayDate);
     try {
-      localStorage.setItem('divisas_orion_rates', JSON.stringify(newRates));
+      localStorage.setItem('divisas_orion_rates', JSON.stringify(withTodayDate));
     } catch (e) {
       console.error('Error saving rates:', e);
     }

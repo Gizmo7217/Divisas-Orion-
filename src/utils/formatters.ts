@@ -1,5 +1,18 @@
 import { CurrencyDirection } from '../types';
 
+export function getColombiaDate(): string {
+  try {
+    return new Intl.DateTimeFormat('es-CO', {
+      timeZone: 'America/Bogota',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date());
+  } catch (e) {
+    return '21 de octubre';
+  }
+}
+
 export function formatNumberWithDots(val: number, decimals: number = 0): string {
   if (isNaN(val)) return '0';
   const parts = val.toFixed(decimals).split('.');
@@ -116,23 +129,21 @@ export function createStreamingWhatsAppMessage(options: {
   productName: string;
   priceCOP: number;
   priceVES: number;
-  currencyPreference: 'COP' | 'VES';
+  currencyPreference?: 'COP' | 'VES';
 }): string {
-  const priceText =
-    options.currencyPreference === 'COP'
-      ? formatCOP(options.priceCOP)
-      : formatVES(options.priceVES, true);
+  const roundedVES = Math.round(options.priceVES);
 
   const text = `🎬 *SOLICITUD STREAMING - DIVISAS ORION (@divisasorion)* 🍿
 
-👋 Hola, deseo contratar el siguiente servicio de streaming:
+👋 Hola, deseo contratar el siguiente servicio:
 
 📺 *Servicio:* ${options.productName}
-💵 *Precio:* ${priceText}
+💰 *Precio en Pesos:* ${formatCOP(options.priceCOP)}
+🇻🇪 *Precio en Bolívares (Tasa del día):* ${formatNumberWithDots(roundedVES, 0)} Bs
 ⚡ *Entrega:* Inmediata con garantía de 30 días
-📱 *Pago vía:* ${options.currencyPreference === 'COP' ? 'Nequi / Llave Colombia' : 'Pago Móvil / Banesco Venezuela'}
+💳 *Pago disponible:* Nequi / Llave en Colombia o Pago Móvil / Banesco en Venezuela
 
-Por favor facilítenme los datos para el pago y la entrega de mi pantalla. ¡Gracias!`;
+Por favor facilítenme los datos para transferir y la entrega de mi pantalla. ¡Muchas gracias!`;
 
   return `https://wa.me/${options.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`;
 }
