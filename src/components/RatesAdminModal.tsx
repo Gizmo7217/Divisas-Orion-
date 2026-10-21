@@ -21,6 +21,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
   const [vesToCop, setVesToCop] = useState<string>(rates.vesToCopRate.toString());
   const [whatsapp, setWhatsapp] = useState<string>(rates.whatsappNumber);
   const [whatsappUsername, setWhatsappUsername] = useState<string>(rates.whatsappUsername || '@divisasorion');
+  const [whatsappLink, setWhatsappLink] = useState<string>(rates.whatsappLink || '');
   const [slogan, setSlogan] = useState<string>(rates.slogan);
   const [showSavedNotification, setShowSavedNotification] = useState<boolean>(false);
 
@@ -37,6 +38,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
       vesToCopRate: parsedVesToCop,
       whatsappNumber: whatsapp.trim() || rates.whatsappNumber,
       whatsappUsername: whatsappUsername.trim() || '@divisasorion',
+      whatsappLink: whatsappLink.trim(),
       slogan: slogan.trim() || rates.slogan,
       lastUpdated: getColombiaDate(),
     };
@@ -54,6 +56,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
     setVesToCop(INITIAL_RATES.vesToCopRate.toString());
     setWhatsapp(INITIAL_RATES.whatsappNumber);
     setWhatsappUsername(INITIAL_RATES.whatsappUsername || '@divisasorion');
+    setWhatsappLink('');
     setSlogan(INITIAL_RATES.slogan);
   };
 
@@ -161,6 +164,23 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
             />
             <span className="text-[11px] text-neutral-400">
               Número al que se redirigen los mensajes (no se muestra en texto en la web).
+            </span>
+          </div>
+
+          {/* Optional Short Link / wa.link */}
+          <div>
+            <label className="block text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">
+              Enlace Corto / wa.link Opcional (Para ocultar número al 100% en Web):
+            </label>
+            <input
+              type="text"
+              value={whatsappLink}
+              onChange={(e) => setWhatsappLink(e.target.value)}
+              placeholder="Ej. https://wa.link/divisasorion o https://wa.me/message/..."
+              className="w-full bg-neutral-950 border-2 border-neutral-700 focus:border-emerald-500 rounded-xl py-2.5 px-3 text-sm font-semibold text-emerald-300 outline-none font-mono"
+            />
+            <span className="text-[11px] text-neutral-400">
+              Crea tu enlace gratuito en wa.link o usa el de WhatsApp Business para que en la barra de direcciones nunca aparezca tu número telefónico.
             </span>
           </div>
 

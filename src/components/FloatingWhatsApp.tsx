@@ -2,18 +2,27 @@ import React, { useState } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 import { ExchangeRates } from '../types';
 
+import { launchProtectedWhatsApp } from '../utils/formatters';
+
 interface FloatingWhatsAppProps {
   rates: ExchangeRates;
+  onOpenWhatsApp?: (msg: string, title?: string) => void;
 }
 
-export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ rates }) => {
+export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ rates, onOpenWhatsApp }) => {
   const [showBubble, setShowBubble] = useState<boolean>(true);
 
   const handleClick = () => {
-    const url = `https://wa.me/${rates.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-      'Hola Divisas Orion, deseo cotizar y realizar un giro.'
-    )}`;
-    window.open(url, '_blank');
+    const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo cotizar y realizar un giro o consulta.`;
+    if (onOpenWhatsApp) {
+      onOpenWhatsApp(msg, 'Atención En Línea Divisas Orion');
+    } else {
+      launchProtectedWhatsApp({
+        phone: rates.whatsappNumber,
+        text: msg,
+        customLink: rates.whatsappLink,
+      });
+    }
   };
 
   return (

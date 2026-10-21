@@ -9,6 +9,7 @@ interface HeaderProps {
   onOpenFlyerModal: () => void;
   activeSection: string;
   onNavigate: (sectionId: string) => void;
+  onOpenWhatsApp?: (msg: string, title?: string) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenFlyerModal,
   activeSection,
   onNavigate,
+  onOpenWhatsApp,
 }) => {
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-[#590404] via-[#7B0606] to-[#450202] border-b border-red-500/20 backdrop-blur-md shadow-xl text-white">
@@ -119,10 +121,12 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
-              const url = `https://wa.me/${rates.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                'Hola Divisas Orion, deseo consultar la tasa y hacer un giro.'
-              )}`;
-              window.open(url, '_blank');
+              const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo consultar la tasa del día y realizar una operación.`;
+              if (onOpenWhatsApp) {
+                onOpenWhatsApp(msg, 'Atención Oficial Divisas Orion');
+              } else {
+                window.location.href = `whatsapp://send?phone=${rates.whatsappNumber.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(msg)}`;
+              }
             }}
             className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-lg shadow-emerald-950/40 hover:shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
           >

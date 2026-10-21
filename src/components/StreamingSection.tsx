@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { STREAMING_PRODUCTS } from '../data/initialData';
 import { ExchangeRates, StreamingProduct } from '../types';
-import { formatCOP, formatNumberWithDots, createStreamingWhatsAppMessage } from '../utils/formatters';
+import { formatCOP, formatNumberWithDots, getStreamingMessageText, launchProtectedWhatsApp } from '../utils/formatters';
 import { Tv, Sparkles, Check, MessageCircle, ShieldCheck, Flame, ArrowDown } from 'lucide-react';
 
 interface StreamingSectionProps {
   rates: ExchangeRates;
+  onOpenWhatsApp?: (msg: string, title?: string) => void;
 }
 
-export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => {
+export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpenWhatsApp }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
 
   const categories = [
@@ -27,13 +28,21 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
 
   const handleOrder = (product: StreamingProduct) => {
     const vesPrice = product.priceCOP / rates.copToVesRate;
-    const url = createStreamingWhatsAppMessage({
-      phone: rates.whatsappNumber,
+    const text = getStreamingMessageText({
       productName: product.name,
       priceCOP: product.priceCOP,
       priceVES: vesPrice,
     });
-    window.open(url, '_blank');
+
+    if (onOpenWhatsApp) {
+      onOpenWhatsApp(text, `Pedido: ${product.name}`);
+    } else {
+      launchProtectedWhatsApp({
+        phone: rates.whatsappNumber,
+        text,
+        customLink: rates.whatsappLink,
+      });
+    }
   };
 
   return (
@@ -201,10 +210,16 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
 
         <button
           onClick={() => {
-            const url = `https://wa.me/${rates.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-              `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), quiero consultar por combos o cuentas completas de streaming.`
-            )}`;
-            window.open(url, '_blank');
+            const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), quiero consultar por combos o cuentas completas de streaming.`;
+            if (onOpenWhatsApp) {
+              onOpenWhatsApp(msg, 'Combos Streaming Especiales');
+            } else {
+              launchProtectedWhatsApp({
+                phone: rates.whatsappNumber,
+                text: msg,
+                customLink: rates.whatsappLink,
+              });
+            }
           }}
           className="whitespace-nowrap bg-white text-neutral-950 hover:bg-neutral-100 font-extrabold text-xs sm:text-sm px-6 py-3 rounded-xl transition-all shadow"
         >

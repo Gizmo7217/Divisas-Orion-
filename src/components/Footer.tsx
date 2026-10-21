@@ -1,15 +1,17 @@
 import React from 'react';
 import { OrionLogo } from './OrionLogo';
 import { ExchangeRates } from '../types';
+import { launchProtectedWhatsApp } from '../utils/formatters';
 import { MessageCircle, ShieldCheck, Heart, Clock, ArrowUp, Settings } from 'lucide-react';
 
 interface FooterProps {
   rates: ExchangeRates;
   onOpenSettings: () => void;
   onOpenFlyerModal: () => void;
+  onOpenWhatsApp?: (msg: string, title?: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFlyerModal }) => {
+export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFlyerModal, onOpenWhatsApp }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -89,10 +91,16 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
               <div className="pt-2">
                 <button
                   onClick={() => {
-                    const url = `https://wa.me/${rates.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                      'Hola Divisas Orion, deseo consultar datos para transferir y hacer una operación.'
-                    )}`;
-                    window.open(url, '_blank');
+                    const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo consultar datos para transferir y realizar una operación.`;
+                    if (onOpenWhatsApp) {
+                      onOpenWhatsApp(msg, 'Atención y Datos Divisas Orion');
+                    } else {
+                      launchProtectedWhatsApp({
+                        phone: rates.whatsappNumber,
+                        text: msg,
+                        customLink: rates.whatsappLink,
+                      });
+                    }
                   }}
                   className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-2.5 px-4 rounded-xl transition-all shadow flex items-center justify-center gap-2"
                 >

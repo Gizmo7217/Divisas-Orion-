@@ -13,7 +13,8 @@ import { Footer } from './components/Footer';
 import { FlyerModal } from './components/FlyerModal';
 import { RatesAdminModal } from './components/RatesAdminModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { getColombiaDate } from './utils/formatters';
+import { SecureWhatsAppModal } from './components/SecureWhatsAppModal';
+import { getColombiaDate, launchProtectedWhatsApp } from './utils/formatters';
 
 export default function App() {
   // Load saved rates or fallback to defaults
@@ -53,6 +54,34 @@ export default function App() {
   const [isFlyerModalOpen, setIsFlyerModalOpen] = useState<boolean>(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('calculadora');
+
+  // Secure WhatsApp Portal state
+  const [secureChatData, setSecureChatData] = useState<{
+    isOpen: boolean;
+    messageText: string;
+    title?: string;
+  }>({
+    isOpen: false,
+    messageText: '',
+    title: '',
+  });
+
+  const handleOpenSecureWhatsApp = (messageText: string, title?: string) => {
+    // 1. Immediately launch via protected application protocol (whatsapp://)
+    // This bypasses browser URL address bar navigation completely!
+    launchProtectedWhatsApp({
+      phone: rates.whatsappNumber,
+      text: messageText,
+      customLink: rates.whatsappLink,
+    });
+
+    // 2. Open the in-app secure portal dialog
+    setSecureChatData({
+      isOpen: true,
+      messageText,
+      title: title || 'Canal Oficial @divisasorion',
+    });
+  };
 
   // Save rates to localStorage
   const handleSaveRates = (newRates: ExchangeRates) => {
@@ -94,6 +123,7 @@ export default function App() {
         onOpenFlyerModal={() => setIsFlyerModalOpen(true)}
         activeSection={activeSection}
         onNavigate={scrollToSection}
+        onOpenWhatsApp={handleOpenSecureWhatsApp}
       />
 
       <main className="flex-1">
@@ -116,6 +146,7 @@ export default function App() {
           onDirectionChange={setActiveDirection}
           onScrollToPayments={() => scrollToSection('pagos')}
           selectedAmount={calculatorAmount}
+          onOpenWhatsApp={handleOpenSecureWhatsApp}
         />
 
         {/* Quick Tables matching the photo pill capsules */}
@@ -129,10 +160,15 @@ export default function App() {
         <PaymentMethods
           whatsappNumber={rates.whatsappNumber}
           whatsappUsername={rates.whatsappUsername}
+          whatsappLink={rates.whatsappLink}
+          onOpenWhatsApp={handleOpenSecureWhatsApp}
         />
 
         {/* Streaming Services (Netflix, Spotify, Crunchyroll, Disney+, HBO, Paramount+, YouTube) */}
-        <StreamingSection rates={rates} />
+        <StreamingSection
+          rates={rates}
+          onOpenWhatsApp={handleOpenSecureWhatsApp}
+        />
 
         {/* How It Works Steps */}
         <HowItWorks />
@@ -146,6 +182,7 @@ export default function App() {
         rates={rates}
         onOpenSettings={() => setIsSettingsModalOpen(true)}
         onOpenFlyerModal={() => setIsFlyerModalOpen(true)}
+        onOpenWhatsApp={handleOpenSecureWhatsApp}
       />
 
       {/* Modals */}
@@ -162,8 +199,20 @@ export default function App() {
         onSave={handleSaveRates}
       />
 
+      {/* Secure WhatsApp Portal Modal (Protects phone from browser URL address bar) */}
+      <SecureWhatsAppModal
+        rates={rates}
+        isOpen={secureChatData.isOpen}
+        onClose={() => setSecureChatData((prev) => ({ ...prev, isOpen: false }))}
+        messageText={secureChatData.messageText}
+        title={secureChatData.title}
+      />
+
       {/* Floating WhatsApp Action Button */}
-      <FloatingWhatsApp rates={rates} />
+      <FloatingWhatsApp
+        rates={rates}
+        onOpenWhatsApp={handleOpenSecureWhatsApp}
+      />
     </div>
   );
 }

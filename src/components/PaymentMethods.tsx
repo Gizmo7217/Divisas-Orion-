@@ -2,24 +2,35 @@ import React, { useState } from 'react';
 import { PAYMENT_METHODS } from '../data/initialData';
 import { Smartphone, Key, Zap, Building2, MessageCircle, ShieldCheck, ArrowRight, Info, CheckCircle2, Lock } from 'lucide-react';
 
+import { launchProtectedWhatsApp } from '../utils/formatters';
+
 interface PaymentMethodsProps {
   whatsappNumber?: string;
   whatsappUsername?: string;
+  whatsappLink?: string;
+  onOpenWhatsApp?: (msg: string, title?: string) => void;
 }
 
 export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   whatsappNumber = '573135459314',
   whatsappUsername = '@divisasorion',
+  whatsappLink = '',
+  onOpenWhatsApp,
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<'Colombia' | 'Venezuela'>('Colombia');
 
   const methods = PAYMENT_METHODS.filter((m) => m.country === selectedCountry);
 
-  const cleanPhone = whatsappNumber.replace(/[^0-9]/g, '');
-
   const handleOpenWhatsApp = (promptText: string) => {
-    const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(promptText)}`;
-    window.open(url, '_blank');
+    if (onOpenWhatsApp) {
+      onOpenWhatsApp(promptText, 'Consulta de Datos Bancarios');
+    } else {
+      launchProtectedWhatsApp({
+        phone: whatsappNumber,
+        text: promptText,
+        customLink: whatsappLink,
+      });
+    }
   };
 
   const getIcon = (name: string) => {

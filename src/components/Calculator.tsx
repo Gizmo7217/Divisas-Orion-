@@ -1,6 +1,6 @@
 import React, { useState, useId, useEffect } from 'react';
 import { CurrencyDirection, ExchangeRates } from '../types';
-import { calculateRemesa, createWhatsAppMessage, formatCOP, formatVES, formatVESInteger, formatNumberWithDots } from '../utils/formatters';
+import { calculateRemesa, getRemesaMessageText, launchProtectedWhatsApp, formatCOP, formatVES, formatVESInteger, formatNumberWithDots } from '../utils/formatters';
 import { MessageCircle, Copy, Check, Calculator as CalcIcon, ShieldCheck, Info, Sparkles, ArrowRight, Zap, RefreshCw } from 'lucide-react';
 
 interface CalculatorProps {
@@ -9,6 +9,7 @@ interface CalculatorProps {
   onDirectionChange?: (dir: CurrencyDirection) => void;
   onScrollToPayments: () => void;
   selectedAmount?: number | null;
+  onOpenWhatsApp?: (msg: string, title?: string) => void;
 }
 
 export const Calculator: React.FC<CalculatorProps> = ({
@@ -17,6 +18,7 @@ export const Calculator: React.FC<CalculatorProps> = ({
   selectedAmount,
   direction,
   onDirectionChange,
+  onOpenWhatsApp,
 }) => {
   // View mode: both side-by-side or single focused
   const [viewMode, setViewMode] = useState<'both' | 'cop_to_ves' | 'ves_to_cop'>('both');
@@ -81,15 +83,23 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
   };
 
   const handleSendCopWhatsApp = () => {
-    const url = createWhatsAppMessage({
-      phone: rates.whatsappNumber,
+    const text = getRemesaMessageText({
       direction: 'COP_TO_VES',
       fromAmount: numCop,
       toAmount: vesCalculated,
       rateApplied: safeCopRate,
       paymentMethod: copPayment,
     });
-    window.open(url, '_blank');
+
+    if (onOpenWhatsApp) {
+      onOpenWhatsApp(text, 'Cotización Pesos a Bolívares (🇨🇴 ➔ 🇻🇪)');
+    } else {
+      launchProtectedWhatsApp({
+        phone: rates.whatsappNumber,
+        text,
+        customLink: rates.whatsappLink,
+      });
+    }
   };
 
   const handleCopyVesSummary = () => {
@@ -109,15 +119,23 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
   };
 
   const handleSendVesWhatsApp = () => {
-    const url = createWhatsAppMessage({
-      phone: rates.whatsappNumber,
+    const text = getRemesaMessageText({
       direction: 'VES_TO_COP',
       fromAmount: numVes,
       toAmount: copCalculated,
       rateApplied: safeVesRate,
       paymentMethod: vesPayment,
     });
-    window.open(url, '_blank');
+
+    if (onOpenWhatsApp) {
+      onOpenWhatsApp(text, 'Cotización Bolívares a Pesos (🇻🇪 ➔ 🇨🇴)');
+    } else {
+      launchProtectedWhatsApp({
+        phone: rates.whatsappNumber,
+        text,
+        customLink: rates.whatsappLink,
+      });
+    }
   };
 
   return (

@@ -88,14 +88,13 @@ export function calculateRemesa(
   }
 }
 
-export function createWhatsAppMessage(options: {
-  phone: string;
+
+export function getRemesaMessageText(options: {
   direction: CurrencyDirection;
   fromAmount: number;
   toAmount: number;
   rateApplied: number;
   paymentMethod?: string;
-  customNote?: string;
 }): string {
   const isCopToVes = options.direction === 'COP_TO_VES';
   const fromText = isCopToVes
@@ -108,7 +107,7 @@ export function createWhatsAppMessage(options: {
     ? formatVESInteger(options.toAmount)
     : formatCOP(Math.round(options.toAmount));
 
-  const text = `🔴 *CONSULTA DE GIRO - DIVISAS ORION (@divisasorion)* 🔴
+  return `🔴 *CONSULTA DE GIRO - DIVISAS ORION (@divisasorion)* 🔴
 ✨ _"Cambia rápido y seguro con nosotros"_ ✨
 
 👋 Hola, deseo realizar una operación de cambio:
@@ -120,20 +119,33 @@ export function createWhatsAppMessage(options: {
 💳 *Método de pago deseado:* ${options.paymentMethod || 'A coordinar (Nequi / Llave / Pago Móvil / Banesco)'}
 
 Por favor confírmenme si la tasa está disponible y los datos para realizar la transferencia. ¡Muchas gracias!`;
-
-  return `https://wa.me/${options.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`;
 }
 
-export function createStreamingWhatsAppMessage(options: {
+export function createWhatsAppMessage(options: {
   phone: string;
+  direction: CurrencyDirection;
+  fromAmount: number;
+  toAmount: number;
+  rateApplied: number;
+  paymentMethod?: string;
+  customNote?: string;
+  customLink?: string;
+}): string {
+  const text = getRemesaMessageText(options);
+  if (options.customLink && options.customLink.trim().length > 0) {
+    const link = options.customLink.trim();
+    return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
+  }
+  return `whatsapp://send?phone=${options.phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(text)}`;
+}
+
+export function getStreamingMessageText(options: {
   productName: string;
   priceCOP: number;
   priceVES: number;
-  currencyPreference?: 'COP' | 'VES';
 }): string {
   const roundedVES = Math.round(options.priceVES);
-
-  const text = `🎬 *SOLICITUD STREAMING - DIVISAS ORION (@divisasorion)* 🍿
+  return `🎬 *SOLICITUD STREAMING - DIVISAS ORION (@divisasorion)* 🍿
 
 👋 Hola, deseo contratar el siguiente servicio:
 
@@ -144,6 +156,48 @@ export function createStreamingWhatsAppMessage(options: {
 💳 *Pago disponible:* Nequi / Llave en Colombia o Pago Móvil / Banesco en Venezuela
 
 Por favor facilítenme los datos para transferir y la entrega de mi pantalla. ¡Muchas gracias!`;
+}
 
-  return `https://wa.me/${options.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(text)}`;
+export function createStreamingWhatsAppMessage(options: {
+  phone: string;
+  productName: string;
+  priceCOP: number;
+  priceVES: number;
+  currencyPreference?: 'COP' | 'VES';
+  customLink?: string;
+}): string {
+  const text = getStreamingMessageText(options);
+  if (options.customLink && options.customLink.trim().length > 0) {
+    const link = options.customLink.trim();
+    return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
+  }
+  return `whatsapp://send?phone=${options.phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(text)}`;
+}
+
+export function launchProtectedWhatsApp(options: {
+  phone: string;
+  text: string;
+  customLink?: string;
+}): void {
+  const cleanPhone = options.phone.replace(/[^0-9]/g, '');
+  const encodedText = encodeURIComponent(options.text);
+
+  if (options.customLink && options.customLink.trim().length > 0) {
+    const link = options.customLink.trim();
+    const finalUrl = link.includes('?') 
+      ? `${link}&text=${encodedText}` 
+      : `${link}?text=${encodedText}`;
+    window.open(finalUrl, '_blank');
+    return;
+  }
+
+  // Direct app scheme: opens WhatsApp app WITHOUT navigating the browser URL bar to api.whatsapp.com!
+  const a = document.createElement('a');
+  a.href = `whatsapp://send?phone=${cleanPhone}&text=${encodedText}`;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+  }, 1000);
 }
