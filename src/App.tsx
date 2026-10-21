@@ -13,7 +13,6 @@ import { Footer } from './components/Footer';
 import { FlyerModal } from './components/FlyerModal';
 import { RatesAdminModal } from './components/RatesAdminModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { SecureWhatsAppModal } from './components/SecureWhatsAppModal';
 import { getColombiaDate, launchProtectedWhatsApp } from './utils/formatters';
 
 export default function App() {
@@ -59,31 +58,12 @@ export default function App() {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('calculadora');
 
-  // Secure WhatsApp Portal state
-  const [secureChatData, setSecureChatData] = useState<{
-    isOpen: boolean;
-    messageText: string;
-    title?: string;
-  }>({
-    isOpen: false,
-    messageText: '',
-    title: '',
-  });
-
-  const handleOpenSecureWhatsApp = (messageText: string, title?: string) => {
-    // 1. Immediately launch via protected application protocol (whatsapp://)
-    // This bypasses browser URL address bar navigation completely!
+  // Direct 1-click WhatsApp redirect using encrypted wa.link/lreunw
+  const handleOpenSecureWhatsApp = (messageText: string) => {
     launchProtectedWhatsApp({
       phone: rates.whatsappNumber,
       text: messageText,
-      customLink: rates.whatsappLink,
-    });
-
-    // 2. Open the in-app secure portal dialog
-    setSecureChatData({
-      isOpen: true,
-      messageText,
-      title: title || 'Canal Oficial @divisasorion',
+      customLink: rates.whatsappLink || 'https://wa.link/lreunw',
     });
   };
 
@@ -203,14 +183,6 @@ export default function App() {
         onSave={handleSaveRates}
       />
 
-      {/* Secure WhatsApp Portal Modal (Protects phone from browser URL address bar) */}
-      <SecureWhatsAppModal
-        rates={rates}
-        isOpen={secureChatData.isOpen}
-        onClose={() => setSecureChatData((prev) => ({ ...prev, isOpen: false }))}
-        messageText={secureChatData.messageText}
-        title={secureChatData.title}
-      />
 
       {/* Floating WhatsApp Action Button */}
       <FloatingWhatsApp
