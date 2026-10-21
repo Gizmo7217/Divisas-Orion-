@@ -7,7 +7,7 @@ interface HeroBannerProps {
   activeDirection: CurrencyDirection;
   onSelectDirection: (dir: CurrencyDirection) => void;
   onOpenFlyerModal: () => void;
-  onOpenSettings: () => void;
+  onOpenSettings?: () => void;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({
@@ -15,7 +15,6 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
   activeDirection,
   onSelectDirection,
   onOpenFlyerModal,
-  onOpenSettings,
 }) => {
   return (
     <div className="relative overflow-hidden bg-gradient-to-b from-[#6b0505] via-[#7B0606] to-[#450202] text-white pt-8 pb-12 px-4 sm:px-6 lg:px-8 border-b border-red-500/20">
@@ -137,13 +136,6 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           >
             <ImageIcon className="w-4 h-4 text-amber-300" />
             <span>Ver Flyer Oficial del Día</span>
-          </button>
-
-          <button
-            onClick={onOpenSettings}
-            className="flex items-center gap-2 bg-black/40 hover:bg-black/60 text-red-200 hover:text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-full border border-red-500/30 transition-all"
-          >
-            <span>Cambiar Tasas de Hoy</span>
           </button>
         </div>
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import { OrionLogo } from './OrionLogo';
-import { MessageCircle, Settings, ArrowRightLeft, Sparkles } from 'lucide-react';
+import { MessageCircle, Sparkles } from 'lucide-react';
 import { ExchangeRates } from '../types';
 
 interface HeaderProps {
   rates: ExchangeRates;
-  onOpenSettings: () => void;
+  onOpenSettings?: () => void;
   onOpenFlyerModal: () => void;
   activeSection: string;
   onNavigate: (sectionId: string) => void;
@@ -13,7 +13,6 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({
   rates,
-  onOpenSettings,
   onOpenFlyerModal,
   activeSection,
   onNavigate,
@@ -51,15 +50,6 @@ export const Header: React.FC<HeaderProps> = ({
                 × {rates.vesToCopRate.toString().replace('.', ',')}
               </span>
             </div>
-
-            <button
-              onClick={onOpenSettings}
-              title="Ajustar tasas del día"
-              className="text-red-200 hover:text-white hover:bg-white/10 p-1 rounded-full transition-colors flex items-center gap-1 text-[11px]"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">Editar Tasas</span>
-            </button>
           </div>
         </div>
       </div>

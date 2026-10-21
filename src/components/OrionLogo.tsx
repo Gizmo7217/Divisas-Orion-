@@ -14,10 +14,10 @@ export const OrionLogo: React.FC<OrionLogoProps> = ({
   className = '',
 }) => {
   const sizeMap = {
-    sm: { icon: 32, textTitle: 'text-base', textSub: 'text-sm' },
-    md: { icon: 44, textTitle: 'text-xl', textSub: 'text-lg' },
-    lg: { icon: 60, textTitle: 'text-2xl', textSub: 'text-xl' },
-    xl: { icon: 80, textTitle: 'text-4xl', textSub: 'text-3xl' },
+    sm: { img: 'h-9 w-auto', textTitle: 'text-sm', textSub: 'text-xs' },
+    md: { img: 'h-11 sm:h-12 w-auto', textTitle: 'text-lg', textSub: 'text-base' },
+    lg: { img: 'h-16 sm:h-20 w-auto', textTitle: 'text-2xl', textSub: 'text-xl' },
+    xl: { img: 'h-24 sm:h-28 w-auto', textTitle: 'text-3xl', textSub: 'text-2xl' },
   };
 
   const dim = sizeMap[size];
@@ -25,81 +25,13 @@ export const OrionLogo: React.FC<OrionLogoProps> = ({
 
   return (
     <div className={`flex items-center gap-3 select-none ${className}`}>
-      {/* Recreated Logo Mark from photo: Curved arrow swooshing onto globe with $ inside */}
-      <div className="relative flex-shrink-0" style={{ width: dim.icon, height: dim.icon }}>
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full drop-shadow-md"
-        >
-          {/* Curved swoosh arrow over the globe */}
-          <path
-            d="M 28 42 C 28 22, 45 10, 72 16"
-            stroke="currentColor"
-            strokeWidth="7"
-            strokeLinecap="round"
-            className={variant === 'dark' ? 'text-red-700' : 'text-white'}
-          />
-          <polygon
-            points="24,36 12,48 34,48"
-            fill="currentColor"
-            className={variant === 'dark' ? 'text-red-700' : 'text-white'}
-          />
-
-          {/* Globe circle */}
-          <circle
-            cx="55"
-            cy="60"
-            r="30"
-            stroke="currentColor"
-            strokeWidth="5"
-            className={variant === 'dark' ? 'text-red-700' : 'text-white'}
-          />
-
-          {/* Latitude lines */}
-          <ellipse
-            cx="55"
-            cy="60"
-            rx="30"
-            ry="13"
-            stroke="currentColor"
-            strokeWidth="3.5"
-            className={variant === 'dark' ? 'text-red-600' : 'text-white/90'}
-          />
-          {/* Longitude vertical ellipse */}
-          <ellipse
-            cx="55"
-            cy="60"
-            rx="13"
-            ry="30"
-            stroke="currentColor"
-            strokeWidth="3.5"
-            className={variant === 'dark' ? 'text-red-600' : 'text-white/90'}
-          />
-
-          {/* Center Dollar Sign */}
-          <circle
-            cx="55"
-            cy="60"
-            r="12"
-            fill={variant === 'dark' ? '#7f1d1d' : '#8B0000'}
-            stroke="currentColor"
-            strokeWidth="2"
-            className={variant === 'dark' ? 'text-white' : 'text-white'}
-          />
-          <text
-            x="55"
-            y="65"
-            textAnchor="middle"
-            fill="#ffffff"
-            fontSize="14"
-            fontWeight="bold"
-            fontFamily="sans-serif"
-          >
-            $
-          </text>
-        </svg>
+      {/* Official 3D Embossed Logo Image provided by user */}
+      <div className="relative flex-shrink-0 overflow-hidden rounded-xl shadow-lg border border-red-400/40 bg-[#650406]">
+        <img
+          src="/assets/aistudio/file_000000000a4081f586ec95c675ee9ac0_e50ccf50.png"
+          alt="Divisas Orion Logo"
+          className={`${dim.img} object-contain transition-transform duration-200 hover:scale-105`}
+        />
       </div>
 
       {showText && (
