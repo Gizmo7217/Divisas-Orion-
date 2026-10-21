@@ -132,11 +132,10 @@ export function createWhatsAppMessage(options: {
   customLink?: string;
 }): string {
   const text = getRemesaMessageText(options);
-  if (options.customLink && options.customLink.trim().length > 0) {
-    const link = options.customLink.trim();
-    return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
-  }
-  return `whatsapp://send?phone=${options.phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(text)}`;
+  const link = (options.customLink && options.customLink.trim().length > 0)
+    ? options.customLink.trim()
+    : 'https://wa.link/lreunw';
+  return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
 }
 
 export function getStreamingMessageText(options: {
@@ -167,11 +166,10 @@ export function createStreamingWhatsAppMessage(options: {
   customLink?: string;
 }): string {
   const text = getStreamingMessageText(options);
-  if (options.customLink && options.customLink.trim().length > 0) {
-    const link = options.customLink.trim();
-    return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
-  }
-  return `whatsapp://send?phone=${options.phone.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(text)}`;
+  const link = (options.customLink && options.customLink.trim().length > 0)
+    ? options.customLink.trim()
+    : 'https://wa.link/lreunw';
+  return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
 }
 
 export function launchProtectedWhatsApp(options: {
@@ -179,25 +177,16 @@ export function launchProtectedWhatsApp(options: {
   text: string;
   customLink?: string;
 }): void {
-  const cleanPhone = options.phone.replace(/[^0-9]/g, '');
   const encodedText = encodeURIComponent(options.text);
+  const link = (options.customLink && options.customLink.trim().length > 0)
+    ? options.customLink.trim()
+    : 'https://wa.link/lreunw';
 
-  if (options.customLink && options.customLink.trim().length > 0) {
-    const link = options.customLink.trim();
-    const finalUrl = link.includes('?') 
-      ? `${link}&text=${encodedText}` 
-      : `${link}?text=${encodedText}`;
-    window.open(finalUrl, '_blank');
-    return;
-  }
+  // Blindaje 100%: usa el enlace encriptado oficial wa.link/lreunw
+  // La barra de direcciones NUNCA muestra api.whatsapp.com/send/?phone= ni el número de celular
+  const finalUrl = link.includes('?')
+    ? `${link}&text=${encodedText}`
+    : `${link}?text=${encodedText}`;
 
-  // Direct app scheme: opens WhatsApp app WITHOUT navigating the browser URL bar to api.whatsapp.com!
-  const a = document.createElement('a');
-  a.href = `whatsapp://send?phone=${cleanPhone}&text=${encodedText}`;
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => {
-    document.body.removeChild(a);
-  }, 1000);
+  window.open(finalUrl, '_blank');
 }

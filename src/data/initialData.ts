@@ -7,6 +7,7 @@ export const INITIAL_RATES: ExchangeRates = {
   lastUpdated: getColombiaDate(),
   whatsappNumber: '573135459314', // Default backend number (kept hidden from UI)
   whatsappUsername: '@divisasorion', // Public username for communication
+  whatsappLink: 'https://wa.link/lreunw', // Official encrypted shortlink (blindaje 100%)
   businessName: 'Divisas Orion',
   slogan: 'Cambia rápido y seguro con nosotros',
 };

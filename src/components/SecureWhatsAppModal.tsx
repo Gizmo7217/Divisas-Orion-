@@ -21,39 +21,17 @@ export const SecureWhatsAppModal: React.FC<SecureWhatsAppModalProps> = ({
 
   if (!isOpen) return null;
 
-  const cleanPhone = rates.whatsappNumber.replace(/[^0-9]/g, '');
   const encodedText = encodeURIComponent(messageText);
+  const officialShortlink = rates.whatsappLink?.trim() || 'https://wa.link/lreunw';
+  const cleanShortlink = officialShortlink.replace(/^https?:\/\//, '');
 
-  // App direct protocol (bypasses browser URL address bar completely!)
-  const appProtocolUri = `whatsapp://send?phone=${cleanPhone}&text=${encodedText}`;
+  // Blinded URL: Uses https://wa.link/lreunw?text=... (100% blindado, cero teléfono en la URL)
+  const finalLink = officialShortlink.includes('?')
+    ? `${officialShortlink}&text=${encodedText}`
+    : `${officialShortlink}?text=${encodedText}`;
 
-  // Web fallback (if the user explicitly wants web or has a custom wa.link)
-  const webUrl = rates.whatsappLink && rates.whatsappLink.trim().length > 0
-    ? `${rates.whatsappLink.trim()}${rates.whatsappLink.includes('?') ? '&' : '?'}text=${encodedText}`
-    : `https://web.whatsapp.com/send?phone=${cleanPhone}&text=${encodedText}`;
-
-  const handleOpenApp = () => {
-    // If a shortlink (like wa.link) is configured, open that (it never shows phone in address bar)
-    if (rates.whatsappLink && rates.whatsappLink.trim().length > 0) {
-      window.open(webUrl, '_blank');
-      onClose();
-      return;
-    }
-
-    // Direct app protocol: does NOT navigate browser address bar to api.whatsapp.com!
-    const a = document.createElement('a');
-    a.href = appProtocolUri;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      onClose();
-    }, 800);
-  };
-
-  const handleOpenWeb = () => {
-    window.open(webUrl, '_blank');
+  const handleOpenSecureLink = () => {
+    window.open(finalLink, '_blank');
     onClose();
   };
 
@@ -86,33 +64,33 @@ export const SecureWhatsAppModal: React.FC<SecureWhatsAppModalProps> = ({
 
           <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-950 border border-emerald-700/60 text-emerald-300 text-[11px] font-black uppercase tracking-wider mb-1.5">
             <Lock className="w-3 h-3" />
-            <span>Canal Protegido • Número Oculto</span>
+            <span>Número Telefónico 100% Blindado</span>
           </div>
 
           <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
             {title}
           </h3>
           <p className="text-xs text-neutral-400 mt-1">
-            Conexión directa y privada con el usuario verificado <span className="text-amber-300 font-bold font-mono">{rates.whatsappUsername || '@divisasorion'}</span>.
+            Conexión encriptada directa con <span className="text-amber-300 font-bold font-mono">{rates.whatsappUsername || '@divisasorion'}</span>.
           </p>
         </div>
 
         {/* Masked Security Card */}
         <div className="bg-neutral-900/90 rounded-2xl p-4 border border-neutral-800 mb-5 space-y-2 text-xs">
           <div className="flex items-center justify-between py-1 border-b border-neutral-800/80">
-            <span className="text-neutral-400">Canal de Contacto:</span>
+            <span className="text-neutral-400">Canal Oficial:</span>
             <span className="font-bold text-emerald-400 font-mono text-sm">{rates.whatsappUsername || '@divisasorion'}</span>
           </div>
           <div className="flex items-center justify-between py-1 border-b border-neutral-800/80">
-            <span className="text-neutral-400">Protección de Datos:</span>
-            <span className="font-bold text-neutral-200 flex items-center gap-1">
-              <Lock className="w-3 h-3 text-emerald-400" /> Cifrado de Enlace Activo
+            <span className="text-neutral-400">Enlace Blindado:</span>
+            <span className="font-mono text-[11px] text-emerald-300 font-bold bg-emerald-950/60 border border-emerald-800 px-2 py-0.5 rounded">
+              {cleanShortlink}
             </span>
           </div>
           <div className="flex items-center justify-between py-1">
             <span className="text-neutral-400">Barra de Direcciones:</span>
-            <span className="font-mono text-[11px] text-amber-300 bg-black/50 px-2 py-0.5 rounded">
-              Línea Privada Oculta
+            <span className="font-mono text-[11px] text-amber-300 bg-black/60 px-2 py-0.5 rounded flex items-center gap-1">
+              <Lock className="w-3 h-3 text-amber-400" /> Sin número visible
             </span>
           </div>
         </div>
@@ -147,27 +125,18 @@ export const SecureWhatsAppModal: React.FC<SecureWhatsAppModalProps> = ({
 
         {/* Action Buttons */}
         <div className="space-y-2.5">
-          {/* Primary Action: Direct App Launcher (No URL bar change) */}
+          {/* Primary Action: Direct Blinded Link */}
           <button
-            onClick={handleOpenApp}
+            onClick={handleOpenSecureLink}
             className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-black text-sm py-3.5 px-4 rounded-xl shadow-lg shadow-emerald-950/60 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
           >
-            <Smartphone className="w-5 h-5 fill-white" />
-            <span>Abrir en WhatsApp App (Sin URL en navegador)</span>
-          </button>
-
-          {/* Secondary Action: Web Fallback */}
-          <button
-            onClick={handleOpenWeb}
-            className="w-full bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white font-bold text-xs py-2.5 px-3 rounded-xl border border-neutral-700 transition-all flex items-center justify-center gap-2"
-          >
-            <Globe className="w-4 h-4 text-emerald-400" />
-            <span>Abrir en WhatsApp Web</span>
+            <MessageCircle className="w-5 h-5 fill-white" />
+            <span>Continuar a WhatsApp ({cleanShortlink})</span>
           </button>
         </div>
 
         <p className="mt-4 text-[10px] text-center text-neutral-500 leading-tight">
-          Protección de privacidad Divisas Orion. Tu número no es expuesto ni almacenado públicamente.
+          Blindaje de enlace oficial Divisas Orion. Tu número telefónico y la línea del operador no se exponen en URLs públicas.
         </p>
       </div>
     </div>

@@ -30,12 +30,16 @@ export default function App() {
         if (!parsed.whatsappUsername) {
           parsed.whatsappUsername = INITIAL_RATES.whatsappUsername;
         }
+        if (!parsed.whatsappLink || parsed.whatsappLink.trim() === '') {
+          parsed.whatsappLink = 'https://wa.link/lreunw';
+        }
         if (parsed.copToVesRate === 3.55) {
           parsed.copToVesRate = 3.60;
         }
         const merged = {
           ...INITIAL_RATES,
           ...parsed,
+          whatsappLink: 'https://wa.link/lreunw', // Always prioritize the user's official encrypted link
           lastUpdated: todayColombia, // Always active date for today in Colombia
         };
         try {

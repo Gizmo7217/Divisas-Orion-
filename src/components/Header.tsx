@@ -125,7 +125,8 @@ export const Header: React.FC<HeaderProps> = ({
               if (onOpenWhatsApp) {
                 onOpenWhatsApp(msg, 'Atención Oficial Divisas Orion');
               } else {
-                window.location.href = `whatsapp://send?phone=${rates.whatsappNumber.replace(/[^0-9]/g, '')}&text=${encodeURIComponent(msg)}`;
+                const link = rates.whatsappLink || 'https://wa.link/lreunw';
+                window.open(`${link}?text=${encodeURIComponent(msg)}`, '_blank');
               }
             }}
             className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-lg shadow-emerald-950/40 hover:shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0"

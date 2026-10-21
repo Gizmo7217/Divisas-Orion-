@@ -21,7 +21,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
   const [vesToCop, setVesToCop] = useState<string>(rates.vesToCopRate.toString());
   const [whatsapp, setWhatsapp] = useState<string>(rates.whatsappNumber);
   const [whatsappUsername, setWhatsappUsername] = useState<string>(rates.whatsappUsername || '@divisasorion');
-  const [whatsappLink, setWhatsappLink] = useState<string>(rates.whatsappLink || '');
+  const [whatsappLink, setWhatsappLink] = useState<string>(rates.whatsappLink || 'https://wa.link/lreunw');
   const [slogan, setSlogan] = useState<string>(rates.slogan);
   const [showSavedNotification, setShowSavedNotification] = useState<boolean>(false);
 
@@ -38,7 +38,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
       vesToCopRate: parsedVesToCop,
       whatsappNumber: whatsapp.trim() || rates.whatsappNumber,
       whatsappUsername: whatsappUsername.trim() || '@divisasorion',
-      whatsappLink: whatsappLink.trim(),
+      whatsappLink: whatsappLink.trim() || 'https://wa.link/lreunw',
       slogan: slogan.trim() || rates.slogan,
       lastUpdated: getColombiaDate(),
     };
@@ -56,7 +56,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
     setVesToCop(INITIAL_RATES.vesToCopRate.toString());
     setWhatsapp(INITIAL_RATES.whatsappNumber);
     setWhatsappUsername(INITIAL_RATES.whatsappUsername || '@divisasorion');
-    setWhatsappLink('');
+    setWhatsappLink('https://wa.link/lreunw');
     setSlogan(INITIAL_RATES.slogan);
   };
 
@@ -176,7 +176,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
               type="text"
               value={whatsappLink}
               onChange={(e) => setWhatsappLink(e.target.value)}
-              placeholder="Ej. https://wa.link/divisasorion o https://wa.me/message/..."
+              placeholder="https://wa.link/lreunw"
               className="w-full bg-neutral-950 border-2 border-neutral-700 focus:border-emerald-500 rounded-xl py-2.5 px-3 text-sm font-semibold text-emerald-300 outline-none font-mono"
             />
             <span className="text-[11px] text-neutral-400">

@@ -14,7 +14,7 @@ interface PaymentMethodsProps {
 export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   whatsappNumber = '573135459314',
   whatsappUsername = '@divisasorion',
-  whatsappLink = '',
+  whatsappLink = 'https://wa.link/lreunw',
   onOpenWhatsApp,
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<'Colombia' | 'Venezuela'>('Colombia');

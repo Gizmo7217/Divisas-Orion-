@@ -24,7 +24,7 @@ export const FlyerModal: React.FC<FlyerModalProps> = ({ rates, isOpen, onClose }
       const ves = Math.round(cop / rates.copToVesRate);
       text += `👉 *${formatNumberWithDots(cop, 0)}* / *${formatNumberWithDots(ves, 0)} Bs*\n`;
     });
-    text += `\n💬 _"${rates.slogan}"_\n\n✅ Pagos por Nequi, Llave, Pago Móvil y Banesco.\n🍿 Pantallas streaming disponibles (Netflix, Spotify, Disney, etc.)\n📲 Escríbenos a WhatsApp ${rates.whatsappUsername || '@divisasorion'} para transferir!`;
+    text += `\n💬 _"${rates.slogan}"_\n\n✅ Pagos por Nequi, Llave, Pago Móvil y Banesco.\n🍿 Pantallas streaming disponibles (Netflix, Spotify, Disney, etc.)\n📲 Escríbenos a WhatsApp ${rates.whatsappUsername || '@divisasorion'} (${rates.whatsappLink || 'https://wa.link/lreunw'}) para transferir!`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
