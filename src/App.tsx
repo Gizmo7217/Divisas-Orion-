@@ -27,7 +27,14 @@ export default function App() {
         if (!parsed.whatsappUsername) {
           parsed.whatsappUsername = INITIAL_RATES.whatsappUsername;
         }
-        return { ...INITIAL_RATES, ...parsed };
+        if (parsed.copToVesRate === 3.55) {
+          parsed.copToVesRate = 3.60;
+        }
+        const merged = { ...INITIAL_RATES, ...parsed };
+        try {
+          localStorage.setItem('divisas_orion_rates', JSON.stringify(merged));
+        } catch (_) {}
+        return merged;
       }
     } catch (e) {
       console.error('Error reading saved rates:', e);

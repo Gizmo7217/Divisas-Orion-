@@ -1,7 +1,7 @@
 import { ExchangeRates, PaymentMethodDetail, StreamingProduct } from '../types';
 
 export const INITIAL_RATES: ExchangeRates = {
-  copToVesRate: 3.55,
+  copToVesRate: 3.60,
   vesToCopRate: 2.75,
   lastUpdated: new Date().toLocaleDateString('es-VE', {
     day: 'numeric',
@@ -227,7 +227,7 @@ export const PRESET_VES_AMOUNTS = [
 export const FAQS = [
   {
     q: '¿Cómo funciona la tasa de Pesos a Bolívares (COP a VES)?',
-    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,55). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
+    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,60). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
   },
   {
     q: '¿Cómo funciona la tasa de Bolívares a Pesos (VES a COP)?',
@@ -252,7 +252,7 @@ export const TESTIMONIALS = [
     name: 'Carlos Mendoza',
     city: 'Bogotá ➔ Caracas',
     rating: 5,
-    comment: 'Siempre envío por Divisas Orion. La tasa de 3,55 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
+    comment: 'Siempre envío por Divisas Orion. La tasa de 3,60 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
     time: 'Hace 2 horas',
   },
   {
