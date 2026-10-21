@@ -1,0 +1,6 @@
+{
+  "name": "Divisas Orion - Giros, Remesas y Streaming",
+  "description": "Plataforma de giros y remesas entre Colombia y Venezuela con tasa del día en vivo, calculadora interactiva de COP y VES, medios de pago Nequi, Llave, Pago Móvil y Banesco, más pantallas de streaming.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
