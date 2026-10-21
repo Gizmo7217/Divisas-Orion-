@@ -4,7 +4,8 @@ export interface ExchangeRates {
   copToVesRate: number; // e.g. 3.55 (COP / rate = VES)
   vesToCopRate: number; // e.g. 2.75 (VES * rate = COP)
   lastUpdated: string;
-  whatsappNumber: string; // e.g. 573000000000 or similar
+  whatsappNumber: string; // e.g. 573135459314
+  whatsappUsername: string; // '@divisasorion'
   businessName: string;
   slogan: string;
 }

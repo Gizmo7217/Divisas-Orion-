@@ -189,7 +189,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates }) => 
                 className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group-hover:shadow-green-500/20"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Pedir Pantalla por WhatsApp</span>
+                <span>Pedir Pantalla por WhatsApp ({rates.whatsappUsername || '@divisasorion'})</span>
               </button>
             </div>
           );

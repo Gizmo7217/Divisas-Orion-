@@ -24,6 +24,9 @@ export default function App() {
         if (!parsed.whatsappNumber || parsed.whatsappNumber === '573100000000') {
           parsed.whatsappNumber = INITIAL_RATES.whatsappNumber;
         }
+        if (!parsed.whatsappUsername) {
+          parsed.whatsappUsername = INITIAL_RATES.whatsappUsername;
+        }
         return { ...INITIAL_RATES, ...parsed };
       }
     } catch (e) {
@@ -106,7 +109,10 @@ export default function App() {
         />
 
         {/* Authorized Payment Methods (Nequi, Llave, Pago Móvil, Banesco) */}
-        <PaymentMethods whatsappNumber={rates.whatsappNumber} />
+        <PaymentMethods
+          whatsappNumber={rates.whatsappNumber}
+          whatsappUsername={rates.whatsappUsername}
+        />
 
         {/* Streaming Services (Netflix, Spotify, Crunchyroll, Disney+, HBO, Paramount+, YouTube) */}
         <StreamingSection rates={rates} />

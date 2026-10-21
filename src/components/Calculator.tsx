@@ -72,6 +72,7 @@ Tasa del día: ${safeCopRate.toString().replace('.', ',')} (División)
 Recibe en Venezuela: ${vesExactFormatted} (Redondeado: ${vesIntegerFormatted})
 Fórmula: ${formatNumberWithDots(numCop, 0)} ÷ ${safeCopRate.toString().replace('.', ',')} = ${vesExactFormatted}
 Método de pago: ${copPayment}
+Contacto oficial: ${rates.whatsappUsername || '@divisasorion'}
 Slogan: "Cambia rápido y seguro con nosotros"`;
 
     navigator.clipboard.writeText(summary);
@@ -99,6 +100,7 @@ Tasa del día: ${safeVesRate.toString().replace('.', ',')} (Multiplicación)
 Recibe en Colombia: ${copFormatted}
 Fórmula: ${formatNumberWithDots(numVes, 0)} Bs × ${safeVesRate.toString().replace('.', ',')} = ${copFormatted}
 Método de pago: ${vesPayment}
+Contacto oficial: ${rates.whatsappUsername || '@divisasorion'}
 Slogan: "Cambia rápido y seguro con nosotros"`;
 
     navigator.clipboard.writeText(summary);
@@ -346,7 +348,7 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
                 className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Pedir este Giro por WhatsApp</span>
+                <span>Pedir este Giro por WhatsApp ({rates.whatsappUsername || '@divisasorion'})</span>
               </button>
 
               <button
@@ -539,7 +541,7 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
                 className="w-full bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Pedir este Giro por WhatsApp</span>
+                <span>Pedir este Giro por WhatsApp ({rates.whatsappUsername || '@divisasorion'})</span>
               </button>
 
               <button

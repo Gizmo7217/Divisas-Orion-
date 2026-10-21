@@ -95,7 +95,7 @@ export function createWhatsAppMessage(options: {
     ? formatVESInteger(options.toAmount)
     : formatCOP(Math.round(options.toAmount));
 
-  const text = `🔴 *CONSULTA DE GIRO - DIVISAS ORION* 🔴
+  const text = `🔴 *CONSULTA DE GIRO - DIVISAS ORION (@divisasorion)* 🔴
 ✨ _"Cambia rápido y seguro con nosotros"_ ✨
 
 👋 Hola, deseo realizar una operación de cambio:
@@ -123,7 +123,7 @@ export function createStreamingWhatsAppMessage(options: {
       ? formatCOP(options.priceCOP)
       : formatVES(options.priceVES, true);
 
-  const text = `🎬 *SOLICITUD STREAMING - DIVISAS ORION* 🍿
+  const text = `🎬 *SOLICITUD STREAMING - DIVISAS ORION (@divisasorion)* 🍿
 
 👋 Hola, deseo contratar el siguiente servicio de streaming:
 

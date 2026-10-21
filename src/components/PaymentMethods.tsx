@@ -4,10 +4,12 @@ import { Smartphone, Key, Zap, Building2, MessageCircle, ShieldCheck, ArrowRight
 
 interface PaymentMethodsProps {
   whatsappNumber?: string;
+  whatsappUsername?: string;
 }
 
 export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   whatsappNumber = '573135459314',
+  whatsappUsername = '@divisasorion',
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<'Colombia' | 'Venezuela'>('Colombia');
 
@@ -90,7 +92,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
               Consultar datos para transferir por WhatsApp
             </h3>
             <p className="text-xs sm:text-sm text-neutral-300 mt-1 max-w-xl leading-relaxed">
-              Por seguridad y para garantizar la disponibilidad inmediata de fondos, los datos bancarios oficiales activos se entregan directamente a través de nuestro WhatsApp oficial: <span className="font-bold text-white bg-black/40 px-2 py-0.5 rounded">+57 3135459314</span>.
+              Por seguridad y para garantizar la disponibilidad inmediata de fondos, los datos bancarios oficiales activos se entregan directamente a través de nuestro WhatsApp oficial: <span className="font-bold text-amber-300 bg-black/60 px-2.5 py-0.5 rounded font-mono">{whatsappUsername}</span>.
             </p>
           </div>
         </div>
@@ -100,7 +102,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
           className="whitespace-nowrap bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-black text-sm px-6 py-3.5 rounded-2xl shadow-xl shadow-emerald-950/60 hover:shadow-emerald-500/40 transition-all flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
         >
           <MessageCircle className="w-5 h-5 fill-white" />
-          <span>Consultar Datos por WhatsApp</span>
+          <span>Consultar Datos con {whatsappUsername}</span>
         </button>
       </div>
 
@@ -142,7 +144,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                 </div>
 
                 <div className="text-sm font-bold text-neutral-200">
-                  Línea Oficial: <span className="text-emerald-400 font-mono text-base font-black">+57 3135459314</span>
+                  Canal Oficial: <span className="text-emerald-400 font-mono text-base font-black">{whatsappUsername}</span>
                 </div>
 
                 <p className="text-xs text-neutral-400 leading-relaxed">
@@ -155,7 +157,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                   className="w-full mt-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>Pedir datos de {method.name} por WhatsApp</span>
+                  <span>Pedir datos de {method.name} ({whatsappUsername})</span>
                 </button>
               </div>
             </div>
@@ -179,7 +181,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
             <span className="font-bold text-neutral-900 block">
               Atención directa y garantizada:
             </span>
-            Escríbenos al <span className="font-bold text-red-900">+57 3135459314</span> indicando el monto y método preferido para enviarte los datos de pago al instante.
+            Escríbenos a nuestro usuario oficial <span className="font-bold text-red-900 font-mono">{whatsappUsername}</span> indicando el monto y método preferido para enviarte los datos de pago al instante.
           </div>
         </div>
         <button
@@ -187,7 +189,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
           className="whitespace-nowrap px-4 py-2.5 bg-[#7B0606] hover:bg-red-800 text-white font-bold text-xs rounded-xl transition-all shadow flex items-center gap-1.5"
         >
           <MessageCircle className="w-4 h-4" />
-          <span>Escribir al WhatsApp</span>
+          <span>Escribir a {whatsappUsername}</span>
         </button>
       </div>
     </section>

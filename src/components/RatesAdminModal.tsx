@@ -19,6 +19,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
   const [copToVes, setCopToVes] = useState<string>(rates.copToVesRate.toString());
   const [vesToCop, setVesToCop] = useState<string>(rates.vesToCopRate.toString());
   const [whatsapp, setWhatsapp] = useState<string>(rates.whatsappNumber);
+  const [whatsappUsername, setWhatsappUsername] = useState<string>(rates.whatsappUsername || '@divisasorion');
   const [slogan, setSlogan] = useState<string>(rates.slogan);
   const [showSavedNotification, setShowSavedNotification] = useState<boolean>(false);
 
@@ -34,6 +35,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
       copToVesRate: parsedCopToVes,
       vesToCopRate: parsedVesToCop,
       whatsappNumber: whatsapp.trim() || rates.whatsappNumber,
+      whatsappUsername: whatsappUsername.trim() || '@divisasorion',
       slogan: slogan.trim() || rates.slogan,
       lastUpdated: new Date().toLocaleDateString('es-VE', {
         day: 'numeric',
@@ -54,6 +56,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
     setCopToVes(INITIAL_RATES.copToVesRate.toString());
     setVesToCop(INITIAL_RATES.vesToCopRate.toString());
     setWhatsapp(INITIAL_RATES.whatsappNumber);
+    setWhatsappUsername(INITIAL_RATES.whatsappUsername || '@divisasorion');
     setSlogan(INITIAL_RATES.slogan);
   };
 
@@ -130,10 +133,27 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
             </span>
           </div>
 
-          {/* WhatsApp */}
+          {/* Public Username */}
+          <div>
+            <label className="block text-xs font-bold text-amber-300 uppercase tracking-wider mb-1">
+              Nombre de Usuario Público (Visible):
+            </label>
+            <input
+              type="text"
+              value={whatsappUsername}
+              onChange={(e) => setWhatsappUsername(e.target.value)}
+              placeholder="@divisasorion"
+              className="w-full bg-neutral-950 border-2 border-neutral-700 focus:border-amber-400 rounded-xl py-2.5 px-3 text-sm font-bold text-amber-300 outline-none font-mono"
+            />
+            <span className="text-[11px] text-neutral-400">
+              Este nombre de usuario es el que verán los clientes en la web (el número de teléfono queda oculto por seguridad).
+            </span>
+          </div>
+
+          {/* WhatsApp Private Number */}
           <div>
             <label className="block text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1">
-              Teléfono WhatsApp para pedidos:
+              Número WhatsApp Privado (Solo para enlaces internos):
             </label>
             <input
               type="text"
@@ -143,7 +163,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
               className="w-full bg-neutral-950 border-2 border-neutral-700 focus:border-red-500 rounded-xl py-2.5 px-3 text-sm font-semibold text-white outline-none"
             />
             <span className="text-[11px] text-neutral-400">
-              Incluye código de país (57 para Colombia, 58 para Venezuela)
+              Número al que se redirigen los mensajes (no se muestra en texto en la web).
             </span>
           </div>
 

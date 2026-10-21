@@ -38,7 +38,7 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ rates }) => 
             </span>
           </div>
           <div className="text-emerald-700 font-mono font-bold text-[11px] mt-0.5">
-            +57 3135459314
+            {rates.whatsappUsername || '@divisasorion'}
           </div>
           <div className="text-neutral-600 mt-1 leading-tight">
             Consulta datos para transferir y cotiza en segundos.

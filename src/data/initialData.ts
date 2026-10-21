@@ -8,7 +8,8 @@ export const INITIAL_RATES: ExchangeRates = {
     month: 'long',
     year: 'numeric',
   }),
-  whatsappNumber: '573135459314', // Default WhatsApp +57 3135459314
+  whatsappNumber: '573135459314', // Default backend number (kept hidden from UI)
+  whatsappUsername: '@divisasorion', // Public username for communication
   businessName: 'Divisas Orion',
   slogan: 'Cambia rápido y seguro con nosotros',
 };
@@ -238,7 +239,7 @@ export const FAQS = [
   },
   {
     q: '¿Cuáles son los métodos de pago aceptados y cómo obtengo los datos para transferir?',
-    a: 'En Colombia aceptamos Nequi y Llave (para transferencias desde cualquier banco), y en Venezuela aceptamos Pago Móvil y Banesco. Por motivos de seguridad y disponibilidad de cuentas, los datos oficiales para transferir se solicitan directamente por WhatsApp al +57 3135459314 al momento de realizar tu operación.',
+    a: 'En Colombia aceptamos Nequi y Llave (para transferencias desde cualquier banco), y en Venezuela aceptamos Pago Móvil y Banesco. Por motivos de seguridad y disponibilidad de cuentas, los datos oficiales para transferir se solicitan directamente por WhatsApp a nuestro usuario oficial @divisasorion al momento de realizar tu operación.',
   },
   {
     q: '¿Cómo funcionan las pantallas streaming y qué garantía tienen?',
