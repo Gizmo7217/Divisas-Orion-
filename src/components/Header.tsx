@@ -137,8 +137,8 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-lg shadow-emerald-950/40 hover:shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
           >
             <MessageCircle className="w-4 h-4 fill-white" />
-            <span className="hidden sm:inline">WhatsApp Directo</span>
-            <span className="sm:hidden">WhatsApp</span>
+            <span className="hidden sm:inline">WhatsApp +57 3135459314</span>
+            <span className="sm:hidden">+57 3135459314</span>
           </button>
         </div>
       </div>

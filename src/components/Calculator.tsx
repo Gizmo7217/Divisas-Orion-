@@ -571,7 +571,7 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
           className="text-xs sm:text-sm text-red-800 hover:text-red-950 font-bold underline inline-flex items-center gap-1"
         >
           <Info className="w-4 h-4" />
-          Ver cuentas bancarias oficiales de Nequi, Llave, Pago Móvil y Banesco para realizar tu transferencia
+          Consultar datos para transferir por WhatsApp (Nequi, Llave, Pago Móvil o Banesco)
         </button>
       </div>
     </section>

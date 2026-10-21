@@ -31,12 +31,17 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ rates }) => 
           >
             <X className="w-3.5 h-3.5" />
           </button>
-          <div className="font-extrabold text-[#7B0606] flex items-center gap-1">
-            <span>Divisas Orion En Línea</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
+          <div className="font-extrabold text-[#7B0606] flex items-center justify-between gap-1">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-ping"></span>
+              <span>Divisas Orion En Línea</span>
+            </span>
           </div>
-          <div className="text-neutral-600 mt-0.5">
-            ¿Deseas enviar dinero o consultar tasa? ¡Escríbenos ahora mismo!
+          <div className="text-emerald-700 font-mono font-bold text-[11px] mt-0.5">
+            +57 3135459314
+          </div>
+          <div className="text-neutral-600 mt-1 leading-tight">
+            Consulta datos para transferir y cotiza en segundos.
           </div>
         </div>
       )}

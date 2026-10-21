@@ -82,18 +82,22 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
                 <Clock className="w-4 h-4 text-amber-400 flex-shrink-0" />
                 <span>Lunes a Domingo: 8:00 AM - 10:00 PM</span>
               </div>
+              <div className="flex items-center gap-2 text-white font-mono font-bold text-xs">
+                <MessageCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <span>WhatsApp: +57 3135459314</span>
+              </div>
               <div className="pt-2">
                 <button
                   onClick={() => {
                     const url = `https://wa.me/${rates.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                      'Hola Divisas Orion, deseo hacer una consulta.'
+                      'Hola Divisas Orion, deseo consultar datos para transferir y hacer una operación.'
                     )}`;
                     window.open(url, '_blank');
                   }}
                   className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-2.5 px-4 rounded-xl transition-all shadow flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>Chatear por WhatsApp</span>
+                  <span>Chatear al +57 3135459314</span>
                 </button>
               </div>
 

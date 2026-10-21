@@ -139,7 +139,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
               type="text"
               value={whatsapp}
               onChange={(e) => setWhatsapp(e.target.value)}
-              placeholder="Ej. 573101234567 o 584141234567"
+              placeholder="Ej. 573135459314"
               className="w-full bg-neutral-950 border-2 border-neutral-700 focus:border-red-500 rounded-xl py-2.5 px-3 text-sm font-semibold text-white outline-none"
             />
             <span className="text-[11px] text-neutral-400">

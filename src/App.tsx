@@ -20,7 +20,11 @@ export default function App() {
     try {
       const saved = localStorage.getItem('divisas_orion_rates');
       if (saved) {
-        return { ...INITIAL_RATES, ...JSON.parse(saved) };
+        const parsed = JSON.parse(saved);
+        if (!parsed.whatsappNumber || parsed.whatsappNumber === '573100000000') {
+          parsed.whatsappNumber = INITIAL_RATES.whatsappNumber;
+        }
+        return { ...INITIAL_RATES, ...parsed };
       }
     } catch (e) {
       console.error('Error reading saved rates:', e);
@@ -102,7 +106,7 @@ export default function App() {
         />
 
         {/* Authorized Payment Methods (Nequi, Llave, Pago Móvil, Banesco) */}
-        <PaymentMethods />
+        <PaymentMethods whatsappNumber={rates.whatsappNumber} />
 
         {/* Streaming Services (Netflix, Spotify, Crunchyroll, Disney+, HBO, Paramount+, YouTube) */}
         <StreamingSection rates={rates} />

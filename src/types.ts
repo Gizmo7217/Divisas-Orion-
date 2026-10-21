@@ -16,12 +16,10 @@ export interface PaymentMethodDetail {
   badge: string;
   iconName: string;
   headline: string;
-  accountNumber: string;
-  accountHolder: string;
-  documentId: string;
   bankName: string;
   notes: string;
   color: string;
+  whatsappPrompt: string;
 }
 
 export interface StreamingProduct {
