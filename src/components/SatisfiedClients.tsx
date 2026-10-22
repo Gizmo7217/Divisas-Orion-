@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SATISFIED_CLIENTS } from '../data/initialData';
 import { ClientReview, ExchangeRates } from '../types';
-import { Star, ShieldCheck, CheckCircle2, MessageCircle, Heart, Users, Sparkles, MapPin, ArrowRight } from 'lucide-react';
+import { Star, ShieldCheck, CheckCircle2, MessageCircle, Heart, Users, Sparkles, MapPin, ArrowRight, Copy, Check, Link as LinkIcon } from 'lucide-react';
 import { launchProtectedWhatsApp } from '../utils/formatters';
 
 import { ExperienceFormModal } from './ExperienceFormModal';
@@ -44,8 +44,47 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
       ? reviews
       : reviews.filter((client) => client.country === selectedFilter);
 
+  // Auto-open modal if URL has #calificar or #experiencia
+  useEffect(() => {
+    const handleCheckHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#calificar' || hash === '#experiencia' || hash === '#formulario') {
+        setIsExperienceModalOpen(true);
+      }
+    };
+    handleCheckHash();
+    window.addEventListener('hashchange', handleCheckHash);
+    return () => window.removeEventListener('hashchange', handleCheckHash);
+  }, []);
+
   const handleOpenExperienceModal = () => {
     setIsExperienceModalOpen(true);
+    try {
+      window.history.replaceState(null, '', '#calificar');
+    } catch (_) {}
+  };
+
+  const [copiedBannerLink, setCopiedBannerLink] = useState<boolean>(false);
+
+  const handleCopyShareLink = () => {
+    try {
+      const url = `${window.location.origin}${window.location.pathname}#calificar`;
+      navigator.clipboard.writeText(url);
+      setCopiedBannerLink(true);
+      setTimeout(() => setCopiedBannerLink(false), 2500);
+    } catch (_) {
+      setCopiedBannerLink(true);
+      setTimeout(() => setCopiedBannerLink(false), 2500);
+    }
+  };
+
+  const handleCloseExperienceModal = () => {
+    setIsExperienceModalOpen(false);
+    try {
+      if (window.location.hash === '#calificar' || window.location.hash === '#experiencia') {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    } catch (_) {}
   };
 
   return (
@@ -257,20 +296,41 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleOpenExperienceModal}
-          className="whitespace-nowrap bg-amber-400 hover:bg-amber-300 text-neutral-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition-all flex items-center gap-2 transform hover:scale-105"
-        >
-          <MessageCircle className="w-4 h-4 fill-neutral-950" />
-          <span>Compartir Mi Experiencia</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2.5">
+          <button
+            type="button"
+            onClick={handleOpenExperienceModal}
+            className="whitespace-nowrap bg-amber-400 hover:bg-amber-300 text-neutral-950 font-black text-xs sm:text-sm px-5 py-3 rounded-xl shadow-lg transition-all flex items-center gap-2 transform hover:scale-105"
+          >
+            <MessageCircle className="w-4 h-4 fill-neutral-950" />
+            <span>Compartir Mi Experiencia</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleCopyShareLink}
+            className="whitespace-nowrap bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm px-4 py-3 rounded-xl border border-white/20 transition-all flex items-center gap-1.5"
+            title="Copiar enlace para enviar el formulario a clientes"
+          >
+            {copiedBannerLink ? (
+              <>
+                <Check className="w-4 h-4 text-emerald-400" />
+                <span>¡Enlace copiado!</span>
+              </>
+            ) : (
+              <>
+                <LinkIcon className="w-4 h-4 text-amber-300" />
+                <span>Copiar Enlace del Formulario</span>
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Experience Form Modal */}
       <ExperienceFormModal
         isOpen={isExperienceModalOpen}
-        onClose={() => setIsExperienceModalOpen(false)}
+        onClose={handleCloseExperienceModal}
         onSubmitReview={handleAddReview}
         rates={rates}
       />
