@@ -4,6 +4,8 @@ import { ClientReview, ExchangeRates } from '../types';
 import { Star, ShieldCheck, CheckCircle2, MessageCircle, Heart, Users, Sparkles, MapPin, ArrowRight } from 'lucide-react';
 import { launchProtectedWhatsApp } from '../utils/formatters';
 
+import { ExperienceFormModal } from './ExperienceFormModal';
+
 interface SatisfiedClientsProps {
   rates: ExchangeRates;
   onOpenWhatsApp?: (msg: string, title?: string) => void;
@@ -11,23 +13,39 @@ interface SatisfiedClientsProps {
 
 export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpenWhatsApp }) => {
   const [selectedFilter, setSelectedFilter] = useState<'ALL' | 'Colombia' | 'Venezuela'>('ALL');
+  const [isExperienceModalOpen, setIsExperienceModalOpen] = useState<boolean>(false);
+
+  // Load reviews from localStorage or fallback to defaults
+  const [reviews, setReviews] = useState<ClientReview[]>(() => {
+    try {
+      const saved = localStorage.getItem('divisas_orion_client_reviews');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return SATISFIED_CLIENTS;
+  });
+
+  const handleAddReview = (newReview: ClientReview) => {
+    setReviews((prev) => {
+      const updated = [newReview, ...prev];
+      try {
+        localStorage.setItem('divisas_orion_client_reviews', JSON.stringify(updated));
+      } catch (e) {}
+      return updated;
+    });
+  };
 
   const filteredReviews =
     selectedFilter === 'ALL'
-      ? SATISFIED_CLIENTS
-      : SATISFIED_CLIENTS.filter((client) => client.country === selectedFilter);
+      ? reviews
+      : reviews.filter((client) => client.country === selectedFilter);
 
-  const handleShareExperience = () => {
-    const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo compartir mi testimonio y calificar mi experiencia con el servicio.`;
-    if (onOpenWhatsApp) {
-      onOpenWhatsApp(msg, 'Calificar Servicio Divisas Orion');
-    } else {
-      launchProtectedWhatsApp({
-        phone: rates.whatsappNumber,
-        text: msg,
-        customLink: rates.whatsappLink || 'https://wa.link/lreunw',
-      });
-    }
+  const handleOpenExperienceModal = () => {
+    setIsExperienceModalOpen(true);
   };
 
   return (
@@ -100,7 +118,7 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
                 : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-700'
             }`}
           >
-            Todos los testimonios ({SATISFIED_CLIENTS.length})
+            Todos los testimonios ({reviews.length})
           </button>
 
           <button
@@ -113,7 +131,7 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
             }`}
           >
             <span>🇨🇴</span>
-            <span>Desde Colombia ({SATISFIED_CLIENTS.filter((c) => c.country === 'Colombia').length})</span>
+            <span>Desde Colombia ({reviews.filter((c) => c.country === 'Colombia').length})</span>
           </button>
 
           <button
@@ -126,7 +144,7 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
             }`}
           >
             <span>🇻🇪</span>
-            <span>Desde Venezuela ({SATISFIED_CLIENTS.filter((c) => c.country === 'Venezuela').length})</span>
+            <span>Desde Venezuela ({reviews.filter((c) => c.country === 'Venezuela').length})</span>
           </button>
         </div>
       </div>
@@ -241,13 +259,21 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
 
         <button
           type="button"
-          onClick={handleShareExperience}
+          onClick={handleOpenExperienceModal}
           className="whitespace-nowrap bg-amber-400 hover:bg-amber-300 text-neutral-950 font-black text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition-all flex items-center gap-2 transform hover:scale-105"
         >
           <MessageCircle className="w-4 h-4 fill-neutral-950" />
           <span>Compartir Mi Experiencia</span>
         </button>
       </div>
+
+      {/* Experience Form Modal */}
+      <ExperienceFormModal
+        isOpen={isExperienceModalOpen}
+        onClose={() => setIsExperienceModalOpen(false)}
+        onSubmitReview={handleAddReview}
+        rates={rates}
+      />
     </section>
   );
 };
