@@ -78,8 +78,8 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
         </div>
       </div>
 
-      {/* Grid of the 8 streaming services */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Grid of the 9 streaming services */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.map((product) => {
           // Calculate integer Bolivares applying the current rate
           const vesIntegerPrice = Math.round(product.priceCOP / rates.copToVesRate);
@@ -181,6 +181,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
 
               {/* Order button */}
               <button
+                type="button"
                 onClick={() => handleOrder(product)}
                 className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-xs py-3 px-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group-hover:shadow-green-500/20"
               >
@@ -209,6 +210,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
         </div>
 
         <button
+          type="button"
           onClick={() => {
             const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), quiero consultar por combos o cuentas completas de streaming.`;
             if (onOpenWhatsApp) {

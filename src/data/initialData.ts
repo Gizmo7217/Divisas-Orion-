@@ -2,7 +2,7 @@ import { ExchangeRates, PaymentMethodDetail, StreamingProduct } from '../types';
 import { getColombiaDate } from '../utils/formatters';
 
 export const INITIAL_RATES: ExchangeRates = {
-  copToVesRate: 3.55,
+  copToVesRate: 3.60,
   vesToCopRate: 2.75,
   lastUpdated: getColombiaDate(),
   whatsappNumber: '573135459314', // Default backend number (kept hidden from UI)
@@ -71,7 +71,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil Netflix',
     tagline: 'Pantalla Ultra HD 4K con PIN privado exclusivo',
     priceCOP: 14500,
-    priceVES: 4085, // 14500 / 3.55 = 4085 Bs
+    priceVES: 4028, // 14500 / 3.60 = 4028 Bs
     category: 'Películas & Series',
     profiles: '1 Perfil privado con PIN',
     quality: 'Ultra HD 4K + HDR',
@@ -91,7 +91,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil Disney+ (No Trae Deportes)',
     tagline: 'Disney, Pixar, Marvel y Star Wars sin ESPN',
     priceCOP: 5500,
-    priceVES: 1549, // 5500 / 3.55 = 1549 Bs
+    priceVES: 1528, // 5500 / 3.60 = 1528 Bs
     category: 'Películas & Series',
     profiles: '1 Perfil privado (Sin deportes)',
     quality: '4K Ultra HD',
@@ -110,7 +110,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil Disney+ ESPN (Sí Trae Deportes)',
     tagline: 'Disney, Marvel, Star Wars y todos los deportes en vivo de ESPN',
     priceCOP: 8200,
-    priceVES: 2310, // 8200 / 3.55 = 2310 Bs
+    priceVES: 2278, // 8200 / 3.60 = 2278 Bs
     category: 'Películas & Series',
     profiles: '1 Perfil privado con ESPN',
     quality: '4K Ultra HD + Deportes en Vivo',
@@ -130,7 +130,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil HBO Max',
     tagline: 'Series icónicas HBO Original, Warner Bros y DC',
     priceCOP: 5500,
-    priceVES: 1549, // 5500 / 3.55 = 1549 Bs
+    priceVES: 1528, // 5500 / 3.60 = 1528 Bs
     category: 'Películas & Series',
     profiles: '1 Perfil privado',
     quality: '4K UHD y audio Dolby',
@@ -149,7 +149,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil Prime Video',
     tagline: 'Series originales Amazon, películas de estreno y fútbol',
     priceCOP: 7400,
-    priceVES: 2085, // 7400 / 3.55 = 2085 Bs
+    priceVES: 2056, // 7400 / 3.60 = 2056 Bs
     category: 'Películas & Series',
     profiles: '1 Perfil privado',
     quality: 'Full HD / 4K HDR',
@@ -167,7 +167,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil Canva Pro',
     tagline: 'Diseño gráfico profesional, millones de plantillas e IA',
     priceCOP: 9200,
-    priceVES: 2592, // 9200 / 3.55 = 2592 Bs
+    priceVES: 2556, // 9200 / 3.60 = 2556 Bs
     category: 'Diseño & Productividad',
     profiles: 'Acceso Pro / Equipo',
     quality: 'Todas las herramientas Pro habilitadas',
@@ -187,7 +187,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil Crunchyroll',
     tagline: 'Mega Fan con estrenos simultáneos con Japón sin publicidad',
     priceCOP: 7400,
-    priceVES: 2085, // 7400 / 3.55 = 2085 Bs
+    priceVES: 2056, // 7400 / 3.60 = 2056 Bs
     category: 'Anime',
     profiles: '1 Perfil Mega Fan',
     quality: 'Full HD 1080p sin anuncios',
@@ -206,7 +206,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perfil Spotify',
     tagline: 'Música sin anuncios, playlists offline y máxima calidad',
     priceCOP: 11000,
-    priceVES: 3099, // 11000 / 3.55 = 3099 Bs
+    priceVES: 3056, // 11000 / 3.60 = 3056 Bs
     category: 'Música',
     profiles: 'Cuenta Premium Individual',
     quality: 'Audio muy alto (320 kbps)',
@@ -226,7 +226,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'YouTube Premium (Solo para Colombia)',
     tagline: 'Activación directa con tu propio correo personal de Gmail',
     priceCOP: 10000,
-    priceVES: 2817, // 10000 / 3.55 = 2817 Bs
+    priceVES: 2778, // 10000 / 3.60 = 2778 Bs
     category: 'Video & Entretenimiento',
     profiles: 'Con tu propio correo (Gmail)',
     quality: '1080p Premium / 4K + YouTube Music',
@@ -266,7 +266,7 @@ export const PRESET_VES_AMOUNTS = [
 export const FAQS = [
   {
     q: '¿Cómo funciona la tasa de Pesos a Bolívares (COP a VES)?',
-    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,55). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
+    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,60). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
   },
   {
     q: '¿Cómo funciona la tasa de Bolívares a Pesos (VES a COP)?',
@@ -291,7 +291,7 @@ export const TESTIMONIALS = [
     name: 'Carlos Mendoza',
     city: 'Bogotá ➔ Caracas',
     rating: 5,
-    comment: 'Siempre envío por Divisas Orion. La tasa de 3,55 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
+    comment: 'Siempre envío por Divisas Orion. La tasa de 3,60 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
     time: 'Hace 2 horas',
   },
   {

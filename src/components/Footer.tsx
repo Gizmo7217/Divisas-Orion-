@@ -20,69 +20,48 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
     <footer className="bg-gradient-to-b from-[#350202] via-[#200101] to-[#120000] border-t border-red-900/40 text-neutral-300 pt-12 pb-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-neutral-800">
-          {/* Brand & Slogan */}
-          <div className="md:col-span-2 space-y-3">
-            <OrionLogo size="lg" variant="light" />
-            <p className="text-sm text-red-200 italic font-medium max-w-sm">
+          {/* Col 1: Brand & Slogan */}
+          <div className="md:col-span-2 space-y-4">
+            <OrionLogo size="lg" />
+            <p className="text-sm text-neutral-400 max-w-md italic">
               "{rates.slogan}"
             </p>
-            <p className="text-xs text-neutral-400 max-w-md leading-relaxed">
-              Tu servicio confiable de giros y remesas directas entre Colombia y Venezuela.
-              Tasas del día actualizadas, operaciones protegidas y atención personalizada
-              por WhatsApp. Distribuidor autorizado de pantallas streaming para toda la familia.
+            <p className="text-xs text-neutral-400 leading-relaxed max-w-md">
+              Plataforma líder y confiable de giros y remesas entre Colombia y Venezuela con tasas garantizadas del día, pagos inmediatos por Nequi, Llave, Pago Móvil y Banesco, además de pantallas streaming originales con soporte garantizado.
             </p>
-            <div className="pt-2 flex items-center gap-2 text-xs text-emerald-400 font-semibold">
-              <ShieldCheck className="w-4 h-4" />
-              <span>Transacciones verificadas y seguras</span>
+            <div className="flex items-center gap-3 pt-2">
+              <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold bg-emerald-950/80 border border-emerald-800/80 px-3 py-1 rounded-full">
+                <ShieldCheck className="w-3.5 h-3.5" /> Operaciones 100% Seguras
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-xs text-amber-300 font-semibold bg-amber-950/80 border border-amber-800/80 px-3 py-1 rounded-full">
+                <Clock className="w-3.5 h-3.5" /> Entrega 5-15 min
+              </span>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Col 2: Servicios */}
           <div>
-            <h4 className="text-xs uppercase font-extrabold tracking-wider text-red-400 mb-3">
-              Servicios & Navegación
+            <h4 className="text-xs font-black uppercase tracking-wider text-red-200 mb-4">
+              Servicios Oficiales
             </h4>
-            <ul className="space-y-2 text-xs">
-              <li>
-                <a href="#calculadora" className="hover:text-white transition-colors">
-                  Calculadora Pesos a Bolívares
-                </a>
-              </li>
-              <li>
-                <a href="#cuadros" className="hover:text-white transition-colors">
-                  Cuadros de Conversión
-                </a>
-              </li>
-              <li>
-                <a href="#pagos" className="hover:text-white transition-colors">
-                  Medios de Pago (Nequi, Llave, Pago Móvil, Banesco)
-                </a>
-              </li>
-              <li>
-                <a href="#streaming" className="hover:text-white transition-colors">
-                  Pantallas Streaming (Netflix, Disney, Spotify, etc.)
-                </a>
-              </li>
-              <li>
-                <button
-                  onClick={onOpenFlyerModal}
-                  className="text-amber-300 hover:text-amber-200 transition-colors text-left"
-                >
-                  Ver Flyer Oficial del Día
-                </button>
-              </li>
+            <ul className="space-y-2 text-xs text-neutral-400">
+              <li>• Giros Colombia a Venezuela (COP ➔ VES)</li>
+              <li>• Giros Venezuela a Colombia (VES ➔ COP)</li>
+              <li>• Cuentas Nequi & Llave Colombia</li>
+              <li>• Pago Móvil & Banesco Venezuela</li>
+              <li>• Pantallas Netflix, Spotify, Disney+, Max</li>
+              <li>• Asesoría y cotizaciones directas por WhatsApp</li>
             </ul>
           </div>
 
-          {/* Business Hours & Contact */}
+          {/* Col 3: Contacto & Admin */}
           <div>
-            <h4 className="text-xs uppercase font-extrabold tracking-wider text-red-400 mb-3">
-              Atención & Contacto
+            <h4 className="text-xs font-black uppercase tracking-wider text-red-200 mb-4">
+              Atención al Cliente
             </h4>
-            <div className="space-y-2 text-xs text-neutral-400">
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-amber-400 flex-shrink-0" />
-                <span>Lunes a Domingo: 8:00 AM - 10:00 PM</span>
+            <div className="space-y-3">
+              <div className="text-xs text-neutral-400">
+                <span>Canal Oficial de WhatsApp:</span>
               </div>
               <div className="flex items-center gap-2 text-white font-mono font-bold text-xs">
                 <MessageCircle className="w-4 h-4 text-emerald-400 flex-shrink-0" />
@@ -90,6 +69,7 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
               </div>
               <div className="pt-2">
                 <button
+                  type="button"
                   onClick={() => {
                     const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo consultar datos para transferir y realizar una operación.`;
                     if (onOpenWhatsApp) {
@@ -111,30 +91,37 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
 
               <div className="pt-3">
                 <button
+                  type="button"
                   onClick={onOpenSettings}
-                  className="text-[11px] text-neutral-400 hover:text-white flex items-center gap-1.5 transition-colors"
+                  className="w-full flex items-center justify-center gap-1.5 text-[11px] font-semibold text-neutral-400 hover:text-white py-1.5 px-3 rounded-lg border border-neutral-800 hover:border-neutral-700 bg-neutral-900/60 transition-colors"
                 >
-                  <Settings className="w-3.5 h-3.5" />
-                  <span>Panel de Administrador de Tasas</span>
+                  <Settings className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>Panel Administrador de Tasas</span>
                 </button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-400">
+        {/* Bottom bar */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
           <div>
-            © {new Date().getFullYear()} <span className="text-white font-bold">Divisas Orion</span>. Todos los derechos reservados.
+            <span>© {new Date().getFullYear()} Divisas Orion. Todos los derechos reservados.</span>
           </div>
 
           <div className="flex items-center gap-4">
             <button
-              onClick={scrollToTop}
-              className="flex items-center gap-1.5 text-neutral-300 hover:text-white transition-colors"
+              onClick={onOpenFlyerModal}
+              className="hover:text-neutral-300 transition-colors"
             >
-              <span>Volver arriba</span>
-              <ArrowUp className="w-4 h-4" />
+              Flyer Oficial
+            </button>
+            <button
+              onClick={scrollToTop}
+              className="flex items-center gap-1 hover:text-white transition-colors"
+            >
+              <span>Subir al inicio</span>
+              <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

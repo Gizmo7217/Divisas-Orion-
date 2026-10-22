@@ -6,7 +6,7 @@ export interface ExchangeRates {
   lastUpdated: string;
   whatsappNumber: string; // e.g. 573135459314 (internal protected)
   whatsappUsername: string; // '@divisasorion'
-  whatsappLink?: string; // e.g. 'https://wa.link/...' or custom masked link
+  whatsappLink?: string; // e.g. 'https://wa.link/lreunw'
   businessName: string;
   slogan: string;
 }
@@ -44,5 +44,6 @@ export interface QuickRow {
   fromAmount: number;
   toAmount: number;
   formattedFrom: string;
-  formattedTo: string;
+  formattedToExact: string;
+  formattedToInteger: string;
 }

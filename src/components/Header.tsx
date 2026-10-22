@@ -1,7 +1,7 @@
 import React from 'react';
 import { OrionLogo } from './OrionLogo';
-import { MessageCircle, Sparkles } from 'lucide-react';
 import { ExchangeRates } from '../types';
+import { MessageCircle, Settings, FileText, ArrowRight } from 'lucide-react';
 
 interface HeaderProps {
   rates: ExchangeRates;
@@ -56,62 +56,61 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
-        {/* Brand */}
+      {/* Main navigation header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+        {/* Brand Logo */}
         <div
-          onClick={() => onNavigate('calculadora')}
-          className="cursor-pointer group flex items-center gap-3"
+          onClick={() => onNavigate('inicio')}
+          className="cursor-pointer transition-transform hover:scale-[1.02]"
         >
-          <OrionLogo size="md" variant="light" />
+          <OrionLogo size="md" />
         </div>
 
-        {/* Navigation links */}
-        <nav className="hidden md:flex items-center gap-1 lg:gap-2 text-sm font-medium">
+        {/* Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold text-red-100">
           <button
             onClick={() => onNavigate('calculadora')}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              activeSection === 'calculadora'
-                ? 'bg-white/15 text-white font-bold shadow-sm'
-                : 'text-red-100/90 hover:text-white hover:bg-white/10'
+            className={`transition-colors hover:text-white ${
+              activeSection === 'calculadora' ? 'text-amber-300 font-bold' : ''
             }`}
           >
             Calculadora
           </button>
           <button
             onClick={() => onNavigate('cuadros')}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              activeSection === 'cuadros'
-                ? 'bg-white/15 text-white font-bold shadow-sm'
-                : 'text-red-100/90 hover:text-white hover:bg-white/10'
+            className={`transition-colors hover:text-white ${
+              activeSection === 'cuadros' ? 'text-amber-300 font-bold' : ''
             }`}
           >
-            Cuadros de Tasa
+            Cuadros Rápidos
           </button>
           <button
             onClick={() => onNavigate('pagos')}
-            className={`px-3 py-1.5 rounded-lg transition-all ${
-              activeSection === 'pagos'
-                ? 'bg-white/15 text-white font-bold shadow-sm'
-                : 'text-red-100/90 hover:text-white hover:bg-white/10'
+            className={`transition-colors hover:text-white ${
+              activeSection === 'pagos' ? 'text-amber-300 font-bold' : ''
             }`}
           >
             Medios de Pago
           </button>
           <button
             onClick={() => onNavigate('streaming')}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 ${
-              activeSection === 'streaming'
-                ? 'bg-white/15 text-white font-bold shadow-sm'
-                : 'text-red-100/90 hover:text-white hover:bg-white/10'
+            className={`transition-colors hover:text-white ${
+              activeSection === 'streaming' ? 'text-amber-300 font-bold' : ''
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
-            Pantallas Streaming
+            Streaming
+          </button>
+          <button
+            onClick={() => onNavigate('como-funciona')}
+            className={`transition-colors hover:text-white ${
+              activeSection === 'como-funciona' ? 'text-amber-300 font-bold' : ''
+            }`}
+          >
+            Cómo Funciona
           </button>
           <button
             onClick={onOpenFlyerModal}
-            className="px-3 py-1.5 rounded-lg text-amber-200 hover:text-amber-100 hover:bg-amber-400/20 font-semibold transition-all border border-amber-400/30"
+            className="flex items-center gap-1.5 bg-red-900/40 hover:bg-red-900/80 text-amber-300 border border-red-500/30 px-3 py-1.5 rounded-xl transition-all"
           >
             Flyer Oficial
           </button>

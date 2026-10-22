@@ -51,8 +51,8 @@ export const Calculator: React.FC<CalculatorProps> = ({
   const numCop = parseFloat(copInput.replace(/[^0-9.]/g, '')) || 0;
   const numVes = parseFloat(vesInput.replace(/[^0-9.]/g, '')) || 0;
 
-  // Calculadora 1: COP a VES (Pesos / 3.55 = Bolívares con enteros y 2 decimales)
-  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.55;
+  // Calculadora 1: COP a VES (Pesos / 3.60 = Bolívares con enteros y 2 decimales)
+  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.60;
   const vesCalculated = numCop / safeCopRate;
   const vesExactFormatted = `${formatNumberWithDots(vesCalculated, 2)} Bs`;
   const vesIntegerFormatted = `${formatNumberWithDots(Math.round(vesCalculated), 0)} Bs`;
@@ -198,7 +198,7 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
         }`}
       >
         {/* ==================================================================== */}
-        {/* CALCULADORA 1: PESOS A BOLÍVARES (División entre 3.55)               */}
+        {/* CALCULADORA 1: PESOS A BOLÍVARES (División entre 3.60)               */}
         {/* ==================================================================== */}
         {(viewMode === 'both' || viewMode === 'cop_to_ves') && (
           <div className="bg-gradient-to-br from-neutral-900 via-[#1d0305] to-[#2b0407] rounded-3xl border-2 border-red-500/50 p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white flex flex-col justify-between">

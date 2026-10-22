@@ -1,52 +1,45 @@
 import React from 'react';
 
 interface OrionLogoProps {
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'light' | 'dark' | 'brand';
-  showText?: boolean;
   className?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  showText?: boolean;
 }
 
 export const OrionLogo: React.FC<OrionLogoProps> = ({
-  size = 'md',
-  variant = 'light',
-  showText = true,
   className = '',
+  size = 'md',
+  showText = true,
 }) => {
-  const sizeMap = {
-    sm: { img: 'h-9 w-auto', textTitle: 'text-sm', textSub: 'text-xs' },
-    md: { img: 'h-11 sm:h-12 w-auto', textTitle: 'text-lg', textSub: 'text-base' },
-    lg: { img: 'h-16 sm:h-20 w-auto', textTitle: 'text-2xl', textSub: 'text-xl' },
-    xl: { img: 'h-24 sm:h-28 w-auto', textTitle: 'text-3xl', textSub: 'text-2xl' },
+  const sizeClasses = {
+    sm: 'w-8 h-8 text-xs',
+    md: 'w-10 h-10 text-sm',
+    lg: 'w-12 h-12 text-base',
+    xl: 'w-16 h-16 text-lg',
   };
 
-  const dim = sizeMap[size];
-  const textColor = variant === 'dark' ? 'text-neutral-900' : 'text-white';
-
   return (
-    <div className={`flex items-center gap-3 select-none ${className}`}>
-      {/* Official 3D Embossed Logo Image provided by user */}
-      <div className="relative flex-shrink-0 overflow-hidden rounded-xl shadow-lg border border-red-400/40 bg-[#650406]">
-        <img
-          src="/assets/aistudio/file_000000000a4081f586ec95c675ee9ac0_e50ccf50.png"
-          alt="Divisas Orion Logo"
-          className={`${dim.img} object-contain transition-transform duration-200 hover:scale-105`}
-        />
+    <div className={`flex items-center gap-2.5 ${className}`}>
+      {/* Orion Shield / Star Icon */}
+      <div
+        className={`${sizeClasses[size]} relative flex items-center justify-center rounded-2xl bg-gradient-to-tr from-[#590404] via-[#7B0606] to-[#DC2626] border-2 border-red-500/40 shadow-lg shadow-red-950/40 text-white font-black overflow-hidden flex-shrink-0`}
+      >
+        <span className="relative z-10 tracking-tighter" style={{ fontFamily: "'Outfit', sans-serif" }}>
+          DO
+        </span>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
       </div>
 
       {showText && (
-        <div className="flex flex-col leading-none tracking-tight">
+        <div className="flex flex-col leading-none">
           <span
-            className={`font-black uppercase tracking-wider ${dim.textTitle} ${textColor} drop-shadow-sm`}
+            className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase italic"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
           >
-            DIVISAS
+            DIVISAS <span className="text-amber-300">ORION</span>
           </span>
-          <span
-            className={`font-black uppercase tracking-widest ${dim.textSub} ${variant === 'dark' ? 'text-red-700' : 'text-red-100'} -mt-0.5`}
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-          >
-            ORION
+          <span className="text-[10px] sm:text-[11px] font-semibold text-red-200 tracking-wider uppercase mt-0.5">
+            Giros • Remesas • Streaming
           </span>
         </div>
       )}

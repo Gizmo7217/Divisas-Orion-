@@ -1,75 +1,84 @@
 import React from 'react';
-import { Calculator, Send, CheckCircle, ShieldCheck, Clock, ArrowRight } from 'lucide-react';
+import { Calculator, MessageSquare, CreditCard, CheckCircle, Clock, ShieldCheck, Zap } from 'lucide-react';
 
 export const HowItWorks: React.FC = () => {
   const steps = [
     {
-      num: '01',
-      title: 'Cotiza tu monto',
-      desc: 'Ingresa la cantidad en pesos o bolívares en la calculadora para conocer el resultado exacto con la tasa del día oficial.',
-      icon: <Calculator className="w-6 h-6 text-amber-400" />,
+      number: '01',
+      title: 'Cotiza tu Monto',
+      desc: 'Ingresa en la calculadora la cantidad de Pesos o Bolívares que deseas cambiar para ver la tasa del día y la cantidad exacta que recibirá tu beneficiario.',
+      icon: <Calculator className="w-6 h-6 text-red-600" />,
+      tag: 'Transparente',
     },
     {
-      num: '02',
-      title: 'Realiza tu pago',
-      desc: 'Transfiere a través de Nequi o Llave en Colombia, o Pago Móvil y Banesco en Venezuela según el sentido de tu giro.',
-      icon: <Send className="w-6 h-6 text-red-400" />,
+      number: '02',
+      title: 'Pide los Datos Activos',
+      desc: 'Toca el botón de WhatsApp oficial para solicitar los datos bancarios vigentes (Nequi, Llave, Pago Móvil o Banesco) con cupo garantizado.',
+      icon: <MessageSquare className="w-6 h-6 text-amber-500" />,
+      tag: 'Seguridad',
     },
     {
-      num: '03',
-      title: 'Envía el comprobante',
-      desc: 'Compártenos la captura del comprobante por WhatsApp junto con los datos bancarios del beneficiario.',
-      icon: <Clock className="w-6 h-6 text-sky-400" />,
+      number: '03',
+      title: 'Transfiere y Envía Comprobante',
+      desc: 'Realiza la transferencia desde tu aplicación bancaria y comparte la captura o referencia del pago con nuestro operador @divisasorion.',
+      icon: <CreditCard className="w-6 h-6 text-emerald-600" />,
+      tag: 'Sin intermediarios',
     },
     {
-      num: '04',
-      title: 'Recepción inmediata',
-      desc: 'Acreditamos los fondos en la cuenta de destino en 5 a 15 minutos con comprobante oficial garantizado.',
-      icon: <CheckCircle className="w-6 h-6 text-emerald-400" />,
+      number: '04',
+      title: 'Acreditación Inmediata',
+      desc: 'En un lapso de 5 a 15 minutos se liquida tu giro en la cuenta destino y recibes el comprobante oficial con sello de garantía.',
+      icon: <CheckCircle className="w-6 h-6 text-blue-600" />,
+      tag: 'Garantizado',
     },
   ];
 
   return (
-    <section className="py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-neutral-200">
-      <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-900 text-xs font-bold uppercase tracking-wider mb-2">
-          <ShieldCheck className="w-3.5 h-3.5 text-red-700" />
-          <span>Proceso Seguro & Rápido</span>
+    <section id="como-funciona" className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-200">
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-100 text-red-900 text-xs font-bold uppercase tracking-wider mb-2">
+          <Zap className="w-3.5 h-3.5 text-red-700" />
+          <span>Proceso Simple en 4 Pasos</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight">
-          ¿Cómo realizar tu giro con Divisas Orion?
+          ¿Cómo Realizar tu Giro?
         </h2>
-        <p className="mt-2 text-sm sm:text-base text-neutral-600 max-w-lg mx-auto">
-          En tan solo 4 sencillos pasos tu dinero llega a las manos de tu familia.
+        <p className="mt-2 text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto">
+          Rápido, confiable y con atención personalizada directa por WhatsApp.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {steps.map((step, idx) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {steps.map((step) => (
           <div
-            key={idx}
-            className="bg-white rounded-3xl border-2 border-neutral-200 p-6 shadow-sm hover:shadow-xl hover:border-red-600 transition-all duration-200 flex flex-col justify-between"
+            key={step.number}
+            className="bg-white rounded-3xl p-6 border-2 border-neutral-200/90 shadow-lg relative flex flex-col justify-between hover:border-red-500/50 hover:shadow-xl transition-all"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
-                <span className="text-3xl font-black text-red-800 font-mono">
-                  {step.num}
-                </span>
-                <div className="w-12 h-12 rounded-2xl bg-neutral-900 flex items-center justify-center shadow-md">
+                <div className="w-12 h-12 rounded-2xl bg-neutral-100 border border-neutral-200 flex items-center justify-center">
                   {step.icon}
                 </div>
+                <span className="text-2xl font-black text-neutral-300 font-mono">
+                  {step.number}
+                </span>
               </div>
 
-              <h3 className="text-lg font-black text-neutral-900 mb-2">
+              <div className="inline-block px-2.5 py-0.5 rounded-full bg-neutral-100 text-neutral-700 text-[10px] font-bold uppercase tracking-wider mb-2">
+                {step.tag}
+              </div>
+
+              <h3 className="text-lg font-black text-neutral-900">
                 {step.title}
               </h3>
-              <p className="text-xs text-neutral-600 leading-relaxed">
+              <p className="text-xs text-neutral-600 mt-2 leading-relaxed">
                 {step.desc}
               </p>
             </div>
 
-            <div className="mt-6 pt-3 border-t border-neutral-100 flex items-center text-xs font-bold text-red-800">
-              <span>Paso {idx + 1} de 4</span>
+            <div className="mt-5 pt-3 border-t border-neutral-100 flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700">
+              <Clock className="w-3.5 h-3.5" />
+              <span>Tiempo estimado: 5-15 min</span>
             </div>
           </div>
         ))}

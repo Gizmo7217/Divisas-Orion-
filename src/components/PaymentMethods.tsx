@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { PAYMENT_METHODS } from '../data/initialData';
 import { Smartphone, Key, Zap, Building2, MessageCircle, ShieldCheck, ArrowRight, Info, CheckCircle2, Lock } from 'lucide-react';
-
 import { launchProtectedWhatsApp } from '../utils/formatters';
 
 interface PaymentMethodsProps {
@@ -40,168 +39,127 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
       case 'Key':
         return <Key className="w-6 h-6 text-amber-400" />;
       case 'Zap':
-        return <Zap className="w-6 h-6 text-emerald-400" />;
+        return <Zap className="w-6 h-6 text-yellow-400" />;
       case 'Building2':
-        return <Building2 className="w-6 h-6 text-blue-400" />;
+        return <Building2 className="w-6 h-6 text-emerald-400" />;
       default:
-        return <ShieldCheck className="w-6 h-6 text-white" />;
+        return <Smartphone className="w-6 h-6 text-red-400" />;
     }
   };
 
   return (
-    <section id="pagos" className="py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-      <div className="text-center mb-8">
+    <section id="pagos" className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      {/* Section Header */}
+      <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-100 text-red-900 text-xs font-bold uppercase tracking-wider mb-2">
           <ShieldCheck className="w-3.5 h-3.5 text-red-700" />
-          <span>Canales de Transferencia</span>
+          <span>Canales de Transferencia Oficiales</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-black text-neutral-900 tracking-tight">
-          Métodos de Pago Autorizados
+          Medios de Pago Habilitados
         </h2>
-        <p className="mt-2 text-sm sm:text-base text-neutral-600 max-w-xl mx-auto">
-          Aceptamos los principales métodos de pago en Colombia y Venezuela.
+        <p className="mt-2 text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto">
+          Cuentas activas en Colombia y Venezuela. Por seguridad y rotación de cupos, solicita los datos actualizados a <span className="font-bold text-red-700">{whatsappUsername}</span> antes de transferir.
         </p>
 
         {/* Country Selector */}
-        <div className="mt-6 inline-flex p-1.5 rounded-2xl bg-neutral-200 border border-neutral-300">
+        <div className="mt-6 inline-flex p-1 rounded-2xl bg-neutral-200 border border-neutral-300">
           <button
             onClick={() => setSelectedCountry('Colombia')}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all ${
+            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all flex items-center gap-2 ${
               selectedCountry === 'Colombia'
                 ? 'bg-[#7B0606] text-white shadow-md'
-                : 'text-neutral-700 hover:text-neutral-900'
+                : 'text-neutral-700 hover:text-neutral-950'
             }`}
           >
-            <span>🇨🇴 Métodos Colombia</span>
-            <span className="text-[11px] bg-black/20 px-2 py-0.5 rounded-full">Nequi & Llave</span>
+            <span>🇨🇴 Colombia (Nequi y Llave)</span>
           </button>
           <button
             onClick={() => setSelectedCountry('Venezuela')}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all ${
+            className={`px-5 py-2.5 rounded-xl text-xs sm:text-sm font-extrabold transition-all flex items-center gap-2 ${
               selectedCountry === 'Venezuela'
                 ? 'bg-[#7B0606] text-white shadow-md'
-                : 'text-neutral-700 hover:text-neutral-900'
+                : 'text-neutral-700 hover:text-neutral-950'
             }`}
           >
-            <span>🇻🇪 Métodos Venezuela</span>
-            <span className="text-[11px] bg-black/20 px-2 py-0.5 rounded-full">Pago Móvil & Banesco</span>
+            <span>🇻🇪 Venezuela (Pago Móvil y Banesco)</span>
           </button>
         </div>
       </div>
 
-      {/* Main Notice: Consultar datos por WhatsApp */}
-      <div className="mb-8 bg-gradient-to-r from-red-950 via-[#450204] to-neutral-950 border-2 border-red-600/50 rounded-3xl p-6 sm:p-7 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 flex-shrink-0">
-            <Lock className="w-7 h-7" />
-          </div>
-          <div>
-            <span className="text-[11px] font-black uppercase tracking-wider text-amber-300 block">
-              Seguridad y Verificación Oficial
-            </span>
-            <h3 className="text-xl sm:text-2xl font-black text-white">
-              Consultar datos para transferir por WhatsApp
-            </h3>
-            <p className="text-xs sm:text-sm text-neutral-300 mt-1 max-w-xl leading-relaxed">
-              Por seguridad y para garantizar la disponibilidad inmediata de fondos, los datos bancarios oficiales activos se entregan directamente a través de nuestro WhatsApp oficial: <span className="font-bold text-amber-300 bg-black/60 px-2.5 py-0.5 rounded font-mono">{whatsappUsername}</span>.
-            </p>
-          </div>
+      {/* Security alert banner */}
+      <div className="mb-8 max-w-4xl mx-auto bg-amber-50 border-2 border-amber-300/80 rounded-2xl p-4 sm:p-5 flex items-start gap-3.5 text-amber-900 shadow-sm">
+        <Lock className="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" />
+        <div className="text-xs sm:text-sm leading-relaxed">
+          <span className="font-extrabold text-amber-950 block mb-0.5">
+            Protocolo de Seguridad Oficial Divisas Orion:
+          </span>
+          Nunca guardes cuentas bancarias viejas. Antes de enviar dinero por Nequi, Llave, Pago Móvil o Banesco, presiona el botón inferior para recibir por WhatsApp los datos y titular autorizados para tu giro.
         </div>
-
-        <button
-          onClick={() => handleOpenWhatsApp('Hola Divisas Orion, deseo consultar los datos activos para transferir.')}
-          className="whitespace-nowrap bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-black text-sm px-6 py-3.5 rounded-2xl shadow-xl shadow-emerald-950/60 hover:shadow-emerald-500/40 transition-all flex items-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
-        >
-          <MessageCircle className="w-5 h-5 fill-white" />
-          <span>Consultar Datos con {whatsappUsername}</span>
-        </button>
       </div>
 
-      {/* Cards Grid: Nequi & Llave / Pago Móvil & Banesco */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
         {methods.map((method) => (
           <div
             key={method.id}
-            className="bg-neutral-900 rounded-3xl border-2 border-neutral-800 p-6 sm:p-7 text-white shadow-xl flex flex-col justify-between hover:border-red-600/40 transition-all duration-200 relative overflow-hidden"
+            className="group bg-neutral-900 rounded-3xl border-2 border-neutral-800 hover:border-red-500/50 p-6 sm:p-7 text-white shadow-xl flex flex-col justify-between transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden"
           >
-            {/* Top gradient highlight */}
-            <div className={`absolute top-0 inset-x-0 h-2 bg-gradient-to-r ${method.color}`}></div>
+            {/* Ambient subtle color corner */}
+            <div
+              className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${method.color} opacity-20 rounded-full blur-2xl pointer-events-none`}
+            ></div>
 
             <div>
+              {/* Card Header */}
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-2xl bg-neutral-800 border border-neutral-700 flex items-center justify-center shadow-inner">
                     {getIcon(method.iconName)}
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-white">{method.name}</h3>
-                    <p className="text-xs text-neutral-400">{method.bankName}</p>
+                    <h3 className="text-xl font-black text-white group-hover:text-red-300 transition-colors">
+                      {method.name}
+                    </h3>
+                    <span className="text-xs font-semibold text-neutral-400">
+                      {method.bankName}
+                    </span>
                   </div>
                 </div>
-                <span className="text-xs font-bold px-3 py-1 rounded-full bg-red-950 border border-red-700 text-red-200">
+
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-red-600/30 text-red-300 border border-red-500/30 px-3 py-1 rounded-full">
                   {method.badge}
                 </span>
               </div>
 
-              <p className="text-xs text-neutral-300 font-medium mb-5 bg-neutral-950/60 p-3 rounded-xl border border-neutral-800">
+              {/* Headline */}
+              <p className="text-sm font-semibold text-neutral-200 mt-2">
                 {method.headline}
               </p>
 
-              {/* Consultation Card replacing static numbers */}
-              <div className="bg-neutral-950 p-5 rounded-2xl border border-neutral-800 text-center space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold">
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  <span>Consultar datos para transferir por WhatsApp</span>
+              {/* Instructions / Notes */}
+              <div className="mt-4 bg-neutral-950/80 rounded-2xl p-4 border border-neutral-800/80 text-xs text-neutral-400 space-y-2">
+                <p>{method.notes}</p>
+                <div className="flex items-center gap-2 text-emerald-400 font-semibold pt-1">
+                  <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+                  <span>Acreditación garantizada en 5 a 15 minutos</span>
                 </div>
-
-                <div className="text-sm font-bold text-neutral-200">
-                  Canal Oficial: <span className="text-emerald-400 font-mono text-base font-black">{whatsappUsername}</span>
-                </div>
-
-                <p className="text-xs text-neutral-400 leading-relaxed">
-                  {method.notes}
-                </p>
-
-                <button
-                  type="button"
-                  onClick={() => handleOpenWhatsApp(method.whatsappPrompt)}
-                  className="w-full mt-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>Pedir datos de {method.name} ({whatsappUsername})</span>
-                </button>
               </div>
             </div>
 
-            {/* Note & footer */}
-            <div className="mt-5 pt-4 border-t border-neutral-800 flex items-start gap-2 text-xs text-neutral-400">
-              <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-              <p className="leading-relaxed">
-                Una vez recibidos los datos y realizada la transferencia, envía el capture al mismo chat para validar y hacer la entrega en minutos.
-              </p>
+            {/* Action button */}
+            <div className="mt-6 pt-4 border-t border-neutral-800">
+              <button
+                type="button"
+                onClick={() => handleOpenWhatsApp(method.whatsappPrompt)}
+                className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group-hover:shadow-green-500/20"
+              >
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>Pedir datos de {method.name} a {whatsappUsername}</span>
+              </button>
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Security Tip Box */}
-      <div className="mt-8 bg-amber-500/10 border-2 border-amber-500/30 rounded-2xl p-5 text-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <CheckCircle2 className="w-7 h-7 text-amber-600 flex-shrink-0" />
-          <div className="text-xs sm:text-sm">
-            <span className="font-bold text-neutral-900 block">
-              Atención directa y garantizada:
-            </span>
-            Escríbenos a nuestro usuario oficial <span className="font-bold text-red-900 font-mono">{whatsappUsername}</span> indicando el monto y método preferido para enviarte los datos de pago al instante.
-          </div>
-        </div>
-        <button
-          onClick={() => handleOpenWhatsApp('Hola Divisas Orion, deseo cotizar y consultar datos para transferir.')}
-          className="whitespace-nowrap px-4 py-2.5 bg-[#7B0606] hover:bg-red-800 text-white font-bold text-xs rounded-xl transition-all shadow flex items-center gap-1.5"
-        >
-          <MessageCircle className="w-4 h-4" />
-          <span>Escribir a {whatsappUsername}</span>
-        </button>
       </div>
     </section>
   );

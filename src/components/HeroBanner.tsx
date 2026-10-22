@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExchangeRates, CurrencyDirection } from '../types';
-import { ArrowRightLeft, TrendingUp, ShieldCheck, Zap, Sparkles, Image as ImageIcon } from 'lucide-react';
+import { ArrowRightLeft, Sparkles, TrendingUp, ShieldCheck, Zap, ArrowDown, ArrowUp } from 'lucide-react';
 
 interface HeroBannerProps {
   rates: ExchangeRates;
@@ -17,16 +17,12 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
   onOpenFlyerModal,
 }) => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-b from-[#6b0505] via-[#7B0606] to-[#450202] text-white pt-8 pb-12 px-4 sm:px-6 lg:px-8 border-b border-red-500/20">
-      {/* Background patterned SVG icons reminiscent of the flyer watermark */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none select-none overflow-hidden">
-        <div className="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-red-400 blur-3xl"></div>
-        <div className="absolute -bottom-12 -right-12 w-96 h-96 rounded-full bg-rose-500 blur-3xl"></div>
-        
-        {/* Repeating currency symbols & arrows */}
-        <div className="grid grid-cols-6 gap-12 p-8 text-white">
-          {Array.from({ length: 18 }).map((_, i) => (
-            <div key={i} className="flex flex-col items-center justify-center opacity-30 transform -rotate-12">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#6b0505] via-[#7B0606] to-[#450202] text-white pt-10 pb-16 px-4 sm:px-6 lg:px-8 border-b-4 border-amber-400/80 shadow-2xl">
+      {/* Background Graphic Watermark */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none overflow-hidden select-none">
+        <div className="grid grid-cols-6 gap-8 transform rotate-12 scale-125">
+          {Array.from({ length: 36 }).map((_, i) => (
+            <div key={i} className="flex flex-col items-center justify-center font-black text-white">
               <span className="text-4xl font-black">$</span>
               <span className="text-xs font-bold tracking-widest">DIVISAS</span>
             </div>
@@ -58,107 +54,112 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
         </p>
 
         {/* Direction Switcher & Rate Cards in flyer style */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
-          {/* Card 1: Pesos a Bolívares (The primary featured in the photo) */}
+        <div className="mt-8 max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+          {/* Card 1: COP to VES (Division) */}
           <div
             onClick={() => onSelectDirection('COP_TO_VES')}
-            className={`cursor-pointer relative rounded-3xl p-6 transition-all duration-300 transform hover:scale-[1.02] text-center border-2 ${
+            className={`cursor-pointer rounded-3xl p-6 sm:p-7 border-3 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden ${
               activeDirection === 'COP_TO_VES'
-                ? 'bg-gradient-to-b from-[#8f0a0a] to-[#590404] border-white shadow-[0_0_25px_rgba(255,255,255,0.25)] ring-4 ring-red-400/30'
-                : 'bg-black/30 border-white/30 hover:border-white/60'
+                ? 'bg-gradient-to-br from-neutral-900 via-neutral-900 to-[#1f0204] border-amber-400 shadow-2xl ring-4 ring-amber-400/20'
+                : 'bg-black/50 border-white/20 hover:border-white/40'
             }`}
           >
-            {activeDirection === 'COP_TO_VES' && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-400 text-red-950 font-black text-xs uppercase px-3 py-0.5 rounded-full shadow-md">
-                Seleccionado
+            <div className="flex items-center justify-between mb-3">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider bg-red-600/90 text-white px-3 py-1 rounded-full shadow">
+                <span>🇨🇴 Pesos</span>
+                <ArrowRightLeft className="w-3 h-3" />
+                <span>🇻🇪 Bolívares</span>
               </span>
-            )}
-
-            <div className="text-xs uppercase tracking-widest font-extrabold text-red-200 mb-1">
-              🇨🇴 COLOMBIA ➔ 🇻🇪 VENEZUELA
-            </div>
-            <div className="text-xl sm:text-2xl font-black tracking-wider uppercase text-white mb-3">
-              PESOS A BOLÍVARES
-            </div>
-
-            {/* The signature white pill rate container from the flyer photo */}
-            <div className="bg-white text-[#8B0000] rounded-full py-2.5 px-6 shadow-xl inline-block w-full max-w-xs mx-auto border-2 border-white/90">
-              <span className="text-4xl sm:text-5xl font-black tracking-tight" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                {rates.copToVesRate.toString().replace('.', ',')}
+              <span className="text-xs font-bold text-amber-300 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                División (÷)
               </span>
             </div>
 
-            <p className="mt-3 text-xs text-red-100/90 font-medium">
-              Fórmula: <span className="font-bold text-white">Pesos ÷ {rates.copToVesRate.toString().replace('.', ',')}</span> = Recibes en Bolívares
-            </p>
+            <div className="mt-2">
+              <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider block">
+                Tasa Oficial Activa
+              </span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span
+                  className="text-5xl sm:text-6xl font-black text-white tracking-tighter"
+                  style={{ fontFamily: "'Outfit', sans-serif" }}
+                >
+                  {rates.copToVesRate.toString().replace('.', ',')}
+                </span>
+                <span className="text-sm font-bold text-red-300">COP / VES</span>
+              </div>
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-white/10 text-xs text-neutral-300 flex items-center justify-between">
+              <span className="italic">Ej: $ 100.000 COP ÷ {rates.copToVesRate.toString().replace('.', ',')}</span>
+              <span className="font-extrabold text-amber-300">
+                = {(100000 / rates.copToVesRate).toLocaleString('es-VE', { maximumFractionDigits: 0 })} Bs
+              </span>
+            </div>
           </div>
 
-          {/* Card 2: Bolívares a Pesos */}
+          {/* Card 2: VES to COP (Multiplication) */}
           <div
             onClick={() => onSelectDirection('VES_TO_COP')}
-            className={`cursor-pointer relative rounded-3xl p-6 transition-all duration-300 transform hover:scale-[1.02] text-center border-2 ${
+            className={`cursor-pointer rounded-3xl p-6 sm:p-7 border-3 transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden ${
               activeDirection === 'VES_TO_COP'
-                ? 'bg-gradient-to-b from-[#8f0a0a] to-[#590404] border-white shadow-[0_0_25px_rgba(255,255,255,0.25)] ring-4 ring-red-400/30'
-                : 'bg-black/30 border-white/30 hover:border-white/60'
+                ? 'bg-gradient-to-br from-neutral-900 via-neutral-900 to-[#1f0204] border-amber-400 shadow-2xl ring-4 ring-amber-400/20'
+                : 'bg-black/50 border-white/20 hover:border-white/40'
             }`}
           >
-            {activeDirection === 'VES_TO_COP' && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-400 text-red-950 font-black text-xs uppercase px-3 py-0.5 rounded-full shadow-md">
-                Seleccionado
+            <div className="flex items-center justify-between mb-3">
+              <span className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider bg-red-600/90 text-white px-3 py-1 rounded-full shadow">
+                <span>🇻🇪 Bolívares</span>
+                <ArrowRightLeft className="w-3 h-3" />
+                <span>🇨🇴 Pesos</span>
               </span>
-            )}
-
-            <div className="text-xs uppercase tracking-widest font-extrabold text-red-200 mb-1">
-              🇻🇪 VENEZUELA ➔ 🇨🇴 COLOMBIA
-            </div>
-            <div className="text-xl sm:text-2xl font-black tracking-wider uppercase text-white mb-3">
-              BOLÍVARES A PESOS
-            </div>
-
-            {/* The signature white pill rate container */}
-            <div className="bg-white text-[#8B0000] rounded-full py-2.5 px-6 shadow-xl inline-block w-full max-w-xs mx-auto border-2 border-white/90">
-              <span className="text-4xl sm:text-5xl font-black tracking-tight" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                {rates.vesToCopRate.toString().replace('.', ',')}
+              <span className="text-xs font-bold text-amber-300 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                Multiplicación (×)
               </span>
             </div>
 
-            <p className="mt-3 text-xs text-red-100/90 font-medium">
-              Fórmula: <span className="font-bold text-white">Bolívares × {rates.vesToCopRate.toString().replace('.', ',')}</span> = Recibes en Pesos
-            </p>
+            <div className="mt-2">
+              <span className="text-xs font-bold text-neutral-400 uppercase tracking-wider block">
+                Tasa Oficial Activa
+              </span>
+              <div className="flex items-baseline gap-2 mt-1">
+                <span
+                  className="text-5xl sm:text-6xl font-black text-white tracking-tighter"
+                  style={{ fontFamily: "'Outfit', sans-serif" }}
+                >
+                  {rates.vesToCopRate.toString().replace('.', ',')}
+                </span>
+                <span className="text-sm font-bold text-red-300">VES / COP</span>
+              </div>
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-white/10 text-xs text-neutral-300 flex items-center justify-between">
+              <span className="italic">Ej: 20.000 Bs × {rates.vesToCopRate.toString().replace('.', ',')}</span>
+              <span className="font-extrabold text-amber-300">
+                = $ {(20000 * rates.vesToCopRate).toLocaleString('es-CO')} COP
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Quick action bar */}
+        {/* Subtitle action pills */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <button
-            onClick={onOpenFlyerModal}
-            className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-full border border-white/30 backdrop-blur-sm transition-all shadow-md"
+            onClick={() => onSelectDirection('COP_TO_VES')}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-black text-xs sm:text-sm shadow-xl transition-all transform hover:scale-105"
           >
-            <ImageIcon className="w-4 h-4 text-amber-300" />
-            <span>Ver Flyer Oficial del Día</span>
+            <Zap className="w-4 h-4 fill-neutral-950" />
+            <span>Calcular Giros Ahora</span>
+          </button>
+
+          <button
+            onClick={onOpenFlyerModal}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-black/40 hover:bg-black/60 text-white border border-white/30 font-bold text-xs sm:text-sm transition-all"
+          >
+            <span>Ver Tabla Oficial Flyer</span>
           </button>
         </div>
-
-        {/* Feature Pills */}
-        <div className="mt-8 pt-6 border-t border-red-500/20 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-semibold text-red-100">
-          <div className="flex items-center justify-center gap-2 bg-black/20 py-2 px-3 rounded-xl border border-white/10">
-            <Zap className="w-4 h-4 text-amber-400" />
-            <span>Entrega en 5-15 min</span>
-          </div>
-          <div className="flex items-center justify-center gap-2 bg-black/20 py-2 px-3 rounded-xl border border-white/10">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>100% Garantizado</span>
-          </div>
-          <div className="flex items-center justify-center gap-2 bg-black/20 py-2 px-3 rounded-xl border border-white/10">
-            <TrendingUp className="w-4 h-4 text-sky-400" />
-            <span>Mejor Tasa del Mercado</span>
-          </div>
-          <div className="flex items-center justify-center gap-2 bg-black/20 py-2 px-3 rounded-xl border border-white/10">
-            <Sparkles className="w-4 h-4 text-purple-400" />
-            <span>Pantallas Streaming</span>
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
   );
 };
