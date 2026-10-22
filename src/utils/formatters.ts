@@ -9,7 +9,37 @@ export function getColombiaDate(): string {
       year: 'numeric',
     }).format(new Date());
   } catch (e) {
-    return '21 de octubre';
+    return '22 de octubre';
+  }
+}
+
+/**
+ * Returns true if current time in Colombia (America/Bogota)
+ * is between 8:00 AM and 10:00 PM (Monday to Sunday).
+ * Between 10:01 PM and 7:59 AM it returns false (Closed).
+ */
+export function isBusinessOpenColombia(): boolean {
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Bogota',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false,
+    });
+    const parts = formatter.formatToParts(new Date());
+    const hour = parseInt(parts.find((p) => p.type === 'hour')?.value || '0', 10);
+    const minute = parseInt(parts.find((p) => p.type === 'minute')?.value || '0', 10);
+    const currentMinutes = hour * 60 + minute;
+
+    // Horario: 8:00 am (480 min) a 10:00 pm (1320 min)
+    // 10:01 pm en adelante (>= 1321) y hasta las 7:59 am (<= 479) está CERRADO
+    return currentMinutes >= 480 && currentMinutes <= 1320;
+  } catch (e) {
+    const now = new Date();
+    let colHours = now.getUTCHours() - 5;
+    if (colHours < 0) colHours += 24;
+    const colMinutes = colHours * 60 + now.getUTCMinutes();
+    return colMinutes >= 480 && colMinutes <= 1320;
   }
 }
 
