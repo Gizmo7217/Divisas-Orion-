@@ -5,6 +5,7 @@ import { Star, ShieldCheck, CheckCircle2, MessageCircle, Heart, Users, Sparkles,
 import { launchProtectedWhatsApp } from '../utils/formatters';
 
 import { ExperienceFormModal } from './ExperienceFormModal';
+import { saveReviewToCloud, listenToCloudReviews } from '../lib/firebase';
 
 interface SatisfiedClientsProps {
   rates: ExchangeRates;
@@ -29,7 +30,30 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
     return SATISFIED_CLIENTS;
   });
 
-  const handleAddReview = (newReview: ClientReview) => {
+  // Listen to Firestore real-time cloud updates across all devices
+  useEffect(() => {
+    const unsubscribe = listenToCloudReviews((cloudReviews) => {
+      if (cloudReviews && cloudReviews.length > 0) {
+        setReviews((prev) => {
+          const cloudIds = new Set(cloudReviews.map((r) => r.id));
+          const localOnly = prev.filter(
+            (r) => !cloudIds.has(r.id) && !SATISFIED_CLIENTS.some((d) => d.id === r.id)
+          );
+          const uniqueDefault = SATISFIED_CLIENTS.filter((r) => !cloudIds.has(r.id));
+          const merged = [...cloudReviews, ...localOnly, ...uniqueDefault];
+          try {
+            localStorage.setItem('divisas_orion_client_reviews', JSON.stringify(merged));
+          } catch (_) {}
+          return merged;
+        });
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleAddReview = async (newReview: ClientReview) => {
+    // 1. Instant local update
     setReviews((prev) => {
       const updated = [newReview, ...prev];
       try {
@@ -37,6 +61,13 @@ export const SatisfiedClients: React.FC<SatisfiedClientsProps> = ({ rates, onOpe
       } catch (e) {}
       return updated;
     });
+
+    // 2. Persistent cloud sync so ALL users and devices see it online in real-time
+    try {
+      await saveReviewToCloud(newReview);
+    } catch (err) {
+      console.warn('Review saved locally, cloud error:', err);
+    }
   };
 
   const filteredReviews =

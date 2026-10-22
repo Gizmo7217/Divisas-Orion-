@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "ClientReview": {
+      "title": "ClientReview",
+      "description": "Testimonio o reseña de cliente sobre giros y servicios de Divisas Orion",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Nombre o alias del cliente",
+          "maxLength": 100
+        },
+        "country": {
+          "type": "string",
+          "description": "País de origen",
+          "enum": ["Colombia", "Venezuela"]
+        },
+        "countryFlag": {
+          "type": "string",
+          "description": "Bandera del país de origen",
+          "maxLength": 10
+        },
+        "originCity": {
+          "type": "string",
+          "description": "Ciudad de origen de la transacción",
+          "maxLength": 100
+        },
+        "destinationCity": {
+          "type": "string",
+          "description": "Ciudad de destino",
+          "maxLength": 100
+        },
+        "operationType": {
+          "type": "string",
+          "description": "Tipo de servicio adquirido",
+          "maxLength": 100
+        },
+        "comment": {
+          "type": "string",
+          "description": "Testimonio o reseña del cliente",
+          "maxLength": 1000
+        },
+        "rating": {
+          "type": "number",
+          "description": "Calificación en estrellas (1 a 5)"
+        },
+        "timeAgo": {
+          "type": "string",
+          "description": "Texto descriptivo de antigüedad",
+          "maxLength": 50
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Insignia de operación verificada"
+        },
+        "avatarColor": {
+          "type": "string",
+          "description": "Clase de degradado para el avatar",
+          "maxLength": 50
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp ISO de creación"
+        }
+      },
+      "required": ["name", "comment", "rating", "country"]
+    },
+    "ExchangeRatesData": {
+      "title": "ExchangeRatesData",
+      "description": "Tasas del día y configuración de Divisas Orion",
+      "type": "object",
+      "properties": {
+        "copToVesRate": {
+          "type": "number",
+          "description": "Tasa pesos a bolívares"
+        },
+        "vesToCopRate": {
+          "type": "number",
+          "description": "Tasa bolívares a pesos"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "description": "Fecha de actualización",
+          "maxLength": 100
+        },
+        "whatsappNumber": {
+          "type": "string",
+          "description": "Número de WhatsApp",
+          "maxLength": 30
+        },
+        "whatsappUsername": {
+          "type": "string",
+          "description": "Usuario de WhatsApp",
+          "maxLength": 50
+        },
+        "whatsappLink": {
+          "type": "string",
+          "description": "Enlace oficial wa.link",
+          "maxLength": 200
+        },
+        "slogan": {
+          "type": "string",
+          "description": "Eslogan de la marca",
+          "maxLength": 200
+        }
+      },
+      "required": ["copToVesRate", "vesToCopRate"]
+    }
+  },
+  "firestore": {
+    "/reviews/{reviewId}": {
+      "schema": "ClientReview",
+      "description": "Colección pública de testimonios y referencias de clientes"
+    },
+    "/settings/rates": {
+      "schema": "ExchangeRatesData",
+      "description": "Configuración pública de tasas activas del día"
+    }
+  }
+}

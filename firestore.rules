@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidReview(data) {
+      return data.name is string &&
+        data.name.size() > 0 &&
+        data.name.size() <= 100 &&
+        data.comment is string &&
+        data.comment.size() > 0 &&
+        data.comment.size() <= 1000 &&
+        data.rating is number &&
+        data.rating >= 1 &&
+        data.rating <= 5 &&
+        (data.country == 'Colombia' || data.country == 'Venezuela');
+    }
+
+    // Public reviews collection
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isValidReview(request.resource.data);
+      allow update, delete: if false;
+    }
+
+    // Public rates settings
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if request.resource.data.copToVesRate is number &&
+        request.resource.data.vesToCopRate is number;
+    }
+
+    // Default deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

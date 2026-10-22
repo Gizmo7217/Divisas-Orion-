@@ -16,6 +16,7 @@ import { FlyerModal } from './components/FlyerModal';
 import { RatesAdminModal } from './components/RatesAdminModal';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { getColombiaDate, launchProtectedWhatsApp } from './utils/formatters';
+import { saveRatesToCloud, listenToCloudRates } from './lib/firebase';
 
 export default function App() {
   // Load saved rates or fallback to defaults
@@ -60,6 +61,19 @@ export default function App() {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('calculadora');
 
+  // Listen to cloud rates from Firestore across all devices
+  useEffect(() => {
+    const unsub = listenToCloudRates((cloudRates) => {
+      if (cloudRates && typeof cloudRates.copToVesRate === 'number' && typeof cloudRates.vesToCopRate === 'number') {
+        setRates((prev) => ({
+          ...prev,
+          ...cloudRates,
+        }));
+      }
+    });
+    return () => unsub();
+  }, []);
+
   // Direct 1-click WhatsApp redirect using encrypted wa.link/lreunw
   const handleOpenSecureWhatsApp = (messageText: string) => {
     launchProtectedWhatsApp({
@@ -69,7 +83,7 @@ export default function App() {
     });
   };
 
-  // Save rates to localStorage
+  // Save rates to localStorage and cloud Firestore
   const handleSaveRates = (newRates: ExchangeRates) => {
     const withTodayDate = {
       ...newRates,
@@ -81,6 +95,7 @@ export default function App() {
     } catch (e) {
       console.error('Error saving rates:', e);
     }
+    saveRatesToCloud(withTodayDate);
   };
 
   const handleSelectAmountFromTable = (amount: number, dir: CurrencyDirection) => {
