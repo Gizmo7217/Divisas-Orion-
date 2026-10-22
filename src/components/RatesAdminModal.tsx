@@ -29,7 +29,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const parsedCopToVes = parseFloat(copToVes.replace(',', '.')) || 3.55;
+    const parsedCopToVes = parseFloat(copToVes.replace(',', '.')) || 3.60;
     const parsedVesToCop = parseFloat(vesToCop.replace(',', '.')) || 2.75;
 
     const updated: ExchangeRates = {
@@ -66,32 +66,39 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-all"
+          className="absolute top-4 right-4 z-20 p-2 rounded-full bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-white transition-all"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-red-800 flex items-center justify-center text-white border border-red-500/40">
+        {/* Modal Header */}
+        <div className="flex items-center gap-3 mb-6 pb-4 border-b border-neutral-800">
+          <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500">
             <Settings className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-white">Administrador de Tasas</h3>
-            <p className="text-xs text-neutral-400">Actualiza las tasas del día y contacto</p>
+            <h3 className="text-xl font-black text-white">
+              Panel de Administrador
+            </h3>
+            <p className="text-xs text-neutral-400">
+              Modifica las tasas y datos de Divisas Orion
+            </p>
           </div>
         </div>
 
+        {/* Feedback message */}
         {showSavedNotification && (
-          <div className="mb-4 p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-2">
+          <div className="mb-4 bg-emerald-950/80 border border-emerald-500 rounded-xl p-3 flex items-center gap-2 text-xs text-emerald-300 font-bold animate-in fade-in">
             <Check className="w-4 h-4 text-emerald-400" />
-            <span>¡Tasas actualizadas con éxito en toda la web!</span>
+            <span>¡Tasas y datos guardados exitosamente!</span>
           </div>
         )}
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Rate 1: COP to VES (Division) */}
           <div>
-            <label className="block text-xs font-bold text-red-300 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1">
               Tasa COP ➔ VES (Pesos a Bolívares):
             </label>
             <div className="relative">
@@ -99,7 +106,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
                 type="text"
                 value={copToVes}
                 onChange={(e) => setCopToVes(e.target.value)}
-                placeholder="Ej. 3.55"
+                placeholder="Ej. 3.60"
                 className="w-full bg-neutral-950 border-2 border-neutral-700 focus:border-red-500 rounded-xl py-2.5 px-3 text-lg font-black text-white outline-none"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-neutral-500">
@@ -113,7 +120,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
 
           {/* Rate 2: VES to COP (Multiplication) */}
           <div>
-            <label className="block text-xs font-bold text-red-300 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1">
               Tasa VES ➔ COP (Bolívares a Pesos):
             </label>
             <div className="relative">
@@ -129,7 +136,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
               </span>
             </div>
             <span className="text-[11px] text-neutral-400">
-              Ejemplo: 10.000 Bs × {vesToCop} = COP
+              Ejemplo: 20.000 Bs × {vesToCop} = COP
             </span>
           </div>
 
@@ -198,23 +205,22 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
             />
           </div>
 
-          {/* Actions */}
-          <div className="pt-4 flex items-center justify-between gap-3">
+          {/* Submit Actions */}
+          <div className="pt-4 flex items-center gap-3">
+            <button
+              type="submit"
+              className="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-sm py-3 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2"
+            >
+              <Save className="w-4 h-4" />
+              <span>Guardar Cambios</span>
+            </button>
             <button
               type="button"
               onClick={handleResetDefaults}
-              className="px-3.5 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 text-xs font-bold flex items-center gap-1.5 transition-colors"
+              className="bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white p-3 rounded-xl border border-neutral-700 transition-colors"
+              title="Restablecer valores iniciales"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Restablecer</span>
-            </button>
-
-            <button
-              type="submit"
-              className="flex-1 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-extrabold text-xs py-2.5 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2"
-            >
-              <Save className="w-4 h-4" />
-              <span>Guardar Tasas</span>
+              <RotateCcw className="w-4 h-4" />
             </button>
           </div>
         </form>

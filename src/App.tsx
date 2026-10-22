@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CurrencyDirection, ExchangeRates } from './types';
 import { INITIAL_RATES } from './data/initialData';
 import { Header } from './components/Header';
@@ -32,12 +32,12 @@ export default function App() {
         if (!parsed.whatsappLink || parsed.whatsappLink.trim() === '') {
           parsed.whatsappLink = 'https://wa.link/lreunw';
         }
-        parsed.copToVesRate = 3.55;
+        parsed.copToVesRate = 3.60;
         const merged = {
           ...INITIAL_RATES,
           ...parsed,
-          copToVesRate: 3.55,
-          whatsappLink: 'https://wa.link/lreunw', // Always prioritize the user's official encrypted link
+          copToVesRate: 3.60,
+          whatsappLink: 'https://wa.link/lreunw', // Always prioritize the official encrypted link
           lastUpdated: todayColombia, // Always active date for today in Colombia
         };
         try {
@@ -48,7 +48,7 @@ export default function App() {
     } catch (e) {
       console.error('Error reading saved rates:', e);
     }
-    return { ...INITIAL_RATES, lastUpdated: todayColombia };
+    return { ...INITIAL_RATES, copToVesRate: 3.60, lastUpdated: todayColombia };
   });
 
   const [activeDirection, setActiveDirection] = useState<CurrencyDirection>('COP_TO_VES');
@@ -181,7 +181,6 @@ export default function App() {
         onClose={() => setIsSettingsModalOpen(false)}
         onSave={handleSaveRates}
       />
-
 
       {/* Floating WhatsApp Action Button */}
       <FloatingWhatsApp
