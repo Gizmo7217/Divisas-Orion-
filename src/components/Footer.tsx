@@ -72,9 +72,9 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
                 <button
                   type="button"
                   onClick={() => {
-                    const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo consultar datos para transferir y realizar una operación.`;
+                    const msg = 'Hola Divisas Orion, deseo obtener información sobre uno de sus servicios.';
                     if (onOpenWhatsApp) {
-                      onOpenWhatsApp(msg, 'Atención y Datos Divisas Orion');
+                      onOpenWhatsApp(msg, 'Atención Divisas Orion');
                     } else {
                       launchProtectedWhatsApp({
                         phone: rates.whatsappNumber,

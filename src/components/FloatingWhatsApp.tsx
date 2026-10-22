@@ -23,12 +23,10 @@ export const FloatingWhatsApp: React.FC<FloatingWhatsAppProps> = ({ rates, onOpe
   }, []);
 
   const handleClick = () => {
-    const msg = isBusinessOpen
-      ? `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo cotizar y realizar un giro o consulta.`
-      : `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), me comunico fuera del horario de atención. Deseo dejar mi consulta para ser atendido en el horario de 8:00 am a 10:00 pm.`;
+    const msg = 'Hola Divisas Orion, deseo obtener información sobre uno de sus servicios.';
 
     if (onOpenWhatsApp) {
-      onOpenWhatsApp(msg, isBusinessOpen ? 'Atención En Línea Divisas Orion' : 'Mensaje Fuera de Horario');
+      onOpenWhatsApp(msg, 'Atención Divisas Orion');
     } else {
       launchProtectedWhatsApp({
         phone: rates.whatsappNumber,

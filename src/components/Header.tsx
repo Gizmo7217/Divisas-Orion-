@@ -2,6 +2,7 @@ import React from 'react';
 import { OrionLogo } from './OrionLogo';
 import { ExchangeRates } from '../types';
 import { MessageCircle, Settings, FileText, ArrowRight } from 'lucide-react';
+import { launchProtectedWhatsApp } from '../utils/formatters';
 
 interface HeaderProps {
   rates: ExchangeRates;
@@ -137,12 +138,15 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => {
-              const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), deseo consultar la tasa del día y realizar una operación.`;
+              const msg = 'Hola Divisas Orion, deseo obtener información sobre uno de sus servicios.';
               if (onOpenWhatsApp) {
-                onOpenWhatsApp(msg, 'Atención Oficial Divisas Orion');
+                onOpenWhatsApp(msg, 'Atención Divisas Orion');
               } else {
-                const link = rates.whatsappLink || 'https://wa.link/lreunw';
-                window.open(`${link}?text=${encodeURIComponent(msg)}`, '_blank');
+                launchProtectedWhatsApp({
+                  phone: rates.whatsappNumber,
+                  text: msg,
+                  customLink: rates.whatsappLink || 'https://wa.link/lreunw',
+                });
               }
             }}
             className="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-bold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-lg shadow-emerald-950/40 hover:shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0"

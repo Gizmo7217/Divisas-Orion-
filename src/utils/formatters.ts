@@ -127,28 +127,38 @@ export function getRemesaMessageText(options: {
   paymentMethod?: string;
 }): string {
   const isCopToVes = options.direction === 'COP_TO_VES';
-  const fromText = isCopToVes
-    ? formatCOP(options.fromAmount)
-    : formatVES(options.fromAmount, false);
-  const toExact = isCopToVes
-    ? formatVES(options.toAmount, true)
-    : formatCOP(options.toAmount);
-  const toInteger = isCopToVes
-    ? formatVESInteger(options.toAmount)
-    : formatCOP(Math.round(options.toAmount));
 
-  return `🔴 *CONSULTA DE GIRO - DIVISAS ORION (@divisasorion)* 🔴
-✨ _"Cambia rápido y seguro con nosotros"_ ✨
+  if (isCopToVes) {
+    const fromText = `$ ${formatNumberWithDots(Math.round(options.fromAmount), 0)} COP`;
+    const toExact = `${formatNumberWithDots(options.toAmount, 2)} Bs`;
+    const toInteger = `${formatNumberWithDots(Math.round(options.toAmount), 0)} Bs`;
+    const rateStr = options.rateApplied.toString().replace('.', ',');
 
-👋 Hola, deseo realizar una operación de cambio:
+    return `👋 Hola Divisas Orion (@divisasorion), deseo realizar este cambio:
 
-➡️ *Operación:* ${isCopToVes ? '🇨🇴 Colombia (Pesos) a 🇻🇪 Venezuela (Bolívares)' : '🇻🇪 Venezuela (Bolívares) a 🇨🇴 Colombia (Pesos)'}
-💰 *Monto a enviar:* ${fromText}
-📊 *Tasa acordada:* ${options.rateApplied.toString().replace('.', ',')}
-💵 *Monto a recibir:* ${toExact} (Aprox. ${toInteger})
-💳 *Método de pago deseado:* ${options.paymentMethod || 'A coordinar (Nequi / Llave / Pago Móvil / Banesco)'}
+🇨🇴 *Monto a enviar en Colombia:* ${fromText}
+💳 *Medio de pago en Colombia:* ${options.paymentMethod || 'Nequi'}
+📊 *Tasa del día:* ${rateStr} (División ÷ ${rateStr})
+🇻🇪 *Resultado exacto a entregar en Venezuela:* ${toExact}
+🔢 *Número entero redondeado:* ${toInteger}
+📝 *Desglose:* ${formatNumberWithDots(Math.round(options.fromAmount), 0)} COP ÷ ${rateStr} = ${toExact}
 
-Por favor confírmenme si la tasa está disponible y los datos para realizar la transferencia. ¡Muchas gracias!`;
+Por favor indíquenme los datos de la cuenta activa para transferir y realizar mi giro. ¡Muchas gracias!`;
+  } else {
+    const fromText = `${formatNumberWithDots(Math.round(options.fromAmount), 0)} Bs`;
+    const toExact = `$ ${formatNumberWithDots(Math.round(options.toAmount), 0)} COP`;
+    const rateStr = options.rateApplied.toString().replace('.', ',');
+
+    return `👋 Hola Divisas Orion (@divisasorion), deseo realizar este cambio:
+
+🇻🇪 *Monto a enviar en Venezuela:* ${fromText}
+💳 *Medio de pago en Venezuela:* ${options.paymentMethod || 'Pago Móvil'}
+📊 *Tasa del día:* ${rateStr} (Multiplicación × ${rateStr})
+🇨🇴 *Monto a recibir en Colombia:* ${toExact}
+📝 *Desglose:* ${fromText} × ${rateStr} = ${toExact}
+
+Por favor indíquenme los datos de la cuenta activa para transferir y realizar mi giro. ¡Muchas gracias!`;
+  }
 }
 
 export function createWhatsAppMessage(options: {
