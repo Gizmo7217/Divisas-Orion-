@@ -30,7 +30,7 @@ export interface StreamingProduct {
   tagline: string;
   priceCOP: number;
   priceVES: number;
-  category: 'Películas & Series' | 'Música' | 'Anime' | 'Diseño & Productividad' | 'Video & Entretenimiento';
+  category: 'Apps IA & Productividad' | 'Diseño & Edición' | 'Idiomas & Estudio' | 'Películas & Series' | 'Música' | 'Anime' | string;
   profiles: string;
   quality: string;
   warranty: string;
@@ -40,10 +40,28 @@ export interface StreamingProduct {
   features: string[];
 }
 
+export type UsdtType = 'BUY_USDT' | 'SELL_USDT'; // Comprar USDT o Vender USDT
+export type UsdtFiat = 'COP' | 'VES'; // Con Pesos o Bolívares
+
 export interface QuickRow {
   fromAmount: number;
   toAmount: number;
   formattedFrom: string;
   formattedToExact: string;
   formattedToInteger: string;
+}
+
+export interface ClientReview {
+  id: string;
+  name: string;
+  country: 'Colombia' | 'Venezuela';
+  countryFlag: string;
+  originCity: string;
+  destinationCity: string;
+  operationType: string;
+  comment: string;
+  rating: number;
+  timeAgo: string;
+  verified: boolean;
+  avatarColor: string;
 }

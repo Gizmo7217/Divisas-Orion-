@@ -47,10 +47,11 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
             <ul className="space-y-2 text-xs text-neutral-400">
               <li>• Giros Colombia a Venezuela (COP ➔ VES)</li>
               <li>• Giros Venezuela a Colombia (VES ➔ COP)</li>
-              <li>• Cuentas Nequi & Llave Colombia</li>
-              <li>• Pago Móvil & Banesco Venezuela</li>
-              <li>• Pantallas Netflix, Spotify, Disney+, Max</li>
-              <li>• Asesoría y cotizaciones directas por WhatsApp</li>
+              <li>• Compra y Venta USDT Binance (Pesos y Bolívares)</li>
+              <li>• Suscripciones Apps IA (ChatGPT, Gemini, Figma, CapCut)</li>
+              <li>• Cuentas Nequi, Llave, Pago Móvil & Banesco</li>
+              <li>• Pantallas Netflix, Spotify, Disney+, Max, Prime</li>
+              <li>• Asesoría directa por WhatsApp @divisasorion</li>
             </ul>
           </div>
 

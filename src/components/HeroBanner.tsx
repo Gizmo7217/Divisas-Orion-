@@ -37,8 +37,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
           </span>
-          <span className="text-red-100">Tasas Garantizadas y Actualizadas</span>
-          <span className="text-amber-300 font-bold">• Entrega Inmediata</span>
+          <span className="text-red-100">Giros & Remesas</span>
+          <span className="text-amber-300 font-bold">• USDT Binance • Apps IA</span>
         </div>
 
         {/* Big headline following the photo style */}

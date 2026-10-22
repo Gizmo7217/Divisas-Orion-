@@ -7,7 +7,9 @@ import { Calculator } from './components/Calculator';
 import { QuickTables } from './components/QuickTables';
 import { PaymentMethods } from './components/PaymentMethods';
 import { StreamingSection } from './components/StreamingSection';
+import { UsdtSection } from './components/UsdtSection';
 import { HowItWorks } from './components/HowItWorks';
+import { SatisfiedClients } from './components/SatisfiedClients';
 import { TrustAndFaq } from './components/TrustAndFaq';
 import { Footer } from './components/Footer';
 import { FlyerModal } from './components/FlyerModal';
@@ -148,7 +150,13 @@ export default function App() {
           onOpenWhatsApp={handleOpenSecureWhatsApp}
         />
 
-        {/* Streaming Services (Netflix, Spotify, Crunchyroll, Disney+, HBO, Paramount+, YouTube) */}
+        {/* Compra y Venta de USDT Binance (Pesos Colombianos y Bolívares) */}
+        <UsdtSection
+          rates={rates}
+          onOpenWhatsApp={handleOpenSecureWhatsApp}
+        />
+
+        {/* Streaming & Suscripciones Apps IA (ChatGPT, Gemini, Perplexity, CapCut, Figma, Duolingo, etc.) */}
         <StreamingSection
           rates={rates}
           onOpenWhatsApp={handleOpenSecureWhatsApp}
@@ -157,7 +165,13 @@ export default function App() {
         {/* How It Works Steps */}
         <HowItWorks />
 
-        {/* Testimonials & FAQs */}
+        {/* Clientes Satisfechos (Testimonios y rutas Colombia ➔ Venezuela) */}
+        <SatisfiedClients
+          rates={rates}
+          onOpenWhatsApp={handleOpenSecureWhatsApp}
+        />
+
+        {/* FAQs */}
         <TrustAndFaq />
       </main>
 

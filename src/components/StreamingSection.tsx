@@ -14,11 +14,12 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
 
   const categories = [
     'Todos',
+    'Apps IA & Productividad',
+    'Diseño & Edición',
+    'Idiomas & Estudio',
     'Películas & Series',
     'Música',
     'Anime',
-    'Diseño & Productividad',
-    'Video & Entretenimiento',
   ];
 
   const filteredProducts =
@@ -51,13 +52,13 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
       <div className="text-center mb-10">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-100 text-red-900 text-xs font-bold uppercase tracking-wider mb-2">
           <Sparkles className="w-3.5 h-3.5 text-red-700" />
-          <span>Servicio Oficial de Streaming</span>
+          <span>Suscripciones Digitales & Streaming Oficial</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-black text-neutral-900 tracking-tight">
-          Pantallas y Perfiles Streaming
+          Streaming & Suscripciones Apps IA
         </h2>
         <p className="mt-2 text-sm sm:text-base text-neutral-600 max-w-2xl mx-auto">
-          Precios oficiales en Pesos Colombianos y abajo en Bolívares en números enteros calculados con la tasa del día (<span className="font-bold text-red-800">÷ {rates.copToVesRate.toString().replace('.', ',')}</span>). Entrega inmediata y garantía completa de 30 días.
+          ChatGPT Plus, Gemini, Perplexity, CapCut, Figma, Duolingo, Netflix, Spotify y más. Precios oficiales en Pesos Colombianos y abajo en Bolívares enteros con la tasa del día (<span className="font-bold text-red-800">÷ {rates.copToVesRate.toString().replace('.', ',')}</span>). Entrega inmediata y garantía 30 días.
         </p>
 
         {/* Category Pills */}
@@ -201,10 +202,10 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
           </div>
           <div>
             <h4 className="text-lg font-black text-white">
-              ¿Deseas combos especiales o más pantallas?
+              ¿Deseas combos especiales, cuentas completas o suscripciones de IA?
             </h4>
             <p className="text-xs sm:text-sm text-neutral-400 mt-0.5">
-              Activaciones directas con pago en Pesos o Bolívares y soporte garantizado.
+              Activaciones directas con pago en Pesos o Bolívares, soporte garantizado y asesoría personalizada.
             </p>
           </div>
         </div>
@@ -212,9 +213,9 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
         <button
           type="button"
           onClick={() => {
-            const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), quiero consultar por combos o cuentas completas de streaming.`;
+            const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), quiero consultar por combos o suscripciones de Streaming / Apps de IA.`;
             if (onOpenWhatsApp) {
-              onOpenWhatsApp(msg, 'Combos Streaming Especiales');
+              onOpenWhatsApp(msg, 'Combos Streaming & Apps IA');
             } else {
               launchProtectedWhatsApp({
                 phone: rates.whatsappNumber,
@@ -225,7 +226,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
           }}
           className="whitespace-nowrap bg-white text-neutral-950 hover:bg-neutral-100 font-extrabold text-xs sm:text-sm px-6 py-3 rounded-xl transition-all shadow"
         >
-          Consultar Combos Streaming
+          Consultar Combos Streaming & IA
         </button>
       </div>
     </section>

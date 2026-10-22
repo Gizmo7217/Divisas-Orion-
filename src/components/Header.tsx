@@ -93,12 +93,29 @@ export const Header: React.FC<HeaderProps> = ({
             Medios de Pago
           </button>
           <button
+            onClick={() => onNavigate('usdt')}
+            className={`transition-colors hover:text-white flex items-center gap-1 ${
+              activeSection === 'usdt' ? 'text-amber-300 font-bold' : ''
+            }`}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+            <span>USDT Binance</span>
+          </button>
+          <button
             onClick={() => onNavigate('streaming')}
             className={`transition-colors hover:text-white ${
               activeSection === 'streaming' ? 'text-amber-300 font-bold' : ''
             }`}
           >
-            Streaming
+            Streaming & IA
+          </button>
+          <button
+            onClick={() => onNavigate('testimonios')}
+            className={`transition-colors hover:text-white ${
+              activeSection === 'testimonios' ? 'text-amber-300 font-bold' : ''
+            }`}
+          >
+            Clientes
           </button>
           <button
             onClick={() => onNavigate('como-funciona')}

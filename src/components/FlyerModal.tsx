@@ -22,7 +22,7 @@ export const FlyerModal: React.FC<FlyerModalProps> = ({ rates, isOpen, onClose }
       const ves = Math.round(cop / rates.copToVesRate);
       text += `👉 *${formatNumberWithDots(cop, 0)}* / *${formatNumberWithDots(ves, 0)} Bs*\n`;
     });
-    text += `\n💬 _"${rates.slogan}"_\n\n✅ Pagos por Nequi, Llave, Pago Móvil y Banesco.\n🍿 Pantallas streaming disponibles (Netflix, Spotify, Disney, etc.)\n📲 Escríbenos a WhatsApp ${rates.whatsappUsername || '@divisasorion'} (${rates.whatsappLink || 'https://wa.link/lreunw'}) para transferir!`;
+    text += `\n💬 _"${rates.slogan}"_\n\n✅ Pagos por Nequi, Llave, Pago Móvil y Banesco.\n🪙 Compra y Venta de USDT Binance (Pesos y Bolívares).\n🤖 Suscripciones Apps IA: ChatGPT Plus, Gemini, Perplexity, CapCut, Figma, Duolingo.\n🍿 Pantallas streaming: Netflix, Spotify, Disney+, Max.\n📲 Escríbenos a WhatsApp ${rates.whatsappUsername || '@divisasorion'} (${rates.whatsappLink || 'https://wa.link/lreunw'}) para transferir!`;
 
     navigator.clipboard.writeText(text);
     setCopied(true);
