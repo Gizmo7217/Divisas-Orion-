@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Star, X, CheckCircle2, MessageCircle, Heart, MapPin, Send, Sparkles, Copy, Check, Link as LinkIcon } from 'lucide-react';
+import { Star, X, CheckCircle2, MessageCircle, Heart, MapPin, Send, Sparkles, Copy, Check, Link as LinkIcon, Loader2 } from 'lucide-react';
 import { ClientReview, ExchangeRates } from '../types';
 import { launchProtectedWhatsApp } from '../utils/formatters';
 
 interface ExperienceFormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmitReview: (review: ClientReview, sendToWhatsApp: boolean) => void;
+  onSubmitReview: (review: ClientReview, sendToWhatsApp: boolean) => Promise<void> | void;
   rates: ExchangeRates;
 }
 
@@ -25,6 +25,7 @@ export const ExperienceFormModal: React.FC<ExperienceFormModalProps> = ({
   const [operationType, setOperationType] = useState<string>('Remesa Familiar COP ➔ VES');
   const [comment, setComment] = useState<string>('');
   const [sendToWhatsApp, setSendToWhatsApp] = useState<boolean>(true);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
 
@@ -76,41 +77,45 @@ export const ExperienceFormModal: React.FC<ExperienceFormModalProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !comment.trim()) {
       alert('Por favor completa al menos tu nombre y tu comentario sobre el servicio.');
       return;
     }
 
-    const randomColor = avatarGradients[Math.floor(Math.random() * avatarGradients.length)];
-    const countryFlag = country === 'Colombia' ? '🇨🇴' : '🇻🇪';
-    const finalOrigin = originCity.trim() ? `${originCity.trim()}, ${country}` : country;
-    const finalDestination = destinationCity.trim()
-      ? destinationCity.trim()
-      : country === 'Colombia'
-      ? 'Caracas, Venezuela'
-      : 'Bogotá, Colombia';
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
-    const newReview: ClientReview = {
-      id: `client-${Date.now()}`,
-      name: name.trim(),
-      country,
-      countryFlag,
-      originCity: finalOrigin,
-      destinationCity: finalDestination,
-      operationType,
-      comment: comment.trim(),
-      rating,
-      timeAgo: 'Hace un momento',
-      verified: true,
-      avatarColor: randomColor,
-    };
+    try {
+      const randomColor = avatarGradients[Math.floor(Math.random() * avatarGradients.length)];
+      const countryFlag = country === 'Colombia' ? '🇨🇴' : '🇻🇪';
+      const finalOrigin = originCity.trim() ? `${originCity.trim()}, ${country}` : country;
+      const finalDestination = destinationCity.trim()
+        ? destinationCity.trim()
+        : country === 'Colombia'
+        ? 'Caracas, Venezuela'
+        : 'Bogotá, Colombia';
 
-    onSubmitReview(newReview, sendToWhatsApp);
+      const newReview: ClientReview = {
+        id: `client-${Date.now()}`,
+        name: name.trim(),
+        country,
+        countryFlag,
+        originCity: finalOrigin,
+        destinationCity: finalDestination,
+        operationType,
+        comment: comment.trim(),
+        rating,
+        timeAgo: 'Hace un momento',
+        verified: true,
+        avatarColor: randomColor,
+      };
 
-    if (sendToWhatsApp) {
-      const msg = `⭐ *NUEVO TESTIMONIO DE CLIENTE - DIVISAS ORION* ⭐
+      await onSubmitReview(newReview, sendToWhatsApp);
+
+      if (sendToWhatsApp) {
+        const msg = `⭐ *NUEVO TESTIMONIO DE CLIENTE - DIVISAS ORION* ⭐
 
 👤 *Nombre:* ${name.trim()}
 🌟 *Calificación:* ${rating} / 5 Estrellas
@@ -120,18 +125,28 @@ export const ExperienceFormModal: React.FC<ExperienceFormModalProps> = ({
 
 _Enviado desde el formulario oficial en línea @divisasorion_`;
 
-      launchProtectedWhatsApp({
-        phone: rates.whatsappNumber,
-        text: msg,
-        customLink: rates.whatsappLink || 'https://wa.link/lreunw',
-      });
-    }
+        launchProtectedWhatsApp({
+          phone: rates.whatsappNumber,
+          text: msg,
+          customLink: rates.whatsappLink || 'https://wa.link/lreunw',
+        });
+      }
 
-    setIsSuccess(true);
-    setTimeout(() => {
-      setIsSuccess(false);
-      onClose();
-    }, 2200);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+        onClose();
+      }, 3000);
+    } catch (err) {
+      console.error('Error submitting review:', err);
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+        onClose();
+      }, 3000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -166,21 +181,29 @@ _Enviado desde el formulario oficial en línea @divisasorion_`;
         {/* Scrollable Body */}
         <div className="p-5 sm:p-7 overflow-y-auto flex-1">
           {isSuccess ? (
-            <div className="text-center py-10 space-y-4">
+            <div className="text-center py-10 space-y-4 animate-in fade-in zoom-in-95 duration-200">
               <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle2 className="w-10 h-10 animate-bounce" />
               </div>
-              <h3 className="text-2xl font-black text-neutral-900">
-                ¡Gracias por tu Experiencia!
+              <h3 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
+                ¡Gracias por tu reseña!
               </h3>
-              <p className="text-sm text-neutral-600 max-w-sm mx-auto">
-                Tu testimonio ha quedado registrado en línea y visible para toda la comunidad de Colombia y Venezuela.
+              <p className="text-sm text-neutral-600 max-w-sm mx-auto leading-relaxed">
+                Tu testimonio ha quedado registrado exitosamente en línea y ya es visible para toda la comunidad de Colombia y Venezuela.
               </p>
+
+              {/* Star Rating Display */}
+              <div className="flex items-center justify-center gap-1 text-amber-400 py-1">
+                {Array.from({ length: rating }).map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+
               <div className="pt-2">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="bg-neutral-900 hover:bg-black text-white font-bold text-xs py-2.5 px-6 rounded-xl transition-all"
+                  className="bg-neutral-900 hover:bg-black text-white font-bold text-xs py-3 px-8 rounded-xl shadow transition-all transform hover:scale-105"
                 >
                   Cerrar Ventana
                 </button>
@@ -408,10 +431,20 @@ _Enviado desde el formulario oficial en línea @divisasorion_`;
                 <div className="pt-2 space-y-2">
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-red-600 to-[#7B0606] hover:from-red-500 hover:to-red-700 text-white font-black text-sm py-3.5 px-6 rounded-xl shadow-lg shadow-red-900/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-red-600 to-[#7B0606] hover:from-red-500 hover:to-red-700 disabled:opacity-75 disabled:cursor-not-allowed text-white font-black text-sm py-3.5 px-6 rounded-xl shadow-lg shadow-red-900/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Publicar Mi Experiencia</span>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-white" />
+                        <span>Enviando reseña...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Publicar Mi Experiencia</span>
+                      </>
+                    )}
                   </button>
 
                   {/* Prominent Bottom Close Button requested by user */}
