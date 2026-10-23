@@ -30,7 +30,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const parsedCopToVes = parseFloat(copToVes.replace(',', '.')) || 3.60;
-    const parsedVesToCop = parseFloat(vesToCop.replace(',', '.')) || 2.75;
+    const parsedVesToCop = parseFloat(vesToCop.replace(',', '.')) || 2.85;
 
     const updated: ExchangeRates = {
       ...rates,
@@ -121,7 +121,7 @@ export const RatesAdminModal: React.FC<RatesAdminModalProps> = ({
                 type="text"
                 value={vesToCop}
                 onChange={(e) => setVesToCop(e.target.value)}
-                placeholder="Ej. 2.75"
+                placeholder="Ej. 2.85"
                 className="w-full bg-neutral-950 border-2 border-neutral-700 focus:border-red-500 rounded-xl py-2.5 px-3 text-lg font-black text-white outline-none"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-neutral-500">

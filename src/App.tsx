@@ -40,7 +40,7 @@ export default function App() {
           ...INITIAL_RATES,
           ...parsed,
           copToVesRate: 3.60,
-          vesToCopRate: 2.75,
+          vesToCopRate: 2.85,
           whatsappLink: 'https://wa.link/lreunw', // Always prioritize the user's official encrypted link
           lastUpdated: todayColombia, // Always active date for today in Colombia
         };
