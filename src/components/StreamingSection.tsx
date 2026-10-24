@@ -28,7 +28,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
       : STREAMING_PRODUCTS.filter((p) => p.category === selectedCategory);
 
   const handleOrder = (product: StreamingProduct) => {
-    const vesPrice = product.priceCOP / rates.copToVesRate;
+    const vesPrice = product.priceVES;
     const text = getStreamingMessageText({
       productName: product.name,
       priceCOP: product.priceCOP,
@@ -82,8 +82,8 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
       {/* Grid of the 9 streaming services */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.map((product) => {
-          // Calculate integer Bolivares applying the current rate
-          const vesIntegerPrice = Math.round(product.priceCOP / rates.copToVesRate);
+          // Direct price in Bolívares without formula
+          const vesIntegerPrice = product.priceVES;
 
           return (
             <div
@@ -135,10 +135,10 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
                     {formatCOP(product.priceCOP)}
                   </div>
 
-                  {/* Below: Price in Bolívares in WHOLE NUMBERS (enteros) */}
+                  {/* Below: Price in Bolívares */}
                   <div className="mt-2.5 pt-2 border-t border-neutral-800 flex flex-col items-center justify-center">
                     <span className="text-[10px] text-red-300 uppercase font-black tracking-wider flex items-center gap-1">
-                      <span>🇻🇪 En Bolívares (Tasa {rates.copToVesRate.toString().replace('.', ',')}):</span>
+                      <span>🇻🇪 En Bolívares:</span>
                     </span>
                     <div
                       className="text-xl sm:text-2xl font-black text-white mt-0.5 tracking-tight font-mono"
@@ -146,7 +146,7 @@ export const StreamingSection: React.FC<StreamingSectionProps> = ({ rates, onOpe
                       {formatNumberWithDots(vesIntegerPrice, 0)} Bs
                     </div>
                     <span className="text-[10px] text-neutral-400">
-                      Resultado en número entero
+                      Precio oficial en Bolívares
                     </span>
                   </div>
                 </div>
