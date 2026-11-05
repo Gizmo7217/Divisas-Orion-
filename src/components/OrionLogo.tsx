@@ -39,7 +39,7 @@ export const OrionLogo: React.FC<OrionLogoProps> = ({
             DIVISAS <span className="text-amber-300">ORION</span>
           </span>
           <span className="text-[10px] sm:text-[11px] font-semibold text-red-200 tracking-wider uppercase mt-0.5">
-            Giros • Remesas • Streaming
+            Giros • Remesas • Colombia & Venezuela
           </span>
         </div>
       )}

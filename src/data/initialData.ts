@@ -2,7 +2,7 @@ import { ExchangeRates, PaymentMethodDetail, StreamingProduct, ClientReview } fr
 import { getColombiaDate } from '../utils/formatters';
 
 export const INITIAL_RATES: ExchangeRates = {
-  copToVesRate: 3.60,
+  copToVesRate: 3.65,
   vesToCopRate: 2.75,
   lastUpdated: getColombiaDate(),
   whatsappNumber: '573135459314', // Default backend number (kept hidden from UI)
@@ -407,7 +407,7 @@ export const PRESET_VES_AMOUNTS = [
 export const FAQS = [
   {
     q: '¿Cómo funciona la tasa de Pesos a Bolívares (COP a VES)?',
-    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,60). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
+    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,65). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
   },
   {
     q: '¿Cómo funciona la tasa de Bolívares a Pesos (VES a COP)?',
@@ -420,10 +420,6 @@ export const FAQS = [
   {
     q: '¿Cuáles son los métodos de pago aceptados y cómo obtengo los datos para transferir?',
     a: 'En Colombia aceptamos Nequi y Llave (para transferencias desde cualquier banco), y en Venezuela aceptamos Pago Móvil y Banesco. Por motivos de seguridad y disponibilidad de cuentas, los datos oficiales para transferir se solicitan directamente por WhatsApp a nuestro usuario oficial @divisasorion al momento de realizar tu operación.',
-  },
-  {
-    q: '¿Cómo funcionan las pantallas streaming y qué garantía tienen?',
-    a: 'Las pantallas streaming de Netflix, Spotify, Disney+, Max, Crunchyroll, Paramount+ y YouTube Premium se entregan al instante luego del pago. Cuentan con soporte y garantía completa de 30 días con renovación garantizada sin perder tus favoritos ni perfiles.',
   },
 ];
 
@@ -473,8 +469,8 @@ export const SATISFIED_CLIENTS: ClientReview[] = [
     countryFlag: '🇨🇴',
     originCity: 'Medellín, Colombia',
     destinationCity: 'Maracaibo, Venezuela',
-    operationType: 'Nequi ➔ Banesco + Netflix',
-    comment: 'Excelente atención por WhatsApp. Pago directamente por Nequi y me transfieren a Banesco súper rápido. Además compré mi pantalla de Netflix con PIN privado y va impecable sin caídas.',
+    operationType: 'Nequi ➔ Banesco (COP ➔ VES)',
+    comment: 'Excelente atención por WhatsApp. Pago directamente por Nequi y me transfieren a Banesco súper rápido con la tasa más justa del día. Todo 100% transparente y confiable.',
     rating: 5,
     timeAgo: 'Hace 2 horas',
     verified: true,

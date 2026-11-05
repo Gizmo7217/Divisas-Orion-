@@ -1,7 +1,7 @@
 import React, { useState, useId, useEffect } from 'react';
 import { CurrencyDirection, ExchangeRates } from '../types';
-import { calculateRemesa, getRemesaMessageText, launchProtectedWhatsApp, formatCOP, formatVES, formatVESInteger, formatNumberWithDots } from '../utils/formatters';
-import { MessageCircle, Copy, Check, Calculator as CalcIcon, ShieldCheck, Info, Sparkles, ArrowRight, Zap, RefreshCw } from 'lucide-react';
+import { calculateRemesa, getRemesaMessageText, launchProtectedWhatsApp, formatCOP, formatVES, formatVESInteger, formatNumberWithDots, isBusinessOpenColombia } from '../utils/formatters';
+import { MessageCircle, Copy, Check, Calculator as CalcIcon, ShieldCheck, Info, Sparkles, ArrowRight, Zap, RefreshCw, Clock, Lock, AlertCircle } from 'lucide-react';
 
 interface CalculatorProps {
   rates: ExchangeRates;
@@ -20,10 +20,23 @@ export const Calculator: React.FC<CalculatorProps> = ({
   onDirectionChange,
   onOpenWhatsApp,
 }) => {
+  // Business hours check (America/Bogota: 8:00 AM - 10:00 PM)
+  const [isBusinessOpen, setIsBusinessOpen] = useState<boolean>(() => isBusinessOpenColombia());
+
+  // Check schedule every 15 seconds to update in real time
+  useEffect(() => {
+    const checkSchedule = () => {
+      setIsBusinessOpen(isBusinessOpenColombia());
+    };
+    checkSchedule();
+    const interval = setInterval(checkSchedule, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
   // View mode: both side-by-side or single focused
   const [viewMode, setViewMode] = useState<'both' | 'cop_to_ves' | 'ves_to_cop'>('both');
 
-  // Calculator 1: Pesos a Bolívares (COP -> VES, rate 3.55, division)
+  // Calculator 1: Pesos a Bolívares (COP -> VES, rate 3.65, division)
   const [copInput, setCopInput] = useState<string>('100000');
   const [copPayment, setCopPayment] = useState<string>('Nequi');
   const [copiedCop, setCopiedCop] = useState<boolean>(false);
@@ -51,8 +64,8 @@ export const Calculator: React.FC<CalculatorProps> = ({
   const numCop = parseFloat(copInput.replace(/[^0-9.]/g, '')) || 0;
   const numVes = parseFloat(vesInput.replace(/[^0-9.]/g, '')) || 0;
 
-  // Calculadora 1: COP a VES (Pesos / 3.60 = Bolívares con enteros y 2 decimales)
-  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.60;
+  // Calculadora 1: COP a VES (Pesos / 3.65 = Bolívares con enteros y 2 decimales)
+  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.65;
   const vesCalculated = numCop / safeCopRate;
   const vesExactFormatted = `${formatNumberWithDots(vesCalculated, 2)} Bs`;
   const vesIntegerFormatted = `${formatNumberWithDots(Math.round(vesCalculated), 0)} Bs`;
@@ -91,13 +104,23 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
       paymentMethod: copPayment,
     });
 
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+        setCopiedCop(true);
+        setTimeout(() => setCopiedCop(false), 2500);
+      }
+    } catch {
+      // Ignorar restricciones
+    }
+
     if (onOpenWhatsApp) {
       onOpenWhatsApp(text, 'Cotización Pesos a Bolívares (🇨🇴 ➔ 🇻🇪)');
     } else {
       launchProtectedWhatsApp({
         phone: rates.whatsappNumber,
         text,
-        customLink: rates.whatsappLink,
+        customLink: rates.whatsappLink || 'https://wa.link/lreunw',
       });
     }
   };
@@ -127,13 +150,23 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
       paymentMethod: vesPayment,
     });
 
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+        setCopiedVes(true);
+        setTimeout(() => setCopiedVes(false), 2500);
+      }
+    } catch {
+      // Ignorar restricciones
+    }
+
     if (onOpenWhatsApp) {
       onOpenWhatsApp(text, 'Cotización Bolívares a Pesos (🇻🇪 ➔ 🇨🇴)');
     } else {
       launchProtectedWhatsApp({
         phone: rates.whatsappNumber,
         text,
-        customLink: rates.whatsappLink,
+        customLink: rates.whatsappLink || 'https://wa.link/lreunw',
       });
     }
   };
@@ -142,10 +175,32 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
     <section id="calculadora" className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       {/* Section Header */}
       <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-100 text-red-900 text-xs font-black uppercase tracking-wider mb-2 border border-red-200">
-          <CalcIcon className="w-4 h-4 text-red-700" />
-          <span>Calculadoras Interactivas en Vivo</span>
+        {/* Real-time Business Status Badge */}
+        {isBusinessOpen ? (
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-black uppercase tracking-wider mb-2 border border-emerald-300 shadow-sm">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+            </span>
+            <span>🟢 En Línea • Calculadora Activa (8:00 AM - 10:00 PM)</span>
+          </div>
+        ) : (
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900 text-red-400 text-xs font-black uppercase tracking-wider mb-2 border-2 border-red-500/80 shadow-md">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
+            </span>
+            <span>🔴 Fuera de Línea • Calculadora Inactiva (Apertura: 8:00 AM)</span>
+          </div>
+        )}
+
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-900 text-xs font-black uppercase tracking-wider border border-red-200">
+            <CalcIcon className="w-3.5 h-3.5 text-red-700" />
+            <span>Calculadoras Interactivas en Vivo</span>
+          </div>
         </div>
+
         <h2 className="text-3xl sm:text-5xl font-black text-neutral-900 tracking-tight">
           Cotiza tu Giro al Instante
         </h2>
@@ -153,6 +208,49 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
           Calcula con total exactitud en ambas direcciones con las tasas oficiales del día:
           división a <span className="font-bold text-red-700">{safeCopRate.toString().replace('.', ',')}</span> de Pesos a Bolívares y multiplicación a <span className="font-bold text-red-700">{safeVesRate.toString().replace('.', ',')}</span> de Bolívares a Pesos.
         </p>
+
+        {/* Notice Banner when closed */}
+        {!isBusinessOpen && (
+          <div className="mt-5 p-4 sm:p-5 rounded-2xl bg-neutral-900 border-2 border-red-500/80 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-white max-w-3xl mx-auto animate-in fade-in duration-300">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-red-950 border border-red-500/60 flex items-center justify-center text-red-400 flex-shrink-0">
+                <Clock className="w-6 h-6 animate-pulse" />
+              </div>
+              <div>
+                <div className="flex items-center justify-center sm:justify-start gap-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-red-400 bg-red-950 px-2 py-0.5 rounded border border-red-500/40">
+                    Fuera de Línea
+                  </span>
+                  <span className="text-xs font-bold text-neutral-300">
+                    Horario: 8:00 AM a 10:00 PM (Lunes a Domingo)
+                  </span>
+                </div>
+                <p className="text-xs text-neutral-300 mt-1">
+                  La calculadora se encuentra <strong>grisácea e inactiva</strong> fuera de horario. Se activará automáticamente a las 8:00 AM para que puedas cotizar y realizar tus cambios.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), me comunico fuera del horario de atención. Deseo dejar mi consulta para ser atendido en el horario de 8:00 am a 10:00 pm.`;
+                if (onOpenWhatsApp) {
+                  onOpenWhatsApp(msg, 'Mensaje Fuera de Horario');
+                } else {
+                  launchProtectedWhatsApp({
+                    phone: rates.whatsappNumber,
+                    text: msg,
+                    customLink: rates.whatsappLink || 'https://wa.link/lreunw',
+                  });
+                }
+              }}
+              className="whitespace-nowrap px-4 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow"
+            >
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>Dejar Consulta por WhatsApp</span>
+            </button>
+          </div>
+        )}
 
         {/* View Mode Switcher */}
         <div className="mt-6 inline-flex p-1.5 rounded-2xl bg-neutral-200 border border-neutral-300 shadow-inner">
@@ -189,14 +287,20 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
         </div>
       </div>
 
-      {/* Two Interactive Calculators Grid */}
-      <div
-        className={`grid gap-8 items-stretch ${
-          viewMode === 'both'
-            ? 'grid-cols-1 lg:grid-cols-2'
-            : 'grid-cols-1 max-w-3xl mx-auto'
-        }`}
-      >
+      {/* Two Interactive Calculators Relative Container */}
+      <div className="relative">
+        {/* Two Interactive Calculators Grid */}
+        <div
+          className={`grid gap-8 items-stretch transition-all duration-300 ${
+            !isBusinessOpen
+              ? 'filter grayscale contrast-75 opacity-40 pointer-events-none select-none'
+              : ''
+          } ${
+            viewMode === 'both'
+              ? 'grid-cols-1 lg:grid-cols-2'
+              : 'grid-cols-1 max-w-3xl mx-auto'
+          }`}
+        >
         {/* ==================================================================== */}
         {/* CALCULADORA 1: PESOS A BOLÍVARES (División entre 3.60)               */}
         {/* ==================================================================== */}
@@ -255,10 +359,11 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
                     type="number"
                     min="0"
                     step="any"
+                    disabled={!isBusinessOpen}
                     value={copInput}
                     onChange={(e) => setCopInput(e.target.value)}
                     placeholder="Ej. 100000"
-                    className="w-full bg-black/70 border-2 border-red-600/60 focus:border-amber-400 focus:ring-4 focus:ring-red-500/20 rounded-2xl py-3.5 pl-12 pr-4 text-2xl sm:text-3xl font-black text-white placeholder-neutral-600 outline-none transition-all shadow-inner font-mono"
+                    className="w-full bg-black/70 border-2 border-red-600/60 focus:border-amber-400 focus:ring-4 focus:ring-red-500/20 rounded-2xl py-3.5 pl-12 pr-4 text-2xl sm:text-3xl font-black text-white placeholder-neutral-600 outline-none transition-all shadow-inner font-mono disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
@@ -448,10 +553,11 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
                     type="number"
                     min="0"
                     step="any"
+                    disabled={!isBusinessOpen}
                     value={vesInput}
                     onChange={(e) => setVesInput(e.target.value)}
                     placeholder="Ej. 20000"
-                    className="w-full bg-black/70 border-2 border-amber-600/60 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/20 rounded-2xl py-3.5 pl-14 pr-4 text-2xl sm:text-3xl font-black text-white placeholder-neutral-600 outline-none transition-all shadow-inner font-mono"
+                    className="w-full bg-black/70 border-2 border-amber-600/60 focus:border-amber-400 focus:ring-4 focus:ring-amber-500/20 rounded-2xl py-3.5 pl-14 pr-4 text-2xl sm:text-3xl font-black text-white placeholder-neutral-600 outline-none transition-all shadow-inner font-mono disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
@@ -579,6 +685,53 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
                   </>
                 )}
               </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+        {/* Overlay Card when Closed (Fuera de Línea) */}
+        {!isBusinessOpen && (
+          <div className="absolute inset-0 z-30 flex items-center justify-center p-4 bg-neutral-950/40 backdrop-blur-[2px] rounded-3xl">
+            <div className="bg-neutral-900/95 border-2 border-red-500/90 text-white p-6 sm:p-8 rounded-3xl shadow-2xl max-w-md text-center space-y-3 pointer-events-auto animate-in fade-in zoom-in-95 duration-200">
+              <div className="w-14 h-14 bg-red-950 border border-red-500/60 text-red-400 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                <Lock className="w-7 h-7" />
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-900/60 border border-red-500/50 text-red-300 text-xs font-black uppercase tracking-wider">
+                <span>🔴 Fuera de Línea</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-white">
+                Calculadora Inactiva
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+                En estos momentos nos encontramos fuera de línea. La calculadora se encuentra inactiva hasta nuestro horario de atención:
+                <br />
+                <strong className="text-amber-300">8:00 AM a 10:00 PM (Lunes a Domingo)</strong>.
+              </p>
+              <p className="text-[11px] text-neutral-400">
+                Al llegar la hora de apertura (8:00 AM) se activará automáticamente a todo color para cotizar y solicitar tus cambios.
+              </p>
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const msg = `Hola Divisas Orion (${rates.whatsappUsername || '@divisasorion'}), me comunico fuera del horario de atención. Deseo dejar mi consulta para ser atendido en el horario de 8:00 am a 10:00 pm.`;
+                    if (onOpenWhatsApp) {
+                      onOpenWhatsApp(msg, 'Mensaje Fuera de Horario');
+                    } else {
+                      launchProtectedWhatsApp({
+                        phone: rates.whatsappNumber,
+                        text: msg,
+                        customLink: rates.whatsappLink || 'https://wa.link/lreunw',
+                      });
+                    }
+                  }}
+                  className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-black text-xs sm:text-sm py-3 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 transform hover:scale-105"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>Dejar Consulta por WhatsApp</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

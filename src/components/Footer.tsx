@@ -2,16 +2,15 @@ import React from 'react';
 import { OrionLogo } from './OrionLogo';
 import { ExchangeRates } from '../types';
 import { launchProtectedWhatsApp } from '../utils/formatters';
-import { MessageCircle, ShieldCheck, Heart, Clock, ArrowUp, Settings } from 'lucide-react';
+import { MessageCircle, ShieldCheck, Heart, Clock, ArrowUp } from 'lucide-react';
 
 interface FooterProps {
   rates: ExchangeRates;
-  onOpenSettings: () => void;
   onOpenFlyerModal: () => void;
   onOpenWhatsApp?: (msg: string, title?: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFlyerModal, onOpenWhatsApp }) => {
+export const Footer: React.FC<FooterProps> = ({ rates, onOpenFlyerModal, onOpenWhatsApp }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -27,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
               "{rates.slogan}"
             </p>
             <p className="text-xs text-neutral-400 leading-relaxed max-w-md">
-              Plataforma líder y confiable de giros y remesas entre Colombia y Venezuela con tasas garantizadas del día, pagos inmediatos por Nequi, Llave, Pago Móvil y Banesco, además de pantallas streaming originales con soporte garantizado.
+              Plataforma líder y confiable de giros y remesas entre Colombia y Venezuela con tasas garantizadas del día, pagos inmediatos por Nequi, Llave, Pago Móvil y Banesco, con atención personalizada y transparente.
             </p>
             <div className="flex items-center gap-3 pt-2">
               <span className="inline-flex items-center gap-1.5 text-xs text-emerald-400 font-semibold bg-emerald-950/80 border border-emerald-800/80 px-3 py-1 rounded-full">
@@ -47,10 +46,9 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
             <ul className="space-y-2 text-xs text-neutral-400">
               <li>• Giros Colombia a Venezuela (COP ➔ VES)</li>
               <li>• Giros Venezuela a Colombia (VES ➔ COP)</li>
-              <li>• Compra y Venta USDT Binance (Pesos y Bolívares)</li>
-              <li>• Suscripciones Apps IA (ChatGPT, Gemini, Figma, CapCut)</li>
-              <li>• Cuentas Nequi, Llave, Pago Móvil & Banesco</li>
-              <li>• Pantallas Netflix, Spotify, Disney+, Max, Prime</li>
+              <li>• Transferencias inmediatas Nequi & Llave</li>
+              <li>• Pagos inmediatos Pago Móvil & Banesco</li>
+              <li>• Próximamente: Streaming en página aliada Orión Service</li>
               <li>• Asesoría directa por WhatsApp @divisasorion</li>
             </ul>
           </div>
@@ -89,25 +87,18 @@ export const Footer: React.FC<FooterProps> = ({ rates, onOpenSettings, onOpenFly
                   <span>Chatear con {rates.whatsappUsername || '@divisasorion'}</span>
                 </button>
               </div>
-
-              <div className="pt-3">
-                <button
-                  type="button"
-                  onClick={onOpenSettings}
-                  className="w-full flex items-center justify-center gap-1.5 text-[11px] font-semibold text-neutral-400 hover:text-white py-1.5 px-3 rounded-lg border border-neutral-800 hover:border-neutral-700 bg-neutral-900/60 transition-colors"
-                >
-                  <Settings className="w-3.5 h-3.5 text-neutral-400" />
-                  <span>Panel Administrador de Tasas</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
-          <div>
+          <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-center sm:text-left">
             <span>© {new Date().getFullYear()} Divisas Orion. Todos los derechos reservados.</span>
+            <span className="hidden sm:inline text-neutral-700">•</span>
+            <span className="text-neutral-400 font-medium">
+              Diseño Web creado por <strong className="text-amber-400 font-bold">Orion Services</strong>
+            </span>
           </div>
 
           <div className="flex items-center gap-4">

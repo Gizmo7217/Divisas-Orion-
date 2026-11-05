@@ -134,35 +134,34 @@ export function getRemesaMessageText(options: {
     const toInteger = `${formatNumberWithDots(Math.round(options.toAmount), 0)} Bs`;
     const rateStr = options.rateApplied.toString().replace('.', ',');
 
-    return `👋 Hola Divisas Orion (@divisasorion), deseo realizar este cambio:
+    return `👋 Hola Divisas Orion (@divisasorion), deseo realizar una cotización de cambio:
 
-🇨🇴 *Monto a enviar en Colombia:* ${fromText}
-💳 *Medio de pago en Colombia:* ${options.paymentMethod || 'Nequi'}
+🇨🇴 *Monto que deseo enviar:* ${fromText}
+💳 *Método de pago preferido:* ${options.paymentMethod || 'Nequi'}
 📊 *Tasa del día:* ${rateStr} (División ÷ ${rateStr})
-🇻🇪 *Resultado exacto a entregar en Venezuela:* ${toExact}
-🔢 *Número entero redondeado:* ${toInteger}
-📝 *Desglose:* ${formatNumberWithDots(Math.round(options.fromAmount), 0)} COP ÷ ${rateStr} = ${toExact}
+🇻🇪 *Resultado a recibir en Venezuela:* ${toExact} (Entero: ${toInteger})
+📝 *Desglose del cálculo:* ${formatNumberWithDots(Math.round(options.fromAmount), 0)} COP ÷ ${rateStr} = ${toExact}
 
-Por favor indíquenme los datos de la cuenta activa para transferir y realizar mi giro. ¡Muchas gracias!`;
+Por favor facilítenme los datos de la cuenta activa para realizar la transferencia. Quedo atento para que me atienda su bot o asesor. ¡Muchas gracias!`;
   } else {
     const fromText = `${formatNumberWithDots(Math.round(options.fromAmount), 0)} Bs`;
     const toExact = `$ ${formatNumberWithDots(Math.round(options.toAmount), 0)} COP`;
     const rateStr = options.rateApplied.toString().replace('.', ',');
 
-    return `👋 Hola Divisas Orion (@divisasorion), deseo realizar este cambio:
+    return `👋 Hola Divisas Orion (@divisasorion), deseo realizar una cotización de cambio:
 
-🇻🇪 *Monto a enviar en Venezuela:* ${fromText}
-💳 *Medio de pago en Venezuela:* ${options.paymentMethod || 'Pago Móvil'}
+🇻🇪 *Monto que deseo enviar:* ${fromText}
+💳 *Método de pago preferido:* ${options.paymentMethod || 'Pago Móvil'}
 📊 *Tasa del día:* ${rateStr} (Multiplicación × ${rateStr})
-🇨🇴 *Monto a recibir en Colombia:* ${toExact}
-📝 *Desglose:* ${fromText} × ${rateStr} = ${toExact}
+🇨🇴 *Resultado a recibir en Colombia:* ${toExact}
+📝 *Desglose del cálculo:* ${fromText} × ${rateStr} = ${toExact}
 
-Por favor indíquenme los datos de la cuenta activa para transferir y realizar mi giro. ¡Muchas gracias!`;
+Por favor facilítenme los datos de la cuenta activa para realizar la transferencia. Quedo atento para que me atienda su bot o asesor. ¡Muchas gracias!`;
   }
 }
 
 export function createWhatsAppMessage(options: {
-  phone: string;
+  phone?: string;
   direction: CurrencyDirection;
   fromAmount: number;
   toAmount: number;
@@ -172,10 +171,11 @@ export function createWhatsAppMessage(options: {
   customLink?: string;
 }): string {
   const text = getRemesaMessageText(options);
-  const link = (options.customLink && options.customLink.trim().length > 0)
+  const baseLink = (options.customLink && options.customLink.trim().length > 0)
     ? options.customLink.trim()
     : 'https://wa.link/lreunw';
-  return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
+  const encodedText = encodeURIComponent(text);
+  return baseLink.includes('?') ? `${baseLink}&text=${encodedText}` : `${baseLink}?text=${encodedText}`;
 }
 
 export function getStreamingMessageText(options: {
@@ -198,7 +198,7 @@ Por favor facilítenme los datos para transferir y la entrega de mi pantalla. ¡
 }
 
 export function createStreamingWhatsAppMessage(options: {
-  phone: string;
+  phone?: string;
   productName: string;
   priceCOP: number;
   priceVES: number;
@@ -206,27 +206,77 @@ export function createStreamingWhatsAppMessage(options: {
   customLink?: string;
 }): string {
   const text = getStreamingMessageText(options);
-  const link = (options.customLink && options.customLink.trim().length > 0)
+  const baseLink = (options.customLink && options.customLink.trim().length > 0)
     ? options.customLink.trim()
     : 'https://wa.link/lreunw';
-  return `${link}${link.includes('?') ? '&' : '?'}text=${encodeURIComponent(text)}`;
+  const encodedText = encodeURIComponent(text);
+  return baseLink.includes('?') ? `${baseLink}&text=${encodedText}` : `${baseLink}?text=${encodedText}`;
 }
 
 export function launchProtectedWhatsApp(options: {
-  phone: string;
-  text: string;
+  phone?: string;
+  text?: string;
   customLink?: string;
 }): void {
-  const encodedText = encodeURIComponent(options.text);
-  const link = (options.customLink && options.customLink.trim().length > 0)
-    ? options.customLink.trim()
-    : 'https://wa.link/lreunw';
+  const cleanPhone = (options.phone || '573135459314').replace(/[^0-9]/g, '');
 
-  // Blindaje 100%: usa el enlace encriptado oficial wa.link/lreunw
-  // La barra de direcciones NUNCA muestra api.whatsapp.com/send/?phone= ni el número de celular
-  const finalUrl = link.includes('?')
-    ? `${link}&text=${encodedText}`
-    : `${link}?text=${encodedText}`;
+  let targetUrl: string;
 
-  window.open(finalUrl, '_blank');
+  if (options.text && options.text.trim().length > 0) {
+    // Cuando hay texto de cotización para enviar al bot o asesor, se usa api.whatsapp.com
+    // con el número de la empresa. Esto garantiza que WhatsApp precargue y escriba DE UNA VEZ
+    // el pedido completo en la barra de mensaje, listo para enviar.
+    const encodedText = encodeURIComponent(options.text.trim());
+    targetUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodedText}`;
+
+    // Copia automática de respaldo al portapapeles
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      try {
+        navigator.clipboard.writeText(options.text);
+      } catch {
+        // Ignorar si el navegador restringe permisos de clipboard
+      }
+    }
+  } else {
+    // Si es un contacto general sin cotización específica, se usa el acortador wa.link
+    targetUrl = (options.customLink && options.customLink.trim().length > 0)
+      ? options.customLink.trim()
+      : 'https://wa.link/lreunw';
+  }
+
+  // Apertura segura que no rompa el contenedor WebApk / PWA de Android ni cause errores de página:
+  // Disparamos un click en un elemento <a> en el DOM con target="_blank" y rel="noopener noreferrer".
+  // Esto le indica a Android que delegue limpiamente hacia WhatsApp sin interrumpir la app.
+  if (typeof document !== 'undefined') {
+    try {
+      const linkEl = document.createElement('a');
+      linkEl.href = targetUrl;
+      linkEl.target = '_blank';
+      linkEl.rel = 'noopener noreferrer';
+      document.body.appendChild(linkEl);
+      linkEl.click();
+      setTimeout(() => {
+        try {
+          if (document.body.contains(linkEl)) {
+            document.body.removeChild(linkEl);
+          }
+        } catch {
+          // Ignorar si ya fue removido
+        }
+      }, 200);
+      return;
+    } catch {
+      // Continuar con fallback
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    try {
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    } catch {
+      // noop
+    }
+  }
 }
+
+

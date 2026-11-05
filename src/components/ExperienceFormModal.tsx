@@ -390,11 +390,7 @@ _Enviado desde el formulario oficial en línea @divisasorion_`;
                   >
                     <option value="Remesa Familiar COP ➔ VES">🇨🇴 ➔ 🇻🇪 Remesa Familiar (Pesos a Bolívares)</option>
                     <option value="Giro VES ➔ COP (Nequi / Llave)">🇻🇪 ➔ 🇨🇴 Giro a Colombia (Bolívares a Pesos Nequi)</option>
-                    <option value="Compra USDT Binance con Pesos">🪙 Compra USDT Binance con Pesos (COP)</option>
-                    <option value="Venta USDT por Pago Móvil">🪙 Venta USDT por Pago Móvil (VES)</option>
-                    <option value="Suscripción App IA (ChatGPT, Gemini, etc.)">🤖 Suscripción App IA (ChatGPT, Gemini, CapCut, etc.)</option>
-                    <option value="Pantalla Streaming (Netflix, Disney, Spotify)">🍿 Pantalla Streaming (Netflix, Disney+, Max, etc.)</option>
-                    <option value="Operación de Cambio Especial">🤝 Otra Operación / Consulta</option>
+                    <option value="Operación de Cambio Especial">🤝 Otra Operación / Consulta de Cambio</option>
                   </select>
                 </div>
 

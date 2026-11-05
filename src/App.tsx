@@ -7,14 +7,12 @@ import { Calculator } from './components/Calculator';
 import { QuickTables } from './components/QuickTables';
 import { PaymentMethods } from './components/PaymentMethods';
 import { StreamingSection } from './components/StreamingSection';
-import { UsdtSection } from './components/UsdtSection';
 import { HowItWorks } from './components/HowItWorks';
 import { SatisfiedClients } from './components/SatisfiedClients';
 import { TrustAndFaq } from './components/TrustAndFaq';
 import { Footer } from './components/Footer';
 import { FlyerModal } from './components/FlyerModal';
-import { RatesAdminModal } from './components/RatesAdminModal';
-import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { OrionBotChat } from './components/OrionBotChat';
 import { getColombiaDate, launchProtectedWhatsApp } from './utils/formatters';
 import { saveRatesToCloud, listenToCloudRates } from './lib/firebase';
 
@@ -35,11 +33,11 @@ export default function App() {
         if (!parsed.whatsappLink || parsed.whatsappLink.trim() === '') {
           parsed.whatsappLink = 'https://wa.link/lreunw';
         }
-        parsed.copToVesRate = 3.60;
+        parsed.copToVesRate = 3.65;
         const merged = {
           ...INITIAL_RATES,
           ...parsed,
-          copToVesRate: 3.60,
+          copToVesRate: 3.65,
           vesToCopRate: 2.75,
           whatsappLink: 'https://wa.link/lreunw', // Always prioritize the user's official encrypted link
           lastUpdated: todayColombia, // Always active date for today in Colombia
@@ -58,7 +56,6 @@ export default function App() {
   const [activeDirection, setActiveDirection] = useState<CurrencyDirection>('COP_TO_VES');
   const [calculatorAmount, setCalculatorAmount] = useState<number | null>(null);
   const [isFlyerModalOpen, setIsFlyerModalOpen] = useState<boolean>(false);
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('calculadora');
 
   // Listen to cloud rates from Firestore across all devices
@@ -66,7 +63,7 @@ export default function App() {
     // Sync current default rates to Firestore cloud
     saveRatesToCloud({
       ...INITIAL_RATES,
-      copToVesRate: 3.60,
+      copToVesRate: 3.65,
       vesToCopRate: 2.75,
     });
 
@@ -90,20 +87,7 @@ export default function App() {
     });
   };
 
-  // Save rates to localStorage and cloud Firestore
-  const handleSaveRates = (newRates: ExchangeRates) => {
-    const withTodayDate = {
-      ...newRates,
-      lastUpdated: getColombiaDate(),
-    };
-    setRates(withTodayDate);
-    try {
-      localStorage.setItem('divisas_orion_rates', JSON.stringify(withTodayDate));
-    } catch (e) {
-      console.error('Error saving rates:', e);
-    }
-    saveRatesToCloud(withTodayDate);
-  };
+
 
   const handleSelectAmountFromTable = (amount: number, dir: CurrencyDirection) => {
     setActiveDirection(dir);
@@ -127,7 +111,6 @@ export default function App() {
       {/* Navigation Header */}
       <Header
         rates={rates}
-        onOpenSettings={() => setIsSettingsModalOpen(true)}
         onOpenFlyerModal={() => setIsFlyerModalOpen(true)}
         activeSection={activeSection}
         onNavigate={scrollToSection}
@@ -144,7 +127,6 @@ export default function App() {
             scrollToSection('calculadora');
           }}
           onOpenFlyerModal={() => setIsFlyerModalOpen(true)}
-          onOpenSettings={() => setIsSettingsModalOpen(true)}
         />
 
         {/* Live Interactive Remittance Calculator */}
@@ -172,17 +154,8 @@ export default function App() {
           onOpenWhatsApp={handleOpenSecureWhatsApp}
         />
 
-        {/* Compra y Venta de USDT Binance (Pesos Colombianos y Bolívares) */}
-        <UsdtSection
-          rates={rates}
-          onOpenWhatsApp={handleOpenSecureWhatsApp}
-        />
-
-        {/* Streaming & Suscripciones Apps IA (ChatGPT, Gemini, Perplexity, CapCut, Figma, Duolingo, etc.) */}
-        <StreamingSection
-          rates={rates}
-          onOpenWhatsApp={handleOpenSecureWhatsApp}
-        />
+        {/* Banner Próximamente Servicios de Streaming & Apps en Orion Service */}
+        <StreamingSection />
 
         {/* How It Works Steps */}
         <HowItWorks />
@@ -200,7 +173,6 @@ export default function App() {
       {/* Footer */}
       <Footer
         rates={rates}
-        onOpenSettings={() => setIsSettingsModalOpen(true)}
         onOpenFlyerModal={() => setIsFlyerModalOpen(true)}
         onOpenWhatsApp={handleOpenSecureWhatsApp}
       />
@@ -212,16 +184,9 @@ export default function App() {
         onClose={() => setIsFlyerModalOpen(false)}
       />
 
-      <RatesAdminModal
-        rates={rates}
-        isOpen={isSettingsModalOpen}
-        onClose={() => setIsSettingsModalOpen(false)}
-        onSave={handleSaveRates}
-      />
 
-
-      {/* Floating WhatsApp Action Button */}
-      <FloatingWhatsApp
+      {/* Floating Mascot with OrionBot AI Chat */}
+      <OrionBotChat
         rates={rates}
         onOpenWhatsApp={handleOpenSecureWhatsApp}
       />

@@ -7,7 +7,6 @@ interface HeroBannerProps {
   activeDirection: CurrencyDirection;
   onSelectDirection: (dir: CurrencyDirection) => void;
   onOpenFlyerModal: () => void;
-  onOpenSettings?: () => void;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({
@@ -38,7 +37,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
           </span>
           <span className="text-red-100">Giros & Remesas</span>
-          <span className="text-amber-300 font-bold">• USDT Binance • Apps IA</span>
+          <span className="text-amber-300 font-bold">• Colombia 🇨🇴 ➔ Venezuela 🇻🇪</span>
         </div>
 
         {/* Big headline following the photo style */}
