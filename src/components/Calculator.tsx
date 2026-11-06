@@ -36,7 +36,7 @@ export const Calculator: React.FC<CalculatorProps> = ({
   // View mode: both side-by-side or single focused
   const [viewMode, setViewMode] = useState<'both' | 'cop_to_ves' | 'ves_to_cop'>('both');
 
-  // Calculator 1: Pesos a Bolívares (COP -> VES, rate 3.65, division)
+  // Calculator 1: Pesos a Bolívares (COP -> VES, rate 3.70, division)
   const [copInput, setCopInput] = useState<string>('100000');
   const [copPayment, setCopPayment] = useState<string>('Nequi');
   const [copiedCop, setCopiedCop] = useState<boolean>(false);
@@ -64,8 +64,8 @@ export const Calculator: React.FC<CalculatorProps> = ({
   const numCop = parseFloat(copInput.replace(/[^0-9.]/g, '')) || 0;
   const numVes = parseFloat(vesInput.replace(/[^0-9.]/g, '')) || 0;
 
-  // Calculadora 1: COP a VES (Pesos / 3.65 = Bolívares con enteros y 2 decimales)
-  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.65;
+  // Calculadora 1: COP a VES (Pesos / 3.70 = Bolívares con enteros y 2 decimales)
+  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.70;
   const vesCalculated = numCop / safeCopRate;
   const vesExactFormatted = `${formatNumberWithDots(vesCalculated, 2)} Bs`;
   const vesIntegerFormatted = `${formatNumberWithDots(Math.round(vesCalculated), 0)} Bs`;

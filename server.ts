@@ -64,7 +64,7 @@ async function startServer() {
             numStr = numStr.replace(/\./g, '').replace(',', '.');
           }
           const val = parseFloat(numStr);
-          if (val > 0 && val !== 2026 && val !== 3.65 && val !== 2.75 && val !== 365 && val !== 275) {
+          if (val > 0 && val !== 2026 && val !== 3.70 && val !== 3.65 && val !== 2.75 && val !== 370 && val !== 365 && val !== 275) {
             amount = val;
             break;
           }
@@ -226,7 +226,7 @@ async function startServer() {
   app.post('/api/chat', async (req, res) => {
     try {
       const { message, history, rates } = req.body;
-      const copRate = Number(rates?.copToVesRate) || 3.65;
+      const copRate = Number(rates?.copToVesRate) || 3.70;
       const vesRate = Number(rates?.vesToCopRate) || 2.75;
 
       const systemInstruction = `Eres OrionBot, la mascota y asistente virtual oficial con inteligencia artificial de Divisas Orion (plataforma líder de giros y remesas entre Colombia 🇨🇴 y Venezuela 🇻🇪).
