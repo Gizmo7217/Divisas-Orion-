@@ -33,11 +33,11 @@ export default function App() {
         if (!parsed.whatsappLink || parsed.whatsappLink.trim() === '') {
           parsed.whatsappLink = 'https://wa.link/lreunw';
         }
-        parsed.copToVesRate = 3.70;
+        parsed.copToVesRate = 3.60;
         const merged = {
           ...INITIAL_RATES,
           ...parsed,
-          copToVesRate: 3.70,
+          copToVesRate: 3.60,
           vesToCopRate: 2.75,
           whatsappLink: 'https://wa.link/lreunw', // Always prioritize the user's official encrypted link
           lastUpdated: todayColombia, // Always active date for today in Colombia
@@ -63,7 +63,7 @@ export default function App() {
     // Sync current default rates to Firestore cloud
     saveRatesToCloud({
       ...INITIAL_RATES,
-      copToVesRate: 3.70,
+      copToVesRate: 3.60,
       vesToCopRate: 2.75,
     });
 
