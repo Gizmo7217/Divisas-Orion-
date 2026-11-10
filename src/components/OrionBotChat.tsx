@@ -128,7 +128,7 @@ export const OrionBotChat: React.FC<OrionBotChatProps> = ({ rates, onOpenWhatsAp
             if (/^\d{1,3}(\.\d{3})+$/.test(numStr)) numStr = numStr.replace(/\./g, '');
             else if (/^\d{1,3}(,\d{3})+$/.test(numStr)) numStr = numStr.replace(/,/g, '');
             const val = parseFloat(numStr);
-            if (val > 0 && val !== 2026 && val !== 3.50 && val !== 3.60 && val !== 3.70 && val !== 3.65 && val !== 2.75 && val !== 350 && val !== 360 && val !== 370 && val !== 365 && val !== 275) {
+            if (val > 0 && val !== 2026 && val !== 3.50 && val !== 3.60 && val !== 3.70 && val !== 3.65 && val !== 2.75 && val !== 2.65 && val !== 350 && val !== 360 && val !== 370 && val !== 365 && val !== 275 && val !== 265) {
               amount = val;
               break;
             }

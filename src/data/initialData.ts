@@ -3,7 +3,7 @@ import { getColombiaDate } from '../utils/formatters';
 
 export const INITIAL_RATES: ExchangeRates = {
   copToVesRate: 3.50,
-  vesToCopRate: 3.65,
+  vesToCopRate: 2.65,
   lastUpdated: getColombiaDate(),
   whatsappNumber: '573135459314', // Default backend number (kept hidden from UI)
   whatsappUsername: '@divisasorion', // Public username for communication
@@ -411,7 +411,7 @@ export const FAQS = [
   },
   {
     q: '¿Cómo funciona la tasa de Bolívares a Pesos (VES a COP)?',
-    a: 'Para enviar de Venezuela a Colombia, multiplicas la cantidad de bolívares por la tasa acordada del día (ejemplo: 3,65). El resultado es el monto exacto en pesos que se transfiere por Nequi o Llave en Colombia.',
+    a: 'Para enviar de Venezuela a Colombia, multiplicas la cantidad de bolívares por la tasa acordada del día (ejemplo: 2,65). El resultado es el monto exacto en pesos que se transfiere por Nequi o Llave en Colombia.',
   },
   {
     q: '¿Cuánto tiempo tarda en hacerse efectivo el giro?',
@@ -442,7 +442,7 @@ export const TESTIMONIALS = [
     name: 'José Gregorio Silva',
     city: 'Valencia ➔ Cúcuta / Cali',
     rating: 5,
-    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 3,65 y me llegó a mi Nequi sin demoras. Confiables y transparentes con los números.',
+    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,65 y me llegó a mi Nequi sin demoras. Confiables y transparentes con los números.',
     time: 'Hace 3 días',
   },
 ];
@@ -484,7 +484,7 @@ export const SATISFIED_CLIENTS: ClientReview[] = [
     originCity: 'Valencia, Venezuela',
     destinationCity: 'Cali / Cúcuta, Colombia',
     operationType: 'Giro VES ➔ COP (Nequi)',
-    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 3,65. Envié el Pago Móvil y me acreditaron en mi Nequi en Colombia sin ninguna demora. Gente muy seria y honesta.',
+    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,65. Envié el Pago Móvil y me acreditaron en mi Nequi en Colombia sin ninguna demora. Gente muy seria y honesta.',
     rating: 5,
     timeAgo: 'Hace 3 horas',
     verified: true,

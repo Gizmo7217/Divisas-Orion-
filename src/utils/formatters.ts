@@ -102,8 +102,8 @@ export function calculateRemesa(
       explanationFormula: `${formatNumberWithDots(safeAmount, 0)} ÷ ${safeRate.toString().replace('.', ',')} = ${formatVES(vesResult, true)}`,
     };
   } else {
-    // Formula: Monto en Bolívares multiplicado por tasa 3,65 = Pesos
-    const safeRate = vesToCopRate > 0 ? vesToCopRate : 3.65;
+    // Formula: Monto en Bolívares multiplicado por tasa 2,65 = Pesos
+    const safeRate = vesToCopRate > 0 ? vesToCopRate : 2.65;
     const copResult = safeAmount * safeRate;
     return {
       fromAmount: safeAmount,

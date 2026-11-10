@@ -38,7 +38,7 @@ export default function App() {
           ...INITIAL_RATES,
           ...parsed,
           copToVesRate: 3.50,
-          vesToCopRate: 3.65,
+          vesToCopRate: 2.65,
           whatsappLink: 'https://wa.link/lreunw', // Always prioritize the user's official encrypted link
           lastUpdated: todayColombia, // Always active date for today in Colombia
         };
@@ -64,7 +64,7 @@ export default function App() {
     saveRatesToCloud({
       ...INITIAL_RATES,
       copToVesRate: 3.50,
-      vesToCopRate: 3.65,
+      vesToCopRate: 2.65,
     });
 
     const unsub = listenToCloudRates((cloudRates) => {

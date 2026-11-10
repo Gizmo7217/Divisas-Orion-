@@ -41,7 +41,7 @@ export const Calculator: React.FC<CalculatorProps> = ({
   const [copPayment, setCopPayment] = useState<string>('Nequi');
   const [copiedCop, setCopiedCop] = useState<boolean>(false);
 
-  // Calculator 2: Bolívares a Pesos (VES -> COP, rate 3.65, multiplication)
+  // Calculator 2: Bolívares a Pesos (VES -> COP, rate 2.65, multiplication)
   const [vesInput, setVesInput] = useState<string>('20000');
   const [vesPayment, setVesPayment] = useState<string>('Pago Móvil');
   const [copiedVes, setCopiedVes] = useState<boolean>(false);
@@ -70,8 +70,8 @@ export const Calculator: React.FC<CalculatorProps> = ({
   const vesExactFormatted = `${formatNumberWithDots(vesCalculated, 2)} Bs`;
   const vesIntegerFormatted = `${formatNumberWithDots(Math.round(vesCalculated), 0)} Bs`;
 
-  // Calculadora 2: VES a COP (Bolívares * 3.65 = Pesos)
-  const safeVesRate = rates.vesToCopRate > 0 ? rates.vesToCopRate : 3.65;
+  // Calculadora 2: VES a COP (Bolívares * 2.65 = Pesos)
+  const safeVesRate = rates.vesToCopRate > 0 ? rates.vesToCopRate : 2.65;
   const copCalculated = numVes * safeVesRate;
   const copFormatted = `$ ${formatNumberWithDots(Math.round(copCalculated), 0)} COP`;
 
@@ -496,7 +496,7 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
         )}
 
         {/* ==================================================================== */}
-        {/* CALCULADORA 2: BOLÍVARES A PESOS (Multiplicación por 3.65)           */}
+        {/* CALCULADORA 2: BOLÍVARES A PESOS (Multiplicación por 2.65)           */}
         {/* ==================================================================== */}
         {(viewMode === 'both' || viewMode === 'ves_to_cop') && (
           <div className="bg-gradient-to-br from-neutral-900 via-[#180a03] to-[#281204] rounded-3xl border-2 border-amber-600/50 p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white flex flex-col justify-between">
