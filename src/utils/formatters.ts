@@ -88,8 +88,8 @@ export function calculateRemesa(
   const safeAmount = Math.max(0, amount || 0);
 
   if (direction === 'COP_TO_VES') {
-    // Formula: Monto en Pesos dividido por tasa 3,60 = Bolívares
-    const safeRate = copToVesRate > 0 ? copToVesRate : 3.60;
+    // Formula: Monto en Pesos dividido por tasa 3,50 = Bolívares
+    const safeRate = copToVesRate > 0 ? copToVesRate : 3.50;
     const vesResult = safeAmount / safeRate;
     return {
       fromAmount: safeAmount,
@@ -102,8 +102,8 @@ export function calculateRemesa(
       explanationFormula: `${formatNumberWithDots(safeAmount, 0)} ÷ ${safeRate.toString().replace('.', ',')} = ${formatVES(vesResult, true)}`,
     };
   } else {
-    // Formula: Monto en Bolívares multiplicado por tasa 2,75 = Pesos
-    const safeRate = vesToCopRate > 0 ? vesToCopRate : 2.75;
+    // Formula: Monto en Bolívares multiplicado por tasa 3,65 = Pesos
+    const safeRate = vesToCopRate > 0 ? vesToCopRate : 3.65;
     const copResult = safeAmount * safeRate;
     return {
       fromAmount: safeAmount,

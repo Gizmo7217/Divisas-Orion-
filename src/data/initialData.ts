@@ -2,8 +2,8 @@ import { ExchangeRates, PaymentMethodDetail, StreamingProduct, ClientReview } fr
 import { getColombiaDate } from '../utils/formatters';
 
 export const INITIAL_RATES: ExchangeRates = {
-  copToVesRate: 3.60,
-  vesToCopRate: 2.75,
+  copToVesRate: 3.50,
+  vesToCopRate: 3.65,
   lastUpdated: getColombiaDate(),
   whatsappNumber: '573135459314', // Default backend number (kept hidden from UI)
   whatsappUsername: '@divisasorion', // Public username for communication
@@ -246,7 +246,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'YouTube Premium (Solo para Colombia)',
     tagline: 'Activación directa con tu propio correo personal de Gmail',
     priceCOP: 10000,
-    priceVES: 2778, // 10000 / 3.60 = 2778 Bs
+    priceVES: 2778, // 10000 / 3.50 = 2778 Bs
     category: 'Películas & Series',
     profiles: 'Con tu propio correo (Gmail)',
     quality: '1080p Premium / 4K + YouTube Music',
@@ -269,7 +269,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'ChatGPT Plus (OpenAI)',
     tagline: 'Acceso a GPT-4o, generación DALL-E, análisis de datos y Canvas',
     priceCOP: 22000,
-    priceVES: 6111, // 22000 / 3.60 = 6111 Bs
+    priceVES: 6111, // 22000 / 3.50 = 6111 Bs
     category: 'Apps IA & Productividad',
     profiles: 'Cuenta / Acceso Plus',
     quality: 'GPT-4o + Razonamiento Avanzado',
@@ -289,7 +289,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Gemini Advanced (Google AI)',
     tagline: 'El modelo más potente de Google con 2TB de almacenamiento One',
     priceCOP: 18000,
-    priceVES: 5000, // 18000 / 3.60 = 5000 Bs
+    priceVES: 5000, // 18000 / 3.50 = 5000 Bs
     category: 'Apps IA & Productividad',
     profiles: 'Acceso Google AI',
     quality: 'Gemini 1.5 Pro (Ventana 1M Tokens)',
@@ -309,7 +309,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Perplexity Pro',
     tagline: 'El mejor motor de respuestas e investigación del mundo con IA',
     priceCOP: 16000,
-    priceVES: 4444, // 16000 / 3.60 = 4444 Bs
+    priceVES: 4444, // 16000 / 3.50 = 4444 Bs
     category: 'Apps IA & Productividad',
     profiles: 'Suscripción Pro',
     quality: 'Claude 3.5 Sonnet + GPT-4o',
@@ -328,7 +328,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'CapCut Pro',
     tagline: 'La suite de edición de video más viral con herramientas de IA',
     priceCOP: 12000,
-    priceVES: 3333, // 12000 / 3.60 = 3333 Bs
+    priceVES: 3333, // 12000 / 3.50 = 3333 Bs
     category: 'Diseño & Edición',
     profiles: 'Acceso Pro Individual',
     quality: '4K 60fps + Efectos VIP',
@@ -348,7 +348,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Figma Pro (Diseño & Dev Mode)',
     tagline: 'Diseño de interfaces UI/UX colaborativo, prototipado y Dev Mode',
     priceCOP: 19000,
-    priceVES: 5278, // 19000 / 3.60 = 5278 Bs
+    priceVES: 5278, // 19000 / 3.50 = 5278 Bs
     category: 'Diseño & Edición',
     profiles: 'Acceso Pro / Equipo',
     quality: 'Proyectos ilimitados + Dev Mode',
@@ -367,7 +367,7 @@ export const STREAMING_PRODUCTS: StreamingProduct[] = [
     name: 'Duolingo Super / Max',
     tagline: 'Aprende inglés, francés o cualquier idioma a tu ritmo sin límites',
     priceCOP: 8500,
-    priceVES: 2361, // 8500 / 3.60 = 2361 Bs
+    priceVES: 2361, // 8500 / 3.50 = 2361 Bs
     category: 'Idiomas & Estudio',
     profiles: 'Plan Super Individual / Familiar',
     quality: 'Vidas Ilimitadas + Sin Anuncios',
@@ -407,11 +407,11 @@ export const PRESET_VES_AMOUNTS = [
 export const FAQS = [
   {
     q: '¿Cómo funciona la tasa de Pesos a Bolívares (COP a VES)?',
-    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,60). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
+    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,50). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
   },
   {
     q: '¿Cómo funciona la tasa de Bolívares a Pesos (VES a COP)?',
-    a: 'Para enviar de Venezuela a Colombia, multiplicas la cantidad de bolívares por la tasa acordada del día (ejemplo: 2,75). El resultado es el monto exacto en pesos que se transfiere por Nequi o Llave en Colombia.',
+    a: 'Para enviar de Venezuela a Colombia, multiplicas la cantidad de bolívares por la tasa acordada del día (ejemplo: 3,65). El resultado es el monto exacto en pesos que se transfiere por Nequi o Llave en Colombia.',
   },
   {
     q: '¿Cuánto tiempo tarda en hacerse efectivo el giro?',
@@ -428,7 +428,7 @@ export const TESTIMONIALS = [
     name: 'Carlos Mendoza',
     city: 'Bogotá ➔ Caracas',
     rating: 5,
-    comment: 'Siempre envío por Divisas Orion. La tasa de 3,60 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
+    comment: 'Siempre envío por Divisas Orion. La tasa de 3,50 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
     time: 'Hace 2 horas',
   },
   {
@@ -442,7 +442,7 @@ export const TESTIMONIALS = [
     name: 'José Gregorio Silva',
     city: 'Valencia ➔ Cúcuta / Cali',
     rating: 5,
-    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,75 y me llegó a mi Nequi sin demoras. Confiables y transparentes con los números.',
+    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 3,65 y me llegó a mi Nequi sin demoras. Confiables y transparentes con los números.',
     time: 'Hace 3 días',
   },
 ];
@@ -456,7 +456,7 @@ export const SATISFIED_CLIENTS: ClientReview[] = [
     originCity: 'Bogotá, Colombia',
     destinationCity: 'Caracas, Venezuela',
     operationType: 'Remesa Familiar COP ➔ VES',
-    comment: 'Siempre envío dinero a mi familia por Divisas Orion. La tasa de 3,60 es la más justa y transparente, y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Cero enredos y atención de primera.',
+    comment: 'Siempre envío dinero a mi familia por Divisas Orion. La tasa de 3,50 es la más justa y transparente, y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Cero enredos y atención de primera.',
     rating: 5,
     timeAgo: 'Hace 45 min',
     verified: true,
@@ -484,7 +484,7 @@ export const SATISFIED_CLIENTS: ClientReview[] = [
     originCity: 'Valencia, Venezuela',
     destinationCity: 'Cali / Cúcuta, Colombia',
     operationType: 'Giro VES ➔ COP (Nequi)',
-    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,75. Envié el Pago Móvil y me acreditaron en mi Nequi en Colombia sin ninguna demora. Gente muy seria y honesta.',
+    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 3,65. Envié el Pago Móvil y me acreditaron en mi Nequi en Colombia sin ninguna demora. Gente muy seria y honesta.',
     rating: 5,
     timeAgo: 'Hace 3 horas',
     verified: true,

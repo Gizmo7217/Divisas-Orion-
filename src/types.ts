@@ -1,8 +1,8 @@
 export type CurrencyDirection = 'COP_TO_VES' | 'VES_TO_COP';
 
 export interface ExchangeRates {
-  copToVesRate: number; // e.g. 3.60 (COP / rate = VES)
-  vesToCopRate: number; // e.g. 2.75 (VES * rate = COP)
+  copToVesRate: number; // e.g. 3.50 (COP / rate = VES)
+  vesToCopRate: number; // e.g. 3.65 (VES * rate = COP)
   lastUpdated: string;
   whatsappNumber: string; // e.g. 573135459314 (internal protected)
   whatsappUsername: string; // '@divisasorion'
