@@ -2,8 +2,8 @@ import { ExchangeRates, PaymentMethodDetail, StreamingProduct, ClientReview } fr
 import { getColombiaDate } from '../utils/formatters';
 
 export const INITIAL_RATES: ExchangeRates = {
-  copToVesRate: 3.50,
-  vesToCopRate: 2.65,
+  copToVesRate: 3.55,
+  vesToCopRate: 2.68,
   lastUpdated: getColombiaDate(),
   whatsappNumber: '573135459314', // Default backend number (kept hidden from UI)
   whatsappUsername: '@divisasorion', // Public username for communication
@@ -407,11 +407,11 @@ export const PRESET_VES_AMOUNTS = [
 export const FAQS = [
   {
     q: '¿Cómo funciona la tasa de Pesos a Bolívares (COP a VES)?',
-    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,50). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
+    a: 'Para enviar de Colombia a Venezuela, tomas la cantidad de pesos colombianos que deseas enviar y la divides entre la tasa del día (por ejemplo, 3,55). El resultado obtenido es exactamente lo que recibe el beneficiario en su cuenta bancaria o Pago Móvil en Bolívares, con números enteros y decimales exactos.',
   },
   {
     q: '¿Cómo funciona la tasa de Bolívares a Pesos (VES a COP)?',
-    a: 'Para enviar de Venezuela a Colombia, multiplicas la cantidad de bolívares por la tasa acordada del día (ejemplo: 2,65). El resultado es el monto exacto en pesos que se transfiere por Nequi o Llave en Colombia.',
+    a: 'Para enviar de Venezuela a Colombia, multiplicas la cantidad de bolívares por la tasa acordada del día (ejemplo: 2,68). El resultado es el monto exacto en pesos que se transfiere por Nequi o Llave en Colombia.',
   },
   {
     q: '¿Cuánto tiempo tarda en hacerse efectivo el giro?',
@@ -428,7 +428,7 @@ export const TESTIMONIALS = [
     name: 'Carlos Mendoza',
     city: 'Bogotá ➔ Caracas',
     rating: 5,
-    comment: 'Siempre envío por Divisas Orion. La tasa de 3,50 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
+    comment: 'Siempre envío por Divisas Orion. La tasa de 3,55 es la más justa del mercado y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Totalmente recomendados.',
     time: 'Hace 2 horas',
   },
   {
@@ -442,7 +442,7 @@ export const TESTIMONIALS = [
     name: 'José Gregorio Silva',
     city: 'Valencia ➔ Cúcuta / Cali',
     rating: 5,
-    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,65 y me llegó a mi Nequi sin demoras. Confiables y transparentes con los números.',
+    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,68 y me llegó a mi Nequi sin demoras. Confiables y transparentes con los números.',
     time: 'Hace 3 días',
   },
 ];
@@ -456,7 +456,7 @@ export const SATISFIED_CLIENTS: ClientReview[] = [
     originCity: 'Bogotá, Colombia',
     destinationCity: 'Caracas, Venezuela',
     operationType: 'Remesa Familiar COP ➔ VES',
-    comment: 'Siempre envío dinero a mi familia por Divisas Orion. La tasa de 3,50 es la más justa y transparente, y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Cero enredos y atención de primera.',
+    comment: 'Siempre envío dinero a mi familia por Divisas Orion. La tasa de 3,55 es la más justa y transparente, y el Pago Móvil le llega a mi mamá en menos de 10 minutos. Cero enredos y atención de primera.',
     rating: 5,
     timeAgo: 'Hace 45 min',
     verified: true,
@@ -484,7 +484,7 @@ export const SATISFIED_CLIENTS: ClientReview[] = [
     originCity: 'Valencia, Venezuela',
     destinationCity: 'Cali / Cúcuta, Colombia',
     operationType: 'Giro VES ➔ COP (Nequi)',
-    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,65. Envié el Pago Móvil y me acreditaron en mi Nequi en Colombia sin ninguna demora. Gente muy seria y honesta.',
+    comment: 'Cambié de Bolívares a Pesos por primera vez a la tasa de 2,68. Envié el Pago Móvil y me acreditaron en mi Nequi en Colombia sin ninguna demora. Gente muy seria y honesta.',
     rating: 5,
     timeAgo: 'Hace 3 horas',
     verified: true,

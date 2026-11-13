@@ -36,12 +36,12 @@ export const Calculator: React.FC<CalculatorProps> = ({
   // View mode: both side-by-side or single focused
   const [viewMode, setViewMode] = useState<'both' | 'cop_to_ves' | 'ves_to_cop'>('both');
 
-  // Calculator 1: Pesos a Bolívares (COP -> VES, rate 3.50, division)
+  // Calculator 1: Pesos a Bolívares (COP -> VES, rate 3.55, division)
   const [copInput, setCopInput] = useState<string>('100000');
   const [copPayment, setCopPayment] = useState<string>('Nequi');
   const [copiedCop, setCopiedCop] = useState<boolean>(false);
 
-  // Calculator 2: Bolívares a Pesos (VES -> COP, rate 2.65, multiplication)
+  // Calculator 2: Bolívares a Pesos (VES -> COP, rate 2.68, multiplication)
   const [vesInput, setVesInput] = useState<string>('20000');
   const [vesPayment, setVesPayment] = useState<string>('Pago Móvil');
   const [copiedVes, setCopiedVes] = useState<boolean>(false);
@@ -64,14 +64,14 @@ export const Calculator: React.FC<CalculatorProps> = ({
   const numCop = parseFloat(copInput.replace(/[^0-9.]/g, '')) || 0;
   const numVes = parseFloat(vesInput.replace(/[^0-9.]/g, '')) || 0;
 
-  // Calculadora 1: COP a VES (Pesos / 3.50 = Bolívares con enteros y 2 decimales)
-  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.50;
+  // Calculadora 1: COP a VES (Pesos / 3.55 = Bolívares con enteros y 2 decimales)
+  const safeCopRate = rates.copToVesRate > 0 ? rates.copToVesRate : 3.55;
   const vesCalculated = numCop / safeCopRate;
   const vesExactFormatted = `${formatNumberWithDots(vesCalculated, 2)} Bs`;
   const vesIntegerFormatted = `${formatNumberWithDots(Math.round(vesCalculated), 0)} Bs`;
 
-  // Calculadora 2: VES a COP (Bolívares * 2.65 = Pesos)
-  const safeVesRate = rates.vesToCopRate > 0 ? rates.vesToCopRate : 2.65;
+  // Calculadora 2: VES a COP (Bolívares * 2.68 = Pesos)
+  const safeVesRate = rates.vesToCopRate > 0 ? rates.vesToCopRate : 2.68;
   const copCalculated = numVes * safeVesRate;
   const copFormatted = `$ ${formatNumberWithDots(Math.round(copCalculated), 0)} COP`;
 
@@ -302,7 +302,7 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
           }`}
         >
         {/* ==================================================================== */}
-        {/* CALCULADORA 1: PESOS A BOLÍVARES (División entre 3.50)               */}
+        {/* CALCULADORA 1: PESOS A BOLÍVARES (División entre 3.55)               */}
         {/* ==================================================================== */}
         {(viewMode === 'both' || viewMode === 'cop_to_ves') && (
           <div className="bg-gradient-to-br from-neutral-900 via-[#1d0305] to-[#2b0407] rounded-3xl border-2 border-red-500/50 p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white flex flex-col justify-between">
@@ -496,7 +496,7 @@ Slogan: "Cambia rápido y seguro con nosotros"`;
         )}
 
         {/* ==================================================================== */}
-        {/* CALCULADORA 2: BOLÍVARES A PESOS (Multiplicación por 2.65)           */}
+        {/* CALCULADORA 2: BOLÍVARES A PESOS (Multiplicación por 2.68)           */}
         {/* ==================================================================== */}
         {(viewMode === 'both' || viewMode === 'ves_to_cop') && (
           <div className="bg-gradient-to-br from-neutral-900 via-[#180a03] to-[#281204] rounded-3xl border-2 border-amber-600/50 p-6 sm:p-8 shadow-2xl relative overflow-hidden text-white flex flex-col justify-between">
